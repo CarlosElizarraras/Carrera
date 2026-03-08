@@ -212,6 +212,54 @@ tr.grandtotal td{background:rgba(144,96,245,.08);border-top:2px solid rgba(144,9
   .spin-btn{width:32px;height:38px;font-size:18px}
   .cur-inp{width:50px;height:38px;font-size:20px}
 }
+
+/* ── SEASON CARDS (stats view) ── */
+.sh-club-hdr{display:flex;align-items:center;gap:10px;padding:14px 18px 6px;border-top:1px solid #1C2340;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.sh-season-card{display:flex;align-items:stretch;gap:0;border-bottom:1px solid #1C2340;transition:background .15s}
+.sh-season-card:hover{background:rgba(255,255,255,.02)}
+.sh-season-card.sh-cur{background:rgba(144,96,245,.05)}
+.sh-season-card.sh-cur:hover{background:rgba(144,96,245,.09)}
+.sh-totals{flex-shrink:0;width:210px;padding:14px 16px;border-right:1px solid #1C2340;display:flex;flex-direction:column;gap:8px}
+.sh-sn{font-size:11px;font-weight:700;color:#3D4870;letter-spacing:.04em;display:flex;align-items:center;gap:6px}
+.cur-badge{font-size:8px;color:#9060F5;background:rgba(144,96,245,.2);padding:2px 5px;border-radius:3px;font-weight:800;letter-spacing:.06em}
+.sh-big-row{display:flex;gap:8px;flex-wrap:wrap}
+.sh-stat{display:flex;flex-direction:column;align-items:center;min-width:38px}
+.sh-val{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;letter-spacing:.02em}
+.sh-prom{font-size:16px;padding:3px 8px;border-radius:6px;font-family:'Bebas Neue',sans-serif}
+.sh-lbl{font-size:9px;color:#3D4870;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.sh-comps{flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.sh-comp-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:3px 0}
+.sh-comp-name{font-size:11px;font-weight:600;min-width:130px;flex-shrink:0}
+.sh-comp-vals{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.sh-pill{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;font-family:'Bebas Neue',sans-serif;letter-spacing:.03em;padding:2px 7px;border-radius:5px}
+.sh-pill-p{background:rgba(62,142,240,.12);color:#3E8EF0}
+.sh-pill-g{background:rgba(245,200,66,.12);color:#F5C842}
+.sh-pill-a{background:rgba(240,120,48,.12);color:#F07830}
+.sh-edit-lbl{display:flex;align-items:center;gap:4px;font-size:9px;color:#3D4870;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.sh-edit-inp{width:52px;height:28px;background:#131828;border:1px solid #242C4A;border-radius:5px;color:#F0F4FF;font-family:'Bebas Neue',sans-serif;font-size:16px;text-align:center;outline:none;-moz-appearance:textfield}
+.sh-edit-inp::-webkit-inner-spin-button{-webkit-appearance:none}
+.sh-edit-inp:focus{border-color:#F5C842;color:#F5C842}
+.sh-subtotal{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:10px 18px;background:#0A0D18;border-bottom:1px solid #1C2340}
+.sh-sub-pills{display:flex;gap:6px;flex-wrap:wrap}
+.sh-grandtotal{padding:20px 18px;border-top:2px solid rgba(245,200,66,.2);background:#080B15}
+.sh-grand-pills{display:flex;gap:12px;flex-wrap:wrap}
+.sh-grand-stat{flex:1;min-width:80px;background:#0D1020;border:1px solid #1C2340;border-radius:12px;padding:14px;text-align:center}
+.sh-grand-val{font-family:'Bebas Neue',sans-serif;font-size:36px;line-height:1;margin-bottom:4px}
+.sh-grand-lbl{font-size:9px;color:#3D4870;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:700px){
+  .sh-totals{width:160px;padding:11px 12px}
+  .sh-val{font-size:22px}
+  .sh-comps{padding:10px 10px}
+  .sh-comp-name{min-width:100px;font-size:10px}
+}
+@media(max-width:500px){
+  .sh-season-card{flex-direction:column}
+  .sh-totals{width:100%;border-right:none;border-bottom:1px solid #1C2340;flex-direction:row;align-items:center;flex-wrap:wrap;gap:12px;padding:10px 12px}
+  .sh-sn{width:100%}
+  .sh-big-row{gap:10px}
+  .sh-val{font-size:26px}
+  .sh-comps{padding:8px 12px}
+}
 </style>
 </head>
 <body>
@@ -294,7 +342,7 @@ tr.grandtotal td{background:rgba(144,96,245,.08);border-top:2px solid rgba(144,9
 <div id="footer">CARLOS ORTIZ · MODO CARRERA FIFA 26 · Datos guardados en tu dispositivo</div>
 
 <script>
-var SK = 'co_career_v2';
+var SK = 'co_career_v3';
 
 var CMETA = {
   'Liga MX':           {i:'🇲🇽', c:'#28D470'},
@@ -638,7 +686,7 @@ function renderChart(){
   });
 }
 
-// ── STATS TABLE (historical, all seasons) ──────────────────────────────────
+// ── STATS TABLE — season cards: big totals + comp breakdown side by side ─────
 function renderStatsTable(){
   var html='';
   var clubs=[];
@@ -647,108 +695,108 @@ function renderStatsTable(){
   clubs.forEach(function(club){
     var cSeasons=D.seasons.filter(function(s){return s.club===club;});
     var ci=CLUBS[club]||{i:'⚽',c:'#F5C842'};
-    var allComps=[];
-    cSeasons.forEach(function(s){
-      s.comps.forEach(function(c){
-        if(c.p>0||c.g>0||c.a>0){if(allComps.indexOf(c.comp)===-1)allComps.push(c.comp);}
-      });
-    });
-    if(editMode){
-      cSeasons.forEach(function(s){s.comps.forEach(function(c){if(allComps.indexOf(c.comp)===-1)allComps.push(c.comp);});});
-    }
-
-    // Table header: comp columns (PJ + G only in breakdown, no A per comp)
-    var th='<th style="text-align:left;position:sticky;left:0;background:#0D1020;z-index:2;min-width:72px">Temp.</th>';
-    allComps.forEach(function(comp){
-      var m=CMETA[comp]||{i:'🏅',c:'#3D4870'};
-      th+='<th style="border-left:1px solid #1C2340;color:'+m.c+';white-space:nowrap">'+m.i+' '+esc(comp)+'</th>'
-         +'<th style="color:'+m.c+';opacity:.65">G</th>';
-    });
-    // Totals cols: PJ G A Prom
-    th+='<th style="border-left:2px solid rgba(245,200,66,.3);color:#F5C842">PJ</th>'
-       +'<th style="color:#F5C842">G</th>'
-       +'<th style="color:#F07830">A</th>'
-       +'<th style="color:#9060F5">Prom.</th>';
-
-    var rows='';
     var sni_offset=D.seasons.indexOf(cSeasons[0]);
+
+    html+='<div class="sh-club-hdr" style="border-color:'+ci.c+'40">'
+         +'<span style="font-size:18px">'+ci.i+'</span>'
+         +'<span style="color:'+ci.c+'">'+esc(club)+'</span>'
+         +'</div>';
+
     cSeasons.forEach(function(s,idx){
       var sni=sni_offset+idx;
       var t=seasTotals(s),pc=promColor(t.prom);
       var isCur=(sni===D.seasons.length-1);
-      rows+='<tr style="'+(isCur?'background:rgba(144,96,245,.06)':'')+';">';
-      rows+='<td style="position:sticky;left:0;background:'+(isCur?'#110E1F':'var(--s1)')+';font-size:11px">'
-           +esc(s.sn)+(isCur?' <span style="font-size:8px;color:#9060F5;background:rgba(144,96,245,.2);padding:1px 4px;border-radius:3px">ACTUAL</span>':'')+'</td>';
-      allComps.forEach(function(comp){
-        var ci2=s.comps.findIndex(function(c){return c.comp===comp;});
-        var cv=ci2>=0?s.comps[ci2]:{p:0,g:0,a:0};
-        var m=CMETA[comp]||{i:'🏅',c:'#3D4870'};
-        var hasData=cv.p>0||cv.g>0;
-        if(editMode&&ci2>=0){
-          rows+='<td style="border-left:1px solid #1C2340">'
-               +'<input class="editable" type="number" min="0" value="'+cv.p+'" oninput="onEdit('+sni+','+ci2+','p',this.value)"/></td>'
-               +'<td><input class="editable" type="number" min="0" value="'+cv.g+'" oninput="onEdit('+sni+','+ci2+','g',this.value)"/></td>';
-        } else {
-          rows+='<td style="border-left:1px solid #1C2340;color:'+(hasData?m.c:'#252E50')+'">'+(hasData?'<span class="vnum">'+cv.p+'</span>':'–')+'</td>'
-               +'<td style="color:'+(hasData?'#F5C842':'#252E50')+'">'+(hasData?'<span class="vnum g">'+cv.g+'</span>':'–')+'</td>';
-        }
-      });
-      rows+='<td style="border-left:2px solid rgba(245,200,66,.2)"><span class="vnum b">'+t.p+'</span></td>'
-           +'<td><span class="vnum g">'+t.g+'</span></td>'
-           +'<td><span class="vnum" style="color:#F07830">'+t.a+'</span></td>'
-           +'<td><span class="prom-tag" style="background:'+pc+'22;color:'+pc+'">'+t.prom.toFixed(2)+'</span></td>';
-      rows+='</tr>';
+      var activeComps=s.comps.filter(function(cv){return cv.p>0||cv.g>0||cv.a>0;});
+      if(editMode) activeComps=s.comps;
+
+      html+='<div class="sh-season-card'+(isCur?' sh-cur':'')+'">';
+      html+='<div class="sh-totals">';
+      html+='<div class="sh-sn">'+esc(s.sn)+(isCur?' <span class="cur-badge">ACTUAL</span>':'')+'</div>';
+      html+='<div class="sh-big-row">';
+      html+='<div class="sh-stat"><div class="sh-val" style="color:#F5C842">'+t.g+'</div><div class="sh-lbl">Goles</div></div>';
+      html+='<div class="sh-stat"><div class="sh-val" style="color:#F07830">'+t.a+'</div><div class="sh-lbl">Asist.</div></div>';
+      html+='<div class="sh-stat"><div class="sh-val" style="color:#3E8EF0">'+t.p+'</div><div class="sh-lbl">PJ</div></div>';
+      html+='<div class="sh-stat"><div class="sh-val sh-prom" style="background:'+pc+'22;color:'+pc+'">'+t.prom.toFixed(2)+'</div><div class="sh-lbl">Prom.</div></div>';
+      html+='</div></div>';
+
+      html+='<div class="sh-comps">';
+      if(activeComps.length===0){
+        html+='<div style="font-size:11px;color:#3D4870;padding:6px 0">Sin datos</div>';
+      } else {
+        activeComps.forEach(function(cv){
+          var ci2=s.comps.indexOf(cv);
+          var m=CMETA[cv.comp]||{i:'🏅',c:'#3D4870'};
+          var hasData=cv.p>0||cv.g>0;
+          html+='<div class="sh-comp-row">';
+          html+='<div class="sh-comp-name" style="color:'+(hasData?m.c:'#3D4870')+'">'+m.i+' '+esc(cv.comp)+'</div>';
+          if(editMode){
+            html+='<div class="sh-comp-vals">'
+                 +'<label class="sh-edit-lbl">PJ<input class="editable sh-edit-inp" type="number" min="0" value="'+cv.p+'" oninput="onEdit('+sni+','+ci2+',&quot;p&quot;,this.value)"/></label>'
+                 +'<label class="sh-edit-lbl">G<input class="editable sh-edit-inp" type="number" min="0" value="'+cv.g+'" oninput="onEdit('+sni+','+ci2+',&quot;g&quot;,this.value)"/></label>'
+                 +'</div>';
+          } else {
+            html+='<div class="sh-comp-vals">';
+            if(hasData){
+              html+='<span class="sh-pill sh-pill-p">'+cv.p+' <span style="opacity:.5">PJ</span></span>';
+              html+='<span class="sh-pill sh-pill-g">'+cv.g+' <span style="opacity:.5">G</span></span>';
+              if(cv.a>0) html+='<span class="sh-pill sh-pill-a">'+cv.a+' <span style="opacity:.5">A</span></span>';
+            } else {
+              html+='<span style="color:#252E50;font-size:11px">–</span>';
+            }
+            html+='</div>';
+          }
+          html+='</div>';
+        });
+      }
+      html+='</div>';
+      html+='</div>';
     });
 
-    // Club subtotal
     var cTot=clubTotals(club),ptc=promColor(cTot.prom);
-    rows+='<tr class="subtotal">'
-         +'<td style="position:sticky;left:0;background:#0C0F1A">Total '+esc(club)+'</td>';
-    allComps.forEach(function(comp){
-      var tp=0,tg=0;
-      cSeasons.forEach(function(s){var cc=s.comps.find(function(c){return c.comp===comp;});if(cc){tp+=cc.p||0;tg+=cc.g||0;}});
-      var m=CMETA[comp]||{i:'🏅',c:'#3D4870'};
-      rows+='<td style="border-left:1px solid #1C2340;color:'+(tp?m.c:'#252E50')+'">'+(tp||'–')+'</td>'
-           +'<td style="color:'+(tg?'#F5C842':'#252E50')+'">'+(tg||'–')+'</td>';
-    });
-    rows+='<td style="border-left:2px solid rgba(245,200,66,.2)"><span class="vnum b">'+cTot.p+'</span></td>'
-         +'<td><span class="vnum g">'+cTot.g+'</span></td>'
-         +'<td><span class="vnum" style="color:#F07830">'+cTot.a+'</span></td>'
-         +'<td><span class="prom-tag" style="background:'+ptc+'22;color:'+ptc+'">'+cTot.prom.toFixed(2)+'</span></td>'
-         +'</tr>';
-
-    html+='<div style="font-size:10px;font-weight:800;color:'+ci.c+';letter-spacing:.1em;text-transform:uppercase;padding:10px 16px 4px;border-top:1px solid #1C2340;display:flex;align-items:center;gap:8px">'
-         +'<span>'+ci.i+'</span><span>'+esc(club)+'</span></div>'
-         +'<div class="ovx"><table><thead><tr>'+th+'</tr></thead><tbody>'+rows+'</tbody></table></div>';
+    html+='<div class="sh-subtotal">'
+         +'<span style="color:'+ci.c+';font-weight:800">'+ci.i+' Total '+esc(club)+'</span>'
+         +'<div class="sh-sub-pills">'
+         +'<span class="sh-pill sh-pill-p">'+cTot.p+' <span style="opacity:.5">PJ</span></span>'
+         +'<span class="sh-pill sh-pill-g">'+cTot.g+' <span style="opacity:.5">G</span></span>'
+         +'<span class="sh-pill sh-pill-a">'+cTot.a+' <span style="opacity:.5">A</span></span>'
+         +'<span class="sh-pill" style="background:'+ptc+'18;color:'+ptc+'">'+cTot.prom.toFixed(2)+' <span style="opacity:.5">prom</span></span>'
+         +'</div></div>';
   });
 
-  // Selección row
   var sp=D.selecc.p,sg=D.selecc.g,sa=D.selecc.a,sprom=sp>0?sg/sp:0,spc=promColor(sprom);
-  html+='<div style="font-size:10px;font-weight:800;color:#28D470;letter-spacing:.1em;text-transform:uppercase;padding:10px 16px 4px;border-top:1px solid #1C2340;display:flex;align-items:center;gap:8px">'
-       +'<span>🌐</span><span>Selección México</span></div>';
+  html+='<div class="sh-club-hdr" style="border-color:#28D47040"><span style="font-size:18px">🌐</span><span style="color:#28D470">Selección México</span></div>';
+  html+='<div class="sh-season-card">';
+  html+='<div class="sh-totals">';
+  html+='<div class="sh-sn">2019 – Actual</div>';
+  html+='<div class="sh-big-row">';
+  html+='<div class="sh-stat"><div class="sh-val" style="color:#F5C842">'+sg+'</div><div class="sh-lbl">Goles</div></div>';
+  html+='<div class="sh-stat"><div class="sh-val" style="color:#F07830">'+sa+'</div><div class="sh-lbl">Asist.</div></div>';
+  html+='<div class="sh-stat"><div class="sh-val" style="color:#3E8EF0">'+sp+'</div><div class="sh-lbl">PJ</div></div>';
+  html+='<div class="sh-stat"><div class="sh-val sh-prom" style="background:'+spc+'22;color:'+spc+'">'+sprom.toFixed(2)+'</div><div class="sh-lbl">Prom.</div></div>';
+  html+='</div></div>';
   if(editMode){
-    html+='<div style="padding:12px 16px;display:flex;gap:12px;flex-wrap:wrap">'
-         +[['Partidos','p',sp],['Goles','g',sg],['Asistencias','a',sa]].map(function(r){
-            return '<div style="display:flex;flex-direction:column;gap:4px"><div style="font-size:9px;color:#3D4870;text-transform:uppercase;letter-spacing:.08em">'+r[0]+'</div>'
-                  +'<input class="editable" type="number" min="0" value="'+r[2]+'" style="background:rgba(40,212,112,.06);border:1px solid rgba(40,212,112,.2)" oninput="onEditSelecc(''+r[1]+'',this.value)"/></div>';
-          }).join('')+'</div>';
-  } else {
-    html+='<div style="padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap">'
-         +[['PJ',sp,'#3E8EF0'],['⚽ G',sg,'#F5C842'],['🎯 A',sa,'#F07830'],['Prom.',sprom.toFixed(2),spc]]
-           .map(function(r){return '<div class="ct-pill" style="border-color:rgba(40,212,112,.2)">'
-             +'<div class="ct-v" style="color:'+r[2]+'">'+r[1]+'</div><div class="ct-l">'+r[0]+'</div></div>';}).join('')
+    html+='<div class="sh-comps">'
+         +'<div class="sh-comp-row"><div class="sh-comp-name" style="color:#28D470">Partidos</div>'
+         +'<div class="sh-comp-vals"><input class="editable sh-edit-inp" type="number" min="0" value="'+sp+'" oninput="onEditSelecc(&quot;p&quot;,this.value)"/></div></div>'
+         +'<div class="sh-comp-row"><div class="sh-comp-name" style="color:#28D470">Goles</div>'
+         +'<div class="sh-comp-vals"><input class="editable sh-edit-inp" type="number" min="0" value="'+sg+'" oninput="onEditSelecc(&quot;g&quot;,this.value)"/></div></div>'
+         +'<div class="sh-comp-row"><div class="sh-comp-name" style="color:#28D470">Asistencias</div>'
+         +'<div class="sh-comp-vals"><input class="editable sh-edit-inp" type="number" min="0" value="'+sa+'" oninput="onEditSelecc(&quot;a&quot;,this.value)"/></div></div>'
          +'</div>';
+  } else {
+    html+='<div class="sh-comps"><div style="font-size:11px;color:#3D4870;padding-top:4px">Acumulado total · todas las competiciones</div></div>';
   }
+  html+='</div>';
 
-  // Grand total
   var ct=careerTotals(),gpc=promColor(ct.prom);
-  html+='<div class="ovx"><table><tbody><tr class="grandtotal">'
-       +'<td style="position:sticky;left:0;background:#0D1020;text-align:left;white-space:nowrap">⭐ TOTAL CARRERA</td>'
-       +'<td colspan="2" style="color:#3E8EF0;white-space:nowrap"><span style="font-family:'Bebas Neue',sans-serif;font-size:20px">'+ct.p+'</span> <span style="font-size:10px;color:#3D4870">PJ</span></td>'
-       +'<td colspan="2" style="color:#F5C842;white-space:nowrap"><span style="font-family:'Bebas Neue',sans-serif;font-size:20px">'+ct.g+'</span> <span style="font-size:10px;color:#3D4870">G</span></td>'
-       +'<td colspan="2" style="color:#F07830;white-space:nowrap"><span style="font-family:'Bebas Neue',sans-serif;font-size:20px">'+ct.a+'</span> <span style="font-size:10px;color:#3D4870">A</span></td>'
-       +'<td><span class="prom-tag" style="background:'+gpc+'22;color:'+gpc+';font-size:12px;padding:3px 11px">'+ct.prom.toFixed(2)+'</span></td>'
-       +'</tr></tbody></table></div>';
+  html+='<div class="sh-grandtotal">'
+       +'<div style="font-size:10px;font-weight:800;letter-spacing:.12em;color:#3D4870;text-transform:uppercase;margin-bottom:12px">⭐ Total de carrera</div>'
+       +'<div class="sh-grand-pills">'
+       +'<div class="sh-grand-stat"><div class="sh-grand-val" style="color:#3E8EF0">'+ct.p+'</div><div class="sh-grand-lbl">Partidos</div></div>'
+       +'<div class="sh-grand-stat"><div class="sh-grand-val" style="color:#F5C842">'+ct.g+'</div><div class="sh-grand-lbl">Goles</div></div>'
+       +'<div class="sh-grand-stat"><div class="sh-grand-val" style="color:#F07830">'+ct.a+'</div><div class="sh-grand-lbl">Asistencias</div></div>'
+       +'<div class="sh-grand-stat"><div class="sh-grand-val sh-prom" style="background:'+gpc+'22;color:'+gpc+'">'+ct.prom.toFixed(2)+'</div><div class="sh-grand-lbl">Promedio</div></div>'
+       +'</div></div>';
 
   document.getElementById('stats-body').innerHTML=html;
 }
