@@ -342,180 +342,77 @@ tr.grandtotal td{background:rgba(144,96,245,.08);border-top:2px solid rgba(144,9
 <div id="footer">CARLOS ORTIZ · MODO CARRERA FIFA 26 · Datos guardados en tu dispositivo</div>
 
 <script>
-var SK = 'co_career_v3';
-
-var CMETA = {
-  'Liga MX':           {i:'🇲🇽', c:'#28D470'},
-  'Copa MX':           {i:'🏆',  c:'#F07830'},
-  'Concachampions':    {i:'🌎',  c:'#3E8EF0'},
-  'La Liga':           {i:'🇪🇸', c:'#3E8EF0'},
-  'Copa del Rey':      {i:'🏆',  c:'#F07830'},
-  'Champions':         {i:'⭐',  c:'#F5C842'},
-  'Supercopa ESP':     {i:'🥇',  c:'#3E8EF0'},
-  'Supercopa UEFA':    {i:'🌍',  c:'#9060F5'},
-  'Mundial de Clubes': {i:'🌍',  c:'#9060F5'},
-  'Intercontinental':  {i:'🌐',  c:'#F5C842'},
+var SK='co_career_v3';
+var CMETA={
+  'Liga MX':{i:'🇲🇽',c:'#28D470'},
+  'Copa MX':{i:'🏆',c:'#F07830'},
+  'Concachampions':{i:'🌎',c:'#3E8EF0'},
+  'La Liga':{i:'🇪🇸',c:'#3E8EF0'},
+  'Copa del Rey':{i:'🏆',c:'#F07830'},
+  'Champions':{i:'⭐',c:'#F5C842'},
+  'Supercopa ESP':{i:'🥇',c:'#3E8EF0'},
+  'Supercopa UEFA':{i:'🌍',c:'#9060F5'},
+  'Mundial de Clubes':{i:'🌍',c:'#9060F5'},
+  'Intercontinental':{i:'🌐',c:'#F5C842'},
 };
-var CLUBS = {
-  'América':    {i:'🦅', c:'#F07830'},
-  'Real Madrid':{i:'👑', c:'#F5C842'},
-  'México':     {i:'🇲🇽', c:'#28D470'},
+var CLUBS={
+  'América':{i:'🦅',c:'#F07830'},
+  'Real Madrid':{i:'👑',c:'#F5C842'},
+  'México':{i:'🇲🇽',c:'#28D470'},
 };
-var TROPHIES = [
-  {comp:'Liga MX',          n:2, club:'América',    cat:'club',    seasons:'18/19 · 19/20'},
-  {comp:'Copa MX',          n:1, club:'América',    cat:'club',    seasons:'18/19'},
-  {comp:'Cam. de Campeones',n:1, club:'América',    cat:'club',    seasons:'19/20'},
-  {comp:'Concachampions',   n:1, club:'América',    cat:'club',    seasons:'19/20'},
-  {comp:'La Liga',          n:2, club:'Real Madrid', cat:'club',   seasons:'21/22 · 23/24'},
-  {comp:'Copa del Rey',     n:1, club:'Real Madrid', cat:'club',   seasons:'22/23'},
-  {comp:'Supercopa ESP',    n:3, club:'Real Madrid', cat:'club',   seasons:'21/22 · 23/24 · 24/25'},
-  {comp:'Champions',        n:2, club:'Real Madrid', cat:'club',   seasons:'21/22 · 23/24'},
-  {comp:'Supercopa UEFA',   n:1, club:'Real Madrid', cat:'club',   seasons:'22/23'},
-  {comp:'Mundial de Clubes',n:2, club:'Real Madrid', cat:'club',   seasons:'22/23 · 24/25'},
-  {comp:'Intercontinental', n:1, club:'Real Madrid', cat:'club',   seasons:'24/25'},
-  {comp:'Copa América',     n:1, club:'México',      cat:'nacional',seasons:'2024'},
-  {comp:'Copa Oro',         n:2, club:'México',      cat:'nacional',seasons:'2019 · 2023'},
-  {comp:'CONCACAF Nations', n:4, club:'México',      cat:'nacional',seasons:'21 · 22 · 24 · 25'},
+var TROPHIES=[
+  {comp:'Liga MX',n:2,club:'América',cat:'club',seasons:'18/19 · 19/20'},
+  {comp:'Copa MX',n:1,club:'América',cat:'club',seasons:'18/19'},
+  {comp:'Cam. de Campeones',n:1,club:'América',cat:'club',seasons:'19/20'},
+  {comp:'Concachampions',n:1,club:'América',cat:'club',seasons:'19/20'},
+  {comp:'La Liga',n:2,club:'Real Madrid',cat:'club',seasons:'21/22 · 23/24'},
+  {comp:'Copa del Rey',n:1,club:'Real Madrid',cat:'club',seasons:'22/23'},
+  {comp:'Supercopa ESP',n:3,club:'Real Madrid',cat:'club',seasons:'21/22 · 23/24 · 24/25'},
+  {comp:'Champions',n:2,club:'Real Madrid',cat:'club',seasons:'21/22 · 23/24'},
+  {comp:'Supercopa UEFA',n:1,club:'Real Madrid',cat:'club',seasons:'22/23'},
+  {comp:'Mundial de Clubes',n:2,club:'Real Madrid',cat:'club',seasons:'22/23 · 24/25'},
+  {comp:'Intercontinental',n:1,club:'Real Madrid',cat:'club',seasons:'24/25'},
+  {comp:'Copa América',n:1,club:'México',cat:'nacional',seasons:'2024'},
+  {comp:'Copa Oro',n:2,club:'México',cat:'nacional',seasons:'2019 · 2023'},
+  {comp:'CONCACAF Nations',n:4,club:'México',cat:'nacional',seasons:'21 · 22 · 24 · 25'},
 ];
-var AWARDS = [
+var AWARDS=[
   {name:'Balón de Oro',n:2,i:'🪙',c:'#F5C842',seasons:'22/23 · 24/25',detail:'Mejor jugador del mundo'},
-  {name:'Bota de Oro', n:1,i:'👟',c:'#F07830',seasons:'24/25',        detail:'Máximo goleador de Europa'},
+  {name:'Bota de Oro',n:1,i:'👟',c:'#F07830',seasons:'24/25',detail:'Máximo goleador de Europa'},
 ];
-var TROPHY_ICONS = {
-  'Liga MX':'🇲🇽','Copa MX':'🏆','Cam. de Campeones':'🥇','Concachampions':'🌎',
-  'La Liga':'🇪🇸','Copa del Rey':'🏆','Supercopa ESP':'🥇','Champions':'⭐',
-  'Supercopa UEFA':'🌍','Mundial de Clubes':'🌍','Intercontinental':'🌐',
-  'Copa América':'🌎','Copa Oro':'🏅','CONCACAF Nations':'🌐',
-};
-var TROPHY_COLORS = {
-  'Liga MX':'#28D470','Copa MX':'#F07830','Cam. de Campeones':'#F5C842',
-  'Concachampions':'#3E8EF0','La Liga':'#3E8EF0','Copa del Rey':'#F07830',
-  'Supercopa ESP':'#3E8EF0','Champions':'#F5C842','Supercopa UEFA':'#9060F5',
-  'Mundial de Clubes':'#9060F5','Intercontinental':'#F5C842',
-  'Copa América':'#28D470','Copa Oro':'#F5C842','CONCACAF Nations':'#3E8EF0',
-};
+var TROPHY_ICONS={'Liga MX':'🇲🇽','Copa MX':'🏆','Cam. de Campeones':'🥇','Concachampions':'🌎','La Liga':'🇪🇸','Copa del Rey':'🏆','Supercopa ESP':'🥇','Champions':'⭐','Supercopa UEFA':'🌍','Mundial de Clubes':'🌍','Intercontinental':'🌐','Copa América':'🌎','Copa Oro':'🏅','CONCACAF Nations':'🌐'};
+var TROPHY_COLORS={'Liga MX':'#28D470','Copa MX':'#F07830','Cam. de Campeones':'#F5C842','Concachampions':'#3E8EF0','La Liga':'#3E8EF0','Copa del Rey':'#F07830','Supercopa ESP':'#3E8EF0','Champions':'#F5C842','Supercopa UEFA':'#9060F5','Mundial de Clubes':'#9060F5','Intercontinental':'#F5C842','Copa América':'#28D470','Copa Oro':'#F5C842','CONCACAF Nations':'#3E8EF0'};
 
-// ── DEFAULT DATA: each comp has p, g, a (assists) ──────────────────────────
-var DEFAULT_DATA = [
-  {sn:'2018/19',club:'América',comps:[
-    {comp:'Liga MX',      p:44,g:29,a:0},
-    {comp:'Copa MX',      p:6, g:5, a:0},
-    {comp:'Concachampions',p:0,g:0, a:0},
-  ]},
-  {sn:'2019/20',club:'América',comps:[
-    {comp:'Liga MX',      p:46,g:48,a:0},
-    {comp:'Copa MX',      p:0, g:0, a:0},
-    {comp:'Concachampions',p:6,g:5, a:0},
-  ]},
-  {sn:'2020/21',club:'Real Madrid',comps:[
-    {comp:'La Liga',      p:28,g:16,a:0},
-    {comp:'Copa del Rey', p:1, g:1, a:0},
-    {comp:'Champions',    p:12,g:6, a:0},
-    {comp:'Supercopa ESP',p:1, g:0, a:0},
-    {comp:'Supercopa UEFA',p:0,g:0, a:0},
-    {comp:'Mundial de Clubes',p:0,g:0,a:0},
-    {comp:'Intercontinental', p:0,g:0,a:0},
-  ]},
-  {sn:'2021/22',club:'Real Madrid',comps:[
-    {comp:'La Liga',      p:35,g:24,a:0},
-    {comp:'Copa del Rey', p:2, g:2, a:0},
-    {comp:'Champions',    p:13,g:15,a:0},
-    {comp:'Supercopa ESP',p:2, g:2, a:0},
-    {comp:'Supercopa UEFA',p:0,g:0, a:0},
-    {comp:'Mundial de Clubes',p:0,g:0,a:0},
-    {comp:'Intercontinental', p:0,g:0,a:0},
-  ]},
-  {sn:'2022/23',club:'Real Madrid',comps:[
-    {comp:'La Liga',      p:33,g:24,a:0},
-    {comp:'Copa del Rey', p:6, g:8, a:0},
-    {comp:'Champions',    p:12,g:10,a:0},
-    {comp:'Supercopa ESP',p:2, g:1, a:0},
-    {comp:'Supercopa UEFA',p:1,g:1, a:0},
-    {comp:'Mundial de Clubes',p:2,g:4,a:0},
-    {comp:'Intercontinental', p:0,g:0,a:0},
-  ]},
-  {sn:'2023/24',club:'Real Madrid',comps:[
-    {comp:'La Liga',      p:33,g:32,a:0},
-    {comp:'Copa del Rey', p:2, g:1, a:0},
-    {comp:'Champions',    p:12,g:12,a:0},
-    {comp:'Supercopa ESP',p:2, g:3, a:0},
-    {comp:'Supercopa UEFA',p:0,g:0, a:0},
-    {comp:'Mundial de Clubes',p:0,g:0,a:0},
-    {comp:'Intercontinental', p:0,g:0,a:0},
-  ]},
-  {sn:'2024/25',club:'Real Madrid',comps:[
-    {comp:'La Liga',      p:35,g:38,a:0},
-    {comp:'Copa del Rey', p:5, g:6, a:0},
-    {comp:'Champions',    p:13,g:15,a:0},
-    {comp:'Supercopa ESP',p:2, g:1, a:0},
-    {comp:'Supercopa UEFA',p:1,g:1, a:0},
-    {comp:'Mundial de Clubes',p:7,g:6,a:0},
-    {comp:'Intercontinental', p:1,g:1,a:0},
-  ]},
-  {sn:'2025/26',club:'Real Madrid',comps:[
-    {comp:'La Liga',      p:27,g:28,a:16},
-    {comp:'Copa del Rey', p:4, g:3, a:0},
-    {comp:'Champions',    p:8, g:13,a:0},
-    {comp:'Supercopa ESP',p:2, g:3, a:0},
-    {comp:'Supercopa UEFA',p:0,g:0, a:0},
-    {comp:'Mundial de Clubes',p:0,g:0,a:0},
-    {comp:'Intercontinental', p:0,g:0,a:0},
-  ]},
+var DEFAULT_DATA=[
+  {sn:'2018/19',club:'América',comps:[{comp:'Liga MX',p:44,g:29,a:0},{comp:'Copa MX',p:6,g:5,a:0},{comp:'Concachampions',p:0,g:0,a:0}]},
+  {sn:'2019/20',club:'América',comps:[{comp:'Liga MX',p:46,g:48,a:0},{comp:'Copa MX',p:0,g:0,a:0},{comp:'Concachampions',p:6,g:5,a:0}]},
+  {sn:'2020/21',club:'Real Madrid',comps:[{comp:'La Liga',p:28,g:16,a:0},{comp:'Copa del Rey',p:1,g:1,a:0},{comp:'Champions',p:12,g:6,a:0},{comp:'Supercopa ESP',p:1,g:0,a:0},{comp:'Supercopa UEFA',p:0,g:0,a:0},{comp:'Mundial de Clubes',p:0,g:0,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
+  {sn:'2021/22',club:'Real Madrid',comps:[{comp:'La Liga',p:35,g:24,a:0},{comp:'Copa del Rey',p:2,g:2,a:0},{comp:'Champions',p:13,g:15,a:0},{comp:'Supercopa ESP',p:2,g:2,a:0},{comp:'Supercopa UEFA',p:0,g:0,a:0},{comp:'Mundial de Clubes',p:0,g:0,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
+  {sn:'2022/23',club:'Real Madrid',comps:[{comp:'La Liga',p:33,g:24,a:0},{comp:'Copa del Rey',p:6,g:8,a:0},{comp:'Champions',p:12,g:10,a:0},{comp:'Supercopa ESP',p:2,g:1,a:0},{comp:'Supercopa UEFA',p:1,g:1,a:0},{comp:'Mundial de Clubes',p:2,g:4,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
+  {sn:'2023/24',club:'Real Madrid',comps:[{comp:'La Liga',p:33,g:32,a:0},{comp:'Copa del Rey',p:2,g:1,a:0},{comp:'Champions',p:12,g:12,a:0},{comp:'Supercopa ESP',p:2,g:3,a:0},{comp:'Supercopa UEFA',p:0,g:0,a:0},{comp:'Mundial de Clubes',p:0,g:0,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
+  {sn:'2024/25',club:'Real Madrid',comps:[{comp:'La Liga',p:35,g:38,a:0},{comp:'Copa del Rey',p:5,g:6,a:0},{comp:'Champions',p:13,g:15,a:0},{comp:'Supercopa ESP',p:2,g:1,a:0},{comp:'Supercopa UEFA',p:1,g:1,a:0},{comp:'Mundial de Clubes',p:7,g:6,a:0},{comp:'Intercontinental',p:1,g:1,a:0}]},
+  {sn:'2025/26',club:'Real Madrid',comps:[{comp:'La Liga',p:27,g:28,a:16},{comp:'Copa del Rey',p:4,g:3,a:0},{comp:'Champions',p:8,g:13,a:0},{comp:'Supercopa ESP',p:2,g:3,a:0},{comp:'Supercopa UEFA',p:0,g:0,a:0},{comp:'Mundial de Clubes',p:0,g:0,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
 ];
-var DEFAULT_SELECC = {p:74,g:61,a:20};
+var DEFAULT_SELECC={p:74,g:61,a:20};
 
-// ── STATE ──────────────────────────────────────────────────────────────────
-var D;
-var editMode = false;
-var chartInst = null;
+var D,editMode=false,chartInst=null;
 
-function save(){ try{localStorage.setItem(SK,JSON.stringify(D));}catch(e){} }
+function save(){try{localStorage.setItem(SK,JSON.stringify(D));}catch(e){}}
 function load(){
   try{
     var r=JSON.parse(localStorage.getItem(SK)||'null');
-    if(r&&r.seasons){
-      D=r;
-      // migrate: add missing 'a' fields
-      D.seasons.forEach(function(s){s.comps.forEach(function(c){if(c.a===undefined)c.a=0;});});
-    } else throw 0;
-  }catch(e){
-    D={seasons:JSON.parse(JSON.stringify(DEFAULT_DATA)),selecc:JSON.parse(JSON.stringify(DEFAULT_SELECC))};
-  }
-  if(!D.selecc) D.selecc=JSON.parse(JSON.stringify(DEFAULT_SELECC));
+    if(r&&r.seasons){D=r;D.seasons.forEach(function(s){s.comps.forEach(function(c){if(c.a===undefined)c.a=0;});});}
+    else throw 0;
+  }catch(e){D={seasons:JSON.parse(JSON.stringify(DEFAULT_DATA)),selecc:JSON.parse(JSON.stringify(DEFAULT_SELECC))};}
+  if(!D.selecc)D.selecc=JSON.parse(JSON.stringify(DEFAULT_SELECC));
 }
-
-// ── CALC ───────────────────────────────────────────────────────────────────
-function seasTotals(s){
-  var p=0,g=0,a=0;
-  s.comps.forEach(function(c){p+=c.p||0;g+=c.g||0;a+=c.a||0;});
-  return{p:p,g:g,a:a,prom:p>0?g/p:0};
-}
-function clubTotals(clubName){
-  var p=0,g=0,a=0;
-  D.seasons.forEach(function(s){
-    if(s.club===clubName){var t=seasTotals(s);p+=t.p;g+=t.g;a+=t.a;}
-  });
-  return{p:p,g:g,a:a,prom:p>0?g/p:0};
-}
-function careerClubTotals(){
-  var p=0,g=0,a=0;
-  D.seasons.forEach(function(s){var t=seasTotals(s);p+=t.p;g+=t.g;a+=t.a;});
-  return{p:p,g:g,a:a,prom:p>0?g/p:0};
-}
-function careerTotals(){
-  var cl=careerClubTotals();
-  var p=cl.p+D.selecc.p, g=cl.g+D.selecc.g, a=cl.a+D.selecc.a;
-  return{p:p,g:g,a:a,prom:p>0?g/p:0};
-}
+function seasTotals(s){var p=0,g=0,a=0;s.comps.forEach(function(c){p+=c.p||0;g+=c.g||0;a+=c.a||0;});return{p:p,g:g,a:a,prom:p>0?g/p:0};}
+function clubTotals(n){var p=0,g=0,a=0;D.seasons.forEach(function(s){if(s.club===n){var t=seasTotals(s);p+=t.p;g+=t.g;a+=t.a;}});return{p:p,g:g,a:a,prom:p>0?g/p:0};}
+function careerTotals(){var p=0,g=0,a=0;D.seasons.forEach(function(s){var t=seasTotals(s);p+=t.p;g+=t.g;a+=t.a;});p+=D.selecc.p;g+=D.selecc.g;a+=D.selecc.a;return{p:p,g:g,a:a,prom:p>0?g/p:0};}
 function promColor(v){return v>=1?'#28D470':v>=0.7?'#F5C842':v>=0.4?'#F07830':'#3D4870';}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function flashSaved(){
-  var sf=document.getElementById('saved-txt');
-  if(sf){sf.classList.add('show');setTimeout(function(){sf.classList.remove('show');},1600);}
-}
-function reRenderAll(){renderHero();renderChart();renderStatsTable();renderCareer();}
+function flashSaved(){var sf=document.getElementById('saved-txt');if(sf){sf.classList.add('show');setTimeout(function(){sf.classList.remove('show');},1600);}}
 
-// ── NAV ────────────────────────────────────────────────────────────────────
 function sw(v){
   ['stats','carrera','palmares'].forEach(function(k){
     document.getElementById('view-'+k).classList.toggle('on',k===v);
@@ -525,7 +422,6 @@ function sw(v){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ── GLOBAL EDIT (historical seasons) ──────────────────────────────────────
 function toggleEdit(){
   editMode=!editMode;
   var btn=document.getElementById('edit-btn');
@@ -535,6 +431,7 @@ function toggleEdit(){
   hint.classList.toggle('show',editMode);
   renderStatsTable();
 }
+
 function onEdit(sni,ci,field,val){
   var v=parseInt(val)||0;if(v<0)v=0;
   D.seasons[sni].comps[ci][field]=v;
@@ -545,122 +442,86 @@ function onEditSelecc(field,val){
   D.selecc[field]=v;save();flashSaved();renderHero();renderChart();
 }
 
-// ── CURRENT SEASON QUICK-UPDATE ────────────────────────────────────────────
-// Shows a dedicated panel for the last season with +/- and direct input
-function renderCurrentPanel(){
-  var sni=D.seasons.length-1;
-  var s=D.seasons[sni];
-  var ci=CLUBS[s.club]||{i:'⚽',c:'#F5C842'};
-  var t=seasTotals(s);
-
-  // Build comp rows — only show comps that have data OR are "main" (La Liga, Champions)
-  var mainComps=['La Liga','Copa del Rey','Champions','Supercopa ESP','Liga MX','Copa MX','Concachampions'];
-  var visComps=s.comps.filter(function(c){
-    return c.p>0||c.g>0||c.a>0||mainComps.indexOf(c.comp)!==-1;
-  });
-
-  var rows=visComps.map(function(c){
-    var ci2=D.seasons[sni].comps.findIndex(function(x){return x.comp===c.comp;});
-    var m=CMETA[c.comp]||{i:'🏅',c:'#3D4870'};
-    var hasData=c.p>0||c.g>0;
-    return '<div style="display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid #1C2340;flex-wrap:wrap">'
-      +'<div style="width:130px;font-size:12px;font-weight:700;color:'+(hasData?m.c:'#3D4870');
-  }).join('');
-
-  // Rewrite cleanly
-  var html='<div style="padding:0">';
-  visComps.forEach(function(cv){
-    var ci2=D.seasons[sni].comps.findIndex(function(x){return x.comp===cv.comp;});
-    var m=CMETA[cv.comp]||{i:'🏅',c:'#3D4870'};
-    var hasData=cv.p>0||cv.g>0||cv.a>0;
-    html+='<div class="cur-row">'
-      +'<div class="cur-comp" style="color:'+(hasData?m.c:'#3D4870')+'">'+m.i+' <span>'+esc(cv.comp)+'</span></div>'
-      +'<div class="cur-fields">'
-      // PJ
-      +'<div class="cur-field">'
-        +'<div class="cur-lbl">PJ</div>'
-        +'<div class="cur-ctrl">'
-          +'<button class="spin-btn" onclick="spinVal('+sni+','+ci2+','p',-1)">−</button>'
-          +'<input class="cur-inp" type="number" min="0" value="'+cv.p+'" id="inp-'+sni+'-'+ci2+'-p" oninput="onEdit('+sni+','+ci2+','p',this.value);updCurTotals()">'
-          +'<button class="spin-btn" onclick="spinVal('+sni+','+ci2+','p',1)">+</button>'
-        +'</div>'
-      +'</div>'
-      // G
-      +'<div class="cur-field">'
-        +'<div class="cur-lbl" style="color:#F5C842">⚽ G</div>'
-        +'<div class="cur-ctrl">'
-          +'<button class="spin-btn" onclick="spinVal('+sni+','+ci2+','g',-1)">−</button>'
-          +'<input class="cur-inp" type="number" min="0" value="'+cv.g+'" id="inp-'+sni+'-'+ci2+'-g" oninput="onEdit('+sni+','+ci2+','g',this.value);updCurTotals()">'
-          +'<button class="spin-btn" onclick="spinVal('+sni+','+ci2+','g',1)">+</button>'
-        +'</div>'
-      +'</div>'
-      // A
-      +'<div class="cur-field">'
-        +'<div class="cur-lbl" style="color:#F07830">🎯 A</div>'
-        +'<div class="cur-ctrl">'
-          +'<button class="spin-btn" onclick="spinVal('+sni+','+ci2+','a',-1)">−</button>'
-          +'<input class="cur-inp" type="number" min="0" value="'+cv.a+'" id="inp-'+sni+'-'+ci2+'-a" oninput="onEdit('+sni+','+ci2+','a',this.value);updCurTotals()">'
-          +'<button class="spin-btn" onclick="spinVal('+sni+','+ci2+','a',1)">+</button>'
-        +'</div>'
-      +'</div>'
-      +'</div></div>';
-  });
-  html+='</div>';
-
-  // Totals bar
-  html+='<div class="cur-totals" id="cur-totals-bar">'+buildCurTotalsHTML(sni)+'</div>';
-
-  document.getElementById('cur-panel-body').innerHTML=html;
-}
-
-function buildCurTotalsHTML(sni){
-  var s=D.seasons[sni],t=seasTotals(s),pc=promColor(t.prom);
-  return [['PJ',t.p,'#3E8EF0'],['⚽ Goles',t.g,'#F5C842'],['🎯 Asist.',t.a,'#F07830'],['📈 Prom.',t.prom.toFixed(2),pc]]
-    .map(function(r){
-      return '<div class="ct-pill" style="flex:1"><div class="ct-v" style="color:'+r[2]+'">'+r[1]+'</div><div class="ct-l">'+r[0]+'</div></div>';
-    }).join('');
-}
-
-function updCurTotals(){
-  var sni=D.seasons.length-1;
-  var el=document.getElementById('cur-totals-bar');
-  if(el) el.innerHTML=buildCurTotalsHTML(sni);
-  renderHero();renderChart();
-}
-
+// ── CURRENT SEASON PANEL ───────────────────────────────────────────────────
 function spinVal(sni,ci,field,delta){
   var inp=document.getElementById('inp-'+sni+'-'+ci+'-'+field);
   if(!inp)return;
   var v=(parseInt(inp.value)||0)+delta;
   if(v<0)v=0;
   inp.value=v;
-  onEdit(sni,ci,field,v);
+  D.seasons[sni].comps[ci][field]=v;
+  save();flashSaved();
+  updCurTotals();
+  renderHero();renderChart();
+}
+function updCurTotals(){
+  var sni=D.seasons.length-1;
+  var s=D.seasons[sni],t=seasTotals(s),pc=promColor(t.prom);
+  var el=document.getElementById('cur-totals-bar');
+  if(!el)return;
+  el.innerHTML=[['PJ',t.p,'#3E8EF0'],['\u26BD Goles',t.g,'#F5C842'],['\uD83C\uDFAF Asist.',t.a,'#F07830'],['\uD83D\uDCCA Prom.',t.prom.toFixed(2),pc]]
+    .map(function(r){return '<div class="ct-pill" style="flex:1"><div class="ct-v" style="color:'+r[2]+'">'+r[1]+'</div><div class="ct-l">'+r[0]+'</div></div>';}).join('');
+}
+
+function curInpChange(sni,ci,field,val){
+  var v=parseInt(val)||0;if(v<0)v=0;
+  D.seasons[sni].comps[ci][field]=v;
+  save();flashSaved();updCurTotals();renderHero();renderChart();
+}
+
+function renderCurrentPanel(){
+  var sni=D.seasons.length-1;
+  var s=D.seasons[sni];
+  var mainComps=['La Liga','Copa del Rey','Champions','Supercopa ESP','Liga MX','Copa MX','Concachampions'];
+  var visComps=s.comps.filter(function(c){return c.p>0||c.g>0||c.a>0||mainComps.indexOf(c.comp)!==-1;});
+  var html='';
+  visComps.forEach(function(cv){
+    var ci2=s.comps.indexOf(cv);
+    var m=CMETA[cv.comp]||{i:'\uD83C\uDFC5',c:'#3D4870'};
+    var hasData=cv.p>0||cv.g>0||cv.a>0;
+    var col=hasData?m.c:'#3D4870';
+    // Use data-* attributes to avoid quote escaping in inline handlers
+    html+='<div class="cur-row">'
+      +'<div class="cur-comp" style="color:'+col+'">'+m.i+' <span>'+esc(cv.comp)+'</span></div>'
+      +'<div class="cur-fields">';
+    ['p','g','a'].forEach(function(field,fi){
+      var labels=['PJ','\u26BD G','\uD83C\uDFAF A'];
+      var colors=['#3E8EF0','#F5C842','#F07830'];
+      var val=cv[field]||0;
+      var inputId='inp-'+sni+'-'+ci2+'-'+field;
+      html+='<div class="cur-field">'
+        +'<div class="cur-lbl" style="color:'+colors[fi]+'">'+labels[fi]+'</div>'
+        +'<div class="cur-ctrl">'
+        +'<button class="spin-btn" data-sni="'+sni+'" data-ci="'+ci2+'" data-f="'+field+'" data-d="-1" onclick="spinVal(+this.dataset.sni,+this.dataset.ci,this.dataset.f,+this.dataset.d)">\u2212</button>'
+        +'<input class="cur-inp" type="number" min="0" value="'+val+'" id="'+inputId+'" data-sni="'+sni+'" data-ci="'+ci2+'" data-f="'+field+'" oninput="curInpChange(+this.dataset.sni,+this.dataset.ci,this.dataset.f,this.value)">'
+        +'<button class="spin-btn" data-sni="'+sni+'" data-ci="'+ci2+'" data-f="'+field+'" data-d="1" onclick="spinVal(+this.dataset.sni,+this.dataset.ci,this.dataset.f,+this.dataset.d)">+</button>'
+        +'</div></div>';
+    });
+    html+='</div></div>';
+  });
+  document.getElementById('cur-panel-body').innerHTML=html;
   updCurTotals();
 }
 
-// ── HERO KPIS ──────────────────────────────────────────────────────────────
+
+// ── HERO ──────────────────────────────────────────────────────────────────
 function renderHero(){
-  var ct=careerTotals();
-  var cur=D.seasons[D.seasons.length-1];
-  var curT=seasTotals(cur);
-  var pc=promColor(ct.prom);
+  var ct=careerTotals(),pc=promColor(ct.prom);
   var kpis=[
-    {val:ct.p,              lbl:'Partidos carrera', sub:'incl. selección',    c:'#3E8EF0'},
-    {val:ct.g,              lbl:'Goles carrera',    sub:'incl. selección',    c:'#F5C842'},
-    {val:ct.a,              lbl:'Asistencias tot.', sub:'incl. selección',    c:'#F07830'},
-    {val:ct.prom.toFixed(2),lbl:'Promedio carrera', sub:'goles por partido',  c:pc},
+    {val:ct.p,lbl:'Partidos carrera',sub:'incl. selección',c:'#3E8EF0'},
+    {val:ct.g,lbl:'Goles carrera',sub:'incl. selección',c:'#F5C842'},
+    {val:ct.a,lbl:'Asistencias tot.',sub:'incl. selección',c:'#F07830'},
+    {val:ct.prom.toFixed(2),lbl:'Promedio carrera',sub:'goles por partido',c:pc},
   ];
   document.getElementById('hero-kpis').innerHTML=kpis.map(function(k){
-    return '<div class="hcard" style="--hc:'+k.c+'">'
-      +'<div class="hcard-bar"></div>'
+    return '<div class="hcard" style="--hc:'+k.c+'"><div class="hcard-bar"></div>'
       +'<div class="hcard-val">'+k.val+'</div>'
       +'<div class="hcard-lbl">'+k.lbl+'</div>'
-      +'<div class="hcard-sub">'+k.sub+'</div>'
-      +'</div>';
+      +'<div class="hcard-sub">'+k.sub+'</div></div>';
   }).join('');
 }
 
-// ── CHART ──────────────────────────────────────────────────────────────────
+// ── CHART ─────────────────────────────────────────────────────────────────
 function renderChart(){
   var labels=D.seasons.map(function(s){return s.sn.replace('20','');});
   var gData=D.seasons.map(function(s){return seasTotals(s).g;});
@@ -670,13 +531,12 @@ function renderChart(){
   chartInst=new Chart(document.getElementById('chart-main').getContext('2d'),{
     type:'bar',
     data:{labels:labels,datasets:[
-      {label:'Goles',    data:gData, backgroundColor:'rgba(245,200,66,.8)', borderColor:'#F5C842',borderWidth:1.5,borderRadius:5,yAxisID:'y'},
-      {label:'Asist.',   data:aData, backgroundColor:'rgba(240,120,48,.5)', borderColor:'#F07830',borderWidth:1.5,borderRadius:5,yAxisID:'y'},
-      {label:'Promedio', data:prData,type:'line',borderColor:'#9060F5',backgroundColor:'transparent',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#9060F5',tension:0.3,yAxisID:'y2'},
+      {label:'Goles',data:gData,backgroundColor:'rgba(245,200,66,.8)',borderColor:'#F5C842',borderWidth:1.5,borderRadius:5,yAxisID:'y'},
+      {label:'Asist.',data:aData,backgroundColor:'rgba(240,120,48,.5)',borderColor:'#F07830',borderWidth:1.5,borderRadius:5,yAxisID:'y'},
+      {label:'Promedio',data:prData,type:'line',borderColor:'#9060F5',backgroundColor:'transparent',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#9060F5',tension:0.3,yAxisID:'y2'},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{labels:{color:'#3D4870',font:{size:10}}},
-        tooltip:{backgroundColor:'#0D1020',borderColor:'#1C2340',borderWidth:1,titleColor:'#3D4870',bodyColor:'#F0F4FF'}},
+      plugins:{legend:{labels:{color:'#3D4870',font:{size:10}}},tooltip:{backgroundColor:'#0D1020',borderColor:'#1C2340',borderWidth:1,titleColor:'#3D4870',bodyColor:'#F0F4FF'}},
       scales:{
         y:{position:'left',ticks:{color:'#3D4870',font:{size:9}},grid:{color:'#1C2340'},border:{display:false},beginAtZero:true},
         y2:{position:'right',ticks:{color:'#9060F5',font:{size:9},callback:function(v){return v.toFixed(1);}},grid:{display:false},border:{display:false},min:0,max:1.5},
@@ -686,7 +546,7 @@ function renderChart(){
   });
 }
 
-// ── STATS TABLE — season cards: big totals + comp breakdown side by side ─────
+// ── STATS TABLE — season cards ─────────────────────────────────────────────
 function renderStatsTable(){
   var html='';
   var clubs=[];
@@ -699,26 +559,26 @@ function renderStatsTable(){
 
     html+='<div class="sh-club-hdr" style="border-color:'+ci.c+'40">'
          +'<span style="font-size:18px">'+ci.i+'</span>'
-         +'<span style="color:'+ci.c+'">'+esc(club)+'</span>'
-         +'</div>';
+         +'<span style="color:'+ci.c+'">'+esc(club)+'</span></div>';
 
     cSeasons.forEach(function(s,idx){
       var sni=sni_offset+idx;
       var t=seasTotals(s),pc=promColor(t.prom);
       var isCur=(sni===D.seasons.length-1);
       var activeComps=s.comps.filter(function(cv){return cv.p>0||cv.g>0||cv.a>0;});
-      if(editMode) activeComps=s.comps;
+      if(editMode)activeComps=s.comps;
 
       html+='<div class="sh-season-card'+(isCur?' sh-cur':'')+'">';
-      html+='<div class="sh-totals">';
-      html+='<div class="sh-sn">'+esc(s.sn)+(isCur?' <span class="cur-badge">ACTUAL</span>':'')+'</div>';
-      html+='<div class="sh-big-row">';
-      html+='<div class="sh-stat"><div class="sh-val" style="color:#F5C842">'+t.g+'</div><div class="sh-lbl">Goles</div></div>';
-      html+='<div class="sh-stat"><div class="sh-val" style="color:#F07830">'+t.a+'</div><div class="sh-lbl">Asist.</div></div>';
-      html+='<div class="sh-stat"><div class="sh-val" style="color:#3E8EF0">'+t.p+'</div><div class="sh-lbl">PJ</div></div>';
-      html+='<div class="sh-stat"><div class="sh-val sh-prom" style="background:'+pc+'22;color:'+pc+'">'+t.prom.toFixed(2)+'</div><div class="sh-lbl">Prom.</div></div>';
-      html+='</div></div>';
-
+      // LEFT totals
+      html+='<div class="sh-totals">'
+           +'<div class="sh-sn">'+esc(s.sn)+(isCur?' <span class="cur-badge">ACTUAL</span>':'')+'</div>'
+           +'<div class="sh-big-row">'
+           +'<div class="sh-stat"><div class="sh-val" style="color:#F5C842">'+t.g+'</div><div class="sh-lbl">Goles</div></div>'
+           +'<div class="sh-stat"><div class="sh-val" style="color:#F07830">'+t.a+'</div><div class="sh-lbl">Asist.</div></div>'
+           +'<div class="sh-stat"><div class="sh-val" style="color:#3E8EF0">'+t.p+'</div><div class="sh-lbl">PJ</div></div>'
+           +'<div class="sh-stat"><div class="sh-val sh-prom" style="background:'+pc+'22;color:'+pc+'">'+t.prom.toFixed(2)+'</div><div class="sh-lbl">Prom.</div></div>'
+           +'</div></div>';
+      // RIGHT comps
       html+='<div class="sh-comps">';
       if(activeComps.length===0){
         html+='<div style="font-size:11px;color:#3D4870;padding:6px 0">Sin datos</div>';
@@ -727,19 +587,19 @@ function renderStatsTable(){
           var ci2=s.comps.indexOf(cv);
           var m=CMETA[cv.comp]||{i:'🏅',c:'#3D4870'};
           var hasData=cv.p>0||cv.g>0;
-          html+='<div class="sh-comp-row">';
-          html+='<div class="sh-comp-name" style="color:'+(hasData?m.c:'#3D4870')+'">'+m.i+' '+esc(cv.comp)+'</div>';
+          html+='<div class="sh-comp-row">'
+               +'<div class="sh-comp-name" style="color:'+(hasData?m.c:'#3D4870')+'">'+m.i+' '+esc(cv.comp)+'</div>';
           if(editMode){
             html+='<div class="sh-comp-vals">'
-                 +'<label class="sh-edit-lbl">PJ<input class="editable sh-edit-inp" type="number" min="0" value="'+cv.p+'" oninput="onEdit('+sni+','+ci2+',&quot;p&quot;,this.value)"/></label>'
-                 +'<label class="sh-edit-lbl">G<input class="editable sh-edit-inp" type="number" min="0" value="'+cv.g+'" oninput="onEdit('+sni+','+ci2+',&quot;g&quot;,this.value)"/></label>'
+                 +'<label class="sh-edit-lbl">PJ <input class="editable sh-edit-inp" type="number" min="0" value="'+cv.p+'" data-sni="'+sni+'" data-ci="'+ci2+'" data-f="p" oninput="onEdit(+this.dataset.sni,+this.dataset.ci,this.dataset.f,this.value)"/></label>'
+                 +'<label class="sh-edit-lbl">G <input class="editable sh-edit-inp" type="number" min="0" value="'+cv.g+'" data-sni="'+sni+'" data-ci="'+ci2+'" data-f="g" oninput="onEdit(+this.dataset.sni,+this.dataset.ci,this.dataset.f,this.value)"/></label>'
                  +'</div>';
           } else {
             html+='<div class="sh-comp-vals">';
             if(hasData){
-              html+='<span class="sh-pill sh-pill-p">'+cv.p+' <span style="opacity:.5">PJ</span></span>';
-              html+='<span class="sh-pill sh-pill-g">'+cv.g+' <span style="opacity:.5">G</span></span>';
-              if(cv.a>0) html+='<span class="sh-pill sh-pill-a">'+cv.a+' <span style="opacity:.5">A</span></span>';
+              html+='<span class="sh-pill sh-pill-p">'+cv.p+' <span style="opacity:.5">PJ</span></span>'
+                   +'<span class="sh-pill sh-pill-g">'+cv.g+' <span style="opacity:.5">G</span></span>';
+              if(cv.a>0)html+='<span class="sh-pill sh-pill-a">'+cv.a+' <span style="opacity:.5">A</span></span>';
             } else {
               html+='<span style="color:#252E50;font-size:11px">–</span>';
             }
@@ -748,10 +608,10 @@ function renderStatsTable(){
           html+='</div>';
         });
       }
-      html+='</div>';
-      html+='</div>';
+      html+='</div></div>'; // sh-comps + sh-season-card
     });
 
+    // Club subtotal
     var cTot=clubTotals(club),ptc=promColor(cTot.prom);
     html+='<div class="sh-subtotal">'
          +'<span style="color:'+ci.c+';font-weight:800">'+ci.i+' Total '+esc(club)+'</span>'
@@ -763,31 +623,30 @@ function renderStatsTable(){
          +'</div></div>';
   });
 
+  // Selección
   var sp=D.selecc.p,sg=D.selecc.g,sa=D.selecc.a,sprom=sp>0?sg/sp:0,spc=promColor(sprom);
   html+='<div class="sh-club-hdr" style="border-color:#28D47040"><span style="font-size:18px">🌐</span><span style="color:#28D470">Selección México</span></div>';
   html+='<div class="sh-season-card">';
-  html+='<div class="sh-totals">';
-  html+='<div class="sh-sn">2019 – Actual</div>';
-  html+='<div class="sh-big-row">';
-  html+='<div class="sh-stat"><div class="sh-val" style="color:#F5C842">'+sg+'</div><div class="sh-lbl">Goles</div></div>';
-  html+='<div class="sh-stat"><div class="sh-val" style="color:#F07830">'+sa+'</div><div class="sh-lbl">Asist.</div></div>';
-  html+='<div class="sh-stat"><div class="sh-val" style="color:#3E8EF0">'+sp+'</div><div class="sh-lbl">PJ</div></div>';
-  html+='<div class="sh-stat"><div class="sh-val sh-prom" style="background:'+spc+'22;color:'+spc+'">'+sprom.toFixed(2)+'</div><div class="sh-lbl">Prom.</div></div>';
-  html+='</div></div>';
+  html+='<div class="sh-totals">'
+       +'<div class="sh-sn">2019 – Actual</div>'
+       +'<div class="sh-big-row">'
+       +'<div class="sh-stat"><div class="sh-val" style="color:#F5C842">'+sg+'</div><div class="sh-lbl">Goles</div></div>'
+       +'<div class="sh-stat"><div class="sh-val" style="color:#F07830">'+sa+'</div><div class="sh-lbl">Asist.</div></div>'
+       +'<div class="sh-stat"><div class="sh-val" style="color:#3E8EF0">'+sp+'</div><div class="sh-lbl">PJ</div></div>'
+       +'<div class="sh-stat"><div class="sh-val sh-prom" style="background:'+spc+'22;color:'+spc+'">'+sprom.toFixed(2)+'</div><div class="sh-lbl">Prom.</div></div>'
+       +'</div></div>';
   if(editMode){
     html+='<div class="sh-comps">'
-         +'<div class="sh-comp-row"><div class="sh-comp-name" style="color:#28D470">Partidos</div>'
-         +'<div class="sh-comp-vals"><input class="editable sh-edit-inp" type="number" min="0" value="'+sp+'" oninput="onEditSelecc(&quot;p&quot;,this.value)"/></div></div>'
-         +'<div class="sh-comp-row"><div class="sh-comp-name" style="color:#28D470">Goles</div>'
-         +'<div class="sh-comp-vals"><input class="editable sh-edit-inp" type="number" min="0" value="'+sg+'" oninput="onEditSelecc(&quot;g&quot;,this.value)"/></div></div>'
-         +'<div class="sh-comp-row"><div class="sh-comp-name" style="color:#28D470">Asistencias</div>'
-         +'<div class="sh-comp-vals"><input class="editable sh-edit-inp" type="number" min="0" value="'+sa+'" oninput="onEditSelecc(&quot;a&quot;,this.value)"/></div></div>'
-         +'</div>';
+         +[['Partidos','p',sp],['Goles','g',sg],['Asistencias','a',sa]].map(function(r){
+           return '<div class="sh-comp-row"><div class="sh-comp-name" style="color:#28D470">'+r[0]+'</div>'
+                 +'<div class="sh-comp-vals"><input class="editable sh-edit-inp" type="number" min="0" value="'+r[2]+'" data-f="'+r[1]+'" oninput="onEditSelecc(this.dataset.f,this.value)"/></div></div>';
+         }).join('')+'</div>';
   } else {
     html+='<div class="sh-comps"><div style="font-size:11px;color:#3D4870;padding-top:4px">Acumulado total · todas las competiciones</div></div>';
   }
   html+='</div>';
 
+  // Grand total
   var ct=careerTotals(),gpc=promColor(ct.prom);
   html+='<div class="sh-grandtotal">'
        +'<div style="font-size:10px;font-weight:800;letter-spacing:.12em;color:#3D4870;text-transform:uppercase;margin-bottom:12px">⭐ Total de carrera</div>'
@@ -806,23 +665,20 @@ function renderCareer(){
   var html='';
   var clubs=[];
   D.seasons.forEach(function(s){if(clubs.indexOf(s.club)===-1)clubs.push(s.club);});
-
   clubs.forEach(function(club){
     var ci=CLUBS[club]||{i:'⚽',c:'#F5C842'};
     var ct=clubTotals(club);
     var cSeasons=D.seasons.filter(function(s){return s.club===club;});
     var years=cSeasons[0].sn.split('/')[0]+'–'+cSeasons[cSeasons.length-1].sn.split('/')[1];
     html+='<div class="card club-block">'
-         +'<div class="club-hdr">'
-         +'<div class="club-icon" style="background:'+ci.c+'20;border:1px solid '+ci.c+'40">'+ci.i+'</div>'
+         +'<div class="club-hdr"><div class="club-icon" style="background:'+ci.c+'20;border:1px solid '+ci.c+'40">'+ci.i+'</div>'
          +'<div><div class="club-name-big" style="color:'+ci.c+'">'+esc(club)+'</div>'
          +'<div class="club-years">'+years+' · '+cSeasons.length+' temporada'+(cSeasons.length>1?'s':'')+'</div></div></div>'
          +'<div class="club-totals">'
          +[['PJ',ct.p,'#3E8EF0'],['⚽ G',ct.g,'#F5C842'],['🎯 A',ct.a,'#F07830'],['📈 Prom.',ct.prom.toFixed(2),promColor(ct.prom)]]
            .map(function(r){return '<div class="ct-pill"><div class="ct-v" style="color:'+r[2]+'">'+r[1]+'</div><div class="ct-l">'+r[0]+'</div></div>';}).join('')
          +'</div>'
-         +'<div class="ovx"><table><thead><tr>'
-         +'<th style="text-align:left">Temporada</th><th>PJ</th><th>⚽ G</th><th>🎯 A</th><th>📈 Prom.</th></tr></thead><tbody>'
+         +'<div class="ovx"><table><thead><tr><th style="text-align:left">Temporada</th><th>PJ</th><th>⚽ G</th><th>🎯 A</th><th>📈 Prom.</th></tr></thead><tbody>'
          +cSeasons.map(function(s){
            var t=seasTotals(s),pc=promColor(t.prom);
            return '<tr><td>'+esc(s.sn)+'</td><td><span class="vnum b">'+t.p+'</span></td>'
@@ -832,7 +688,6 @@ function renderCareer(){
          }).join('')
          +'</tbody></table></div></div>';
   });
-
   var sp=D.selecc.p,sg=D.selecc.g,sa=D.selecc.a,sprom=sp>0?sg/sp:0;
   html+='<div class="card"><div class="nat-bar">'
        +'<div class="nat-flag-big">🌐</div>'
@@ -842,16 +697,13 @@ function renderCareer(){
        +[['PJ',sp,'#3E8EF0'],['Goles',sg,'#F5C842'],['Asist.',sa,'#F07830'],['Prom.',sprom.toFixed(2),promColor(sprom)]]
          .map(function(r){return '<div class="np"><div class="npv" style="color:'+r[2]+'">'+r[1]+'</div><div class="npl">'+r[0]+'</div></div>';}).join('')
        +'</div></div></div></div>';
-
   var ct2=careerTotals(),gpc=promColor(ct2.prom);
   html+='<div class="card"><div style="display:flex;gap:10px;flex-wrap:wrap;padding:16px">'
-       +[['🎮 PJ total',ct2.p,'#3E8EF0'],['⚽ Goles',ct2.g,'#F5C842'],
-         ['🎯 Asistencias',ct2.a,'#F07830'],['📈 Promedio',ct2.prom.toFixed(2),gpc],['🏆 Títulos','24','#9060F5']]
+       +[['🎮 PJ total',ct2.p,'#3E8EF0'],['⚽ Goles',ct2.g,'#F5C842'],['🎯 Asistencias',ct2.a,'#F07830'],['📈 Promedio',ct2.prom.toFixed(2),gpc],['🏆 Títulos','24','#9060F5']]
          .map(function(r){return '<div style="flex:1;min-width:90px;background:var(--s2);border:1px solid var(--bd2);border-radius:12px;padding:12px 14px;text-align:center">'
            +'<div style="font-size:10px;color:#3D4870;margin-bottom:4px">'+r[0]+'</div>'
-           +'<div style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:'+r[2]+'">'+r[1]+'</div></div>';}).join('')
+           +'<div style="font-family:\'Bebas Neue\',sans-serif;font-size:26px;color:'+r[2]+'">'+r[1]+'</div></div>';}).join('')
        +'</div></div>';
-
   document.getElementById('career-body').innerHTML=html;
 }
 
@@ -863,21 +715,18 @@ function renderPalmares(){
   var summaryHtml='<div class="palm-summary">';
   TROPHIES.forEach(function(t){
     var ic=TROPHY_ICONS[t.comp]||'🏅',cc=TROPHY_COLORS[t.comp]||'#F5C842';
-    summaryHtml+='<div class="palm-badge" style="border-color:'+cc+'40">'
-                +'<span style="font-size:16px">'+ic+'</span>'
+    summaryHtml+='<div class="palm-badge" style="border-color:'+cc+'40"><span style="font-size:16px">'+ic+'</span>'
                 +'<span class="palm-badge-cnt" style="color:'+cc+'">'+t.n+'</span>'
                 +'<span class="palm-badge-lbl">'+esc(t.comp)+'</span></div>';
   });
-  summaryHtml+='<div class="palm-badge palm-total">'
-              +'<span style="font-size:18px">🏆</span>'
+  summaryHtml+='<div class="palm-badge palm-total"><span style="font-size:18px">🏆</span>'
               +'<span class="palm-badge-cnt" style="color:#F5C842">'+total+'</span>'
               +'<span class="palm-badge-lbl" style="color:#F5C842">Títulos</span></div></div>';
   function tCards(list){
     return '<div class="trophy-grid">'+list.map(function(t){
-      var ic=TROPHY_ICONS[t.comp]||'🏅',cc=TROPHY_COLORS[t.comp]||'#F5C842';
-      var ci2=CLUBS[t.club]||{c:'#F5C842'};
+      var ic=TROPHY_ICONS[t.comp]||'🏅',cc=TROPHY_COLORS[t.comp]||'#F5C842',ci2=CLUBS[t.club]||{c:'#F5C842'};
       return '<div class="trophy-card" style="--tc:'+cc+'">'
-            +'<div class="trophy-icon">'+ic+(t.n>1?'<span style="font-size:11px;color:'+cc+';font-weight:900;font-family:'Bebas Neue',sans-serif"> x'+t.n+'</span>':'')+'</div>'
+            +'<div class="trophy-icon">'+ic+(t.n>1?'<span style="font-size:11px;color:'+cc+';font-weight:900;font-family:\'Bebas Neue\',sans-serif"> x'+t.n+'</span>':'')+'</div>'
             +'<div><div class="trophy-name">'+esc(t.comp)+'</div>'
             +'<div class="trophy-club" style="color:'+ci2.c+'">'+esc(t.club)+'</div>'
             +'<div class="trophy-seas">'+esc(t.seasons)+'</div></div></div>';
@@ -886,8 +735,7 @@ function renderPalmares(){
   function secLbl(txt){return '<div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mt);padding:12px 18px 4px;border-top:1px solid var(--bd)">'+txt+'</div>';}
   var awHtml='<div class="award-section"><div class="award-title-row">🏅 Premios Individuales</div>'
             +'<div class="award-grid">'+AWARDS.map(function(a){
-              return '<div class="award-card">'
-                    +'<div class="award-icon">'+a.i+(a.n>1?'<span style="font-size:11px;color:'+a.c+';font-weight:900;font-family:'Bebas Neue',sans-serif"> x'+a.n+'</span>':'')+'</div>'
+              return '<div class="award-card"><div class="award-icon">'+a.i+(a.n>1?'<span style="font-size:11px;color:'+a.c+';font-weight:900;font-family:\'Bebas Neue\',sans-serif"> x'+a.n+'</span>':'')+'</div>'
                     +'<div><div class="award-name" style="color:'+a.c+'">'+esc(a.name)+'</div>'
                     +'<div class="award-seas">'+esc(a.seasons)+'</div>'
                     +'<div class="award-detail">'+esc(a.detail)+'</div></div></div>';
@@ -908,5 +756,6 @@ renderCurrentPanel();
 renderCareer();
 renderPalmares();
 </script>
+
 </body>
 </html>
