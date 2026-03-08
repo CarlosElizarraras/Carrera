@@ -2,1088 +2,785 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Modo Carrera · Jugador</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Carlos Ortiz · Carrera</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#060810;--sf:#0C0F1A;--sf2:#111626;--bd:#1A2035;--bd2:#222840;
-  --tx:#EEF2FF;--mt:#4A5580;--mt2:#2E3855;
-  --gold:#F0C040;--gold2:#FFD860;--red:#E03050;--grn:#22C870;--blu:#4A9EF0;--org:#F07830;
-  --pur:#8860F0;
-  --card-glow: 0 0 0 1px var(--bd), 0 4px 24px rgba(0,0,0,.5);
+  --bg:#07090F;--s1:#0D1020;--s2:#131828;--bd:#1C2340;--bd2:#242C4A;
+  --tx:#F0F4FF;--mt:#3D4870;--mt2:#252E50;
+  --gold:#F5C842;--go2:#FFE080;--red:#E83560;--grn:#28D470;--blu:#3E8EF0;--pur:#9060F5;--org:#F07830;
 }
-body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;min-height:100vh;font-size:14px;overflow-x:hidden}
-body::before{content:'';position:fixed;top:0;left:0;right:0;height:600px;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(240,192,64,.07) 0%,transparent 70%);pointer-events:none;z-index:0}
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
-input,select,button{font-family:'Barlow',sans-serif}
-input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
-input[type=number]{-moz-appearance:textfield}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;font-size:14px;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(245,200,66,.06),transparent 60%),radial-gradient(ellipse 40% 30% at 80% 80%,rgba(62,142,240,.04),transparent 60%);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:4px}
 
-/* HEADER */
-#hdr{position:sticky;top:0;z-index:100;background:rgba(6,8,16,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd);padding:0 24px}
-#hdr-inner{max-width:1160px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-#hl{display:flex;align-items:center;gap:14px;padding:13px 0}
-.player-badge{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--org));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 0 20px rgba(240,192,64,.3)}
-.htitle{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.06em;line-height:1;color:var(--gold)}
-.hsub{font-size:10px;color:var(--mt);letter-spacing:.14em;text-transform:uppercase;margin-top:2px}
-#nav{display:flex;gap:2px;flex-wrap:wrap;padding:8px 0}
-.nb{padding:7px 14px;border-radius:7px;border:none;cursor:pointer;font-weight:700;font-size:11px;letter-spacing:.05em;text-transform:uppercase;transition:all .15s;background:transparent;color:var(--mt);font-family:'Barlow Condensed',sans-serif}
-.nb.on{background:linear-gradient(135deg,var(--gold),var(--org));color:#060810}
-.nb:hover:not(.on){color:var(--tx);background:var(--bd)}
+/* ── HEADER ── */
+#hdr{position:sticky;top:0;z-index:100;background:rgba(7,9,15,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bd)}
+#hdr-in{max-width:960px;margin:0 auto;padding:0 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;height:58px}
+.logo{display:flex;align-items:center;gap:11px}
+.logo-icon{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--org));display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 0 16px rgba(245,200,66,.25)}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.06em;color:var(--gold);line-height:1}
+.logo-sub{font-size:9px;color:var(--mt);letter-spacing:.14em;text-transform:uppercase;margin-top:1px}
+/* Top nav desktop */
+#top-nav{display:flex;gap:2px}
+.tn{padding:7px 13px;border-radius:7px;border:none;cursor:pointer;font-weight:700;font-size:11px;letter-spacing:.05em;text-transform:uppercase;background:transparent;color:var(--mt);font-family:'Inter',sans-serif;transition:all .15s;white-space:nowrap}
+.tn.on{background:rgba(245,200,66,.15);color:var(--gold)}
+.tn:hover:not(.on){color:var(--tx);background:var(--s2)}
+/* Bottom nav mobile */
+#bot-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(7,9,15,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--bd);justify-content:space-around;padding:6px 0 calc(6px + env(safe-area-inset-bottom))}
+.bn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 2px;border:none;background:transparent;color:var(--mt);cursor:pointer;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.bn.on{color:var(--gold)}
+.bn-i{font-size:22px;line-height:1.1}
 
-#main{max-width:1160px;margin:0 auto;padding:24px 20px;position:relative;z-index:1}
+/* ── MAIN ── */
+#main{max-width:960px;margin:0 auto;padding:22px 18px 40px;position:relative;z-index:1}
 .view{display:none}.view.on{display:block}
 
-/* FORM */
-.fc{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:18px 22px;margin-bottom:20px;box-shadow:var(--card-glow)}
-.fct{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;margin-bottom:14px}
-.fr{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
-.fg{display:flex;flex-direction:column;gap:5px}
-.fl{font-size:10px;color:var(--mt);letter-spacing:.1em;text-transform:uppercase;font-weight:700}
-select,input[type=text]{background:var(--bg);border:1px solid var(--bd2);color:var(--tx);border-radius:9px;padding:9px 13px;font-size:13px;outline:none;transition:border-color .15s}
-select:focus,input[type=text]:focus{border-color:var(--gold)}
-.si{width:56px;background:var(--bg);border:1px solid var(--bd2);color:var(--gold);border-radius:9px;padding:9px 8px;font-size:18px;font-weight:800;text-align:center;font-family:'Bebas Neue',sans-serif;outline:none}
-.sw{display:flex;align-items:center;gap:7px}
-.ss{color:var(--mt);font-size:15px;font-weight:700}
-.sbtn{padding:10px 24px;border-radius:9px;border:none;cursor:pointer;font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:linear-gradient(135deg,var(--gold),var(--org));color:#060810;transition:all .2s;font-family:'Barlow Condensed',sans-serif}
-.sbtn:hover{filter:brightness(1.1);transform:translateY(-1px)}
-.sbtn.ok{background:linear-gradient(135deg,var(--grn),#18A860)}
-.ferr{color:var(--red);font-size:12px;align-self:center}
+/* ── SECTION TITLE ── */
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.14em;color:var(--mt);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--bd),transparent)}
 
-/* KPI GRID */
-.kgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
-.kcard{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:16px 18px;position:relative;overflow:hidden;transition:border-color .2s}
-.kcard:hover{border-color:var(--gold)}
-.kbar{position:absolute;top:0;left:0;right:0;height:3px}
-.kval{font-family:'Bebas Neue',sans-serif;font-size:30px;line-height:1;margin:8px 0 3px}
-.klbl{font-size:10px;color:var(--mt);font-weight:700;letter-spacing:.1em;text-transform:uppercase}
-.ksub{font-size:11px;color:var(--mt);margin-top:4px}
-.kico{font-size:18px;margin-bottom:4px}
+/* ── HERO STATS ── */
+.hero{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
+.hcard{background:var(--s1);border:1px solid var(--bd);border-radius:16px;padding:18px 16px;position:relative;overflow:hidden;text-align:center}
+.hcard::before{content:'';position:absolute;inset:0;background:var(--hc,transparent);opacity:.04;border-radius:16px}
+.hcard-bar{position:absolute;top:0;left:0;right:0;height:3px;background:var(--hc,var(--gold))}
+.hcard-val{font-family:'Bebas Neue',sans-serif;font-size:42px;line-height:1;color:var(--hc,var(--gold));margin:6px 0 4px}
+.hcard-lbl{font-size:10px;font-weight:700;color:var(--mt);letter-spacing:.1em;text-transform:uppercase}
+.hcard-sub{font-size:11px;color:var(--mt);margin-top:4px}
 
-/* CHARTS */
-.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
-.ccard{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:15px 17px}
-.ctit{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;font-family:'Barlow Condensed',sans-serif}
-.cwrap{position:relative;height:165px}
+/* ── SEASON TABLE ── */
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:16px;overflow:hidden;margin-bottom:18px}
+.card-hdr{padding:13px 18px;border-bottom:1px solid var(--bd);background:var(--s2);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.08em;color:var(--tx)}
+.card-meta{font-size:10px;color:var(--mt)}
+.ovx{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:9px 14px;color:var(--gold);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--bd);background:rgba(7,9,15,.6);text-align:center;white-space:nowrap}
+th:first-child{text-align:left}
+td{padding:10px 14px;text-align:center;border-bottom:1px solid rgba(28,35,64,.5);white-space:nowrap}
+td:first-child{text-align:left;font-weight:700}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(13,16,32,.6)}
+tr.subtotal td{background:rgba(245,200,66,.05);border-top:1px solid rgba(245,200,66,.15);font-weight:800;color:var(--gold)}
+tr.subtotal td:first-child{font-size:11px}
+tr.grandtotal td{background:rgba(144,96,245,.08);border-top:2px solid rgba(144,96,245,.4);font-weight:900;font-size:13px;color:var(--go2)}
+.comp-icon{font-size:13px;margin-right:4px}
+.prom-tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:800}
+.vnum{font-family:'Bebas Neue',sans-serif;font-size:16px}
+.vnum.g{color:var(--gold)}
+.vnum.b{color:var(--blu)}
+.vnum.gr{color:var(--grn)}
 
-/* SEASON TABLE */
-.swrap{background:var(--sf);border:1px solid var(--bd);border-radius:14px;overflow:hidden;margin-bottom:16px;box-shadow:var(--card-glow)}
-.shdr{padding:12px 18px;border-bottom:1px solid var(--bd);border-left:3px solid var(--gold);background:var(--bg);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-.stit{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
-.smeta{font-size:10px;color:var(--mt)}
-.tbl{width:100%;border-collapse:collapse;font-size:12px}
-.tbl th{padding:9px 14px;color:var(--gold);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--bd);background:var(--bg);text-align:center}
-.tbl th:first-child{text-align:left}
-.tbl td{padding:10px 14px;text-align:center;border-bottom:1px solid rgba(26,32,53,.6);color:var(--tx)}
-.tbl td:first-child{text-align:left}
-.tbl tr:nth-child(even){background:rgba(12,15,26,.5)}
-.tbl tr:hover td{background:rgba(17,22,38,.8)}
-.tbl tr.total-row td{background:rgba(240,192,64,.06);border-top:1px solid var(--gold);font-weight:800;color:var(--gold)}
-.tbl tr.career-row td{background:rgba(138,96,240,.08);border-top:2px solid var(--pur);font-weight:900;color:var(--gold);font-size:13px}
+/* ── CHART ── */
+.chart-wrap{position:relative;height:200px;padding:16px}
 
-.ep{padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700}
+/* ── PALMARES ── */
+.palm-summary{display:flex;gap:8px;flex-wrap:wrap;padding:16px 18px;border-bottom:1px solid var(--bd)}
+.palm-badge{background:var(--s2);border:1px solid var(--bd2);border-radius:9px;padding:6px 13px;display:flex;align-items:center;gap:7px;cursor:default}
+.palm-badge-cnt{font-family:'Bebas Neue',sans-serif;font-size:22px;line-height:1}
+.palm-badge-lbl{font-size:10px;color:var(--mt);line-height:1.3;max-width:70px}
+.palm-total{margin-left:auto;background:linear-gradient(135deg,rgba(245,200,66,.1),rgba(144,96,245,.1));border:1px solid rgba(245,200,66,.3)}
 
-/* SEASON CARD */
-.seas-card{background:var(--sf);border:1px solid var(--bd);border-radius:14px;overflow:hidden;margin-bottom:16px}
-.seas-hdr{padding:14px 18px;border-bottom:1px solid var(--bd);background:var(--bg);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.seas-badge{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.04em;color:var(--gold)}
-.seas-club{font-size:12px;color:var(--mt);font-weight:600}
-.seas-kpis{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px}
-.skpi{background:var(--bg);border:1px solid var(--bd2);border-radius:9px;padding:9px 13px;text-align:center;flex:1;min-width:70px}
-.skv{font-family:'Bebas Neue',sans-serif;font-size:20px;line-height:1}
-.skl{font-size:9px;color:var(--mt);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.trophy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;padding:16px}
+.trophy-card{background:var(--s2);border:1px solid var(--bd2);border-radius:13px;padding:14px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;transition:border-color .2s}
+.trophy-card:hover{border-color:var(--tc,var(--gold))}
+.trophy-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--tc,var(--gold))}
+.trophy-icon{font-size:28px;flex-shrink:0;line-height:1}
+.trophy-name{font-weight:800;font-size:13px;line-height:1.2}
+.trophy-club{font-size:11px;margin-top:3px;font-weight:600}
+.trophy-seas{font-size:10px;color:var(--mt);margin-top:2px}
 
-/* MATCH CARD */
-.mcard{display:grid;grid-template-columns:32px 1fr 108px 1fr 52px;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(26,32,53,.5);transition:background .12s}
-.mcard:hover{background:rgba(12,15,26,.6)}
-.mc-meta{display:flex;align-items:center;gap:6px}
-.mc-num{color:var(--mt2);font-size:10px;width:20px;text-align:right;font-family:'Barlow Condensed',sans-serif}
-.mc-comp{font-size:14px}
-.mc-team{display:flex;align-items:center;gap:8px;min-width:0}
-.mc-home{justify-content:flex-end}
-.mc-name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;font-family:'Barlow Condensed',sans-serif}
-.mc-home .mc-name{text-align:right}
-.mc-sbox{display:flex;align-items:center;justify-content:center}
-.mc-s{font-family:'Bebas Neue',sans-serif;font-size:21px;line-height:1;background:var(--bg);border:1px solid var(--bd);padding:5px 10px;min-width:36px;text-align:center}
-.mc-s:first-child{border-radius:7px 0 0 7px}
-.mc-s:last-child{border-radius:0 7px 7px 0}
-.mc-dash{background:var(--bg);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:5px 4px;color:var(--mt2);font-size:11px;line-height:1}
-.mc-act{display:flex;align-items:center;justify-content:flex-end;gap:6px}
-.del-btn{background:transparent;border:none;color:var(--mt);cursor:pointer;font-size:13px;padding:4px 6px;border-radius:5px;transition:color .15s}
-.del-btn:hover{color:var(--red)}
-.bdg{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;flex-shrink:0}
-.bV{background:#0A2010;border:1.5px solid #22C870;color:#22C870}
-.bE{background:#2B1E00;border:1.5px solid #F07830;color:#F07830}
-.bD{background:#2A0A0E;border:1.5px solid #E03050;color:#E03050}
+.award-section{border-top:1px solid var(--bd);padding:14px 18px}
+.award-title-row{font-size:10px;font-weight:800;color:var(--pur);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.award-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.award-card{background:var(--s2);border:1px solid rgba(144,96,245,.3);border-radius:13px;padding:14px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden}
+.award-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--pur),transparent)}
+.award-icon{font-size:28px;flex-shrink:0}
+.award-name{font-weight:800;font-size:13px;color:var(--pur)}
+.award-seas{font-size:10px;color:var(--mt);margin-top:2px}
+.award-detail{font-size:11px;color:var(--mt);margin-top:2px}
 
-/* CLUB SECTION */
-.club-header{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--bd);background:var(--bg)}
-.club-badge{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.club-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.04em}
-.club-meta{font-size:11px;color:var(--mt)}
+/* ── CARRERA / TIMELINE ── */
+.club-block{margin-bottom:20px}
+.club-hdr{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--bd);background:var(--s2)}
+.club-icon{font-size:24px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.club-name-big{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.04em}
+.club-years{font-size:11px;color:var(--mt);margin-top:1px}
+.club-totals{display:flex;gap:8px;flex-wrap:wrap;padding:12px 18px;border-bottom:1px solid var(--bd)}
+.ct-pill{background:var(--bg);border:1px solid var(--bd2);border-radius:8px;padding:7px 12px;text-align:center;flex:1;min-width:70px}
+.ct-v{font-family:'Bebas Neue',sans-serif;font-size:20px;line-height:1}
+.ct-l{font-size:9px;color:var(--mt);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
 
-/* PALMARES */
-.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;padding:16px}
-.phcard{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:18px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;transition:border-color .2s}
-.phcard:hover{border-color:var(--gold)}
-.phico{font-size:34px;flex-shrink:0}
-.phnm{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:.04em;line-height:1.1}
-.phsn{font-size:11px;color:var(--mt);margin-top:3px}
-.phdt{font-size:11px;color:var(--gold);margin-top:3px;font-weight:600}
+/* ── SELECC ── */
+.nat-bar{display:flex;align-items:center;gap:14px;padding:16px 18px;flex-wrap:wrap}
+.nat-flag-big{font-size:32px}
+.nat-info{flex:1;min-width:120px}
+.nat-name-big{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.04em;color:var(--grn)}
+.nat-stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.np{background:var(--bg);border:1px solid var(--bd2);border-radius:8px;padding:7px 11px;text-align:center;min-width:65px}
+.npv{font-family:'Bebas Neue',sans-serif;font-size:18px;line-height:1}
+.npl{font-size:9px;color:var(--mt);text-transform:uppercase;letter-spacing:.07em}
 
-/* TOPS */
-.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
-.tcrd{background:var(--sf);border:1px solid var(--bd);border-radius:14px;overflow:hidden}
-.tch{padding:10px 15px;border-bottom:1px solid var(--bd);background:var(--bg);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
-.tr2{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid rgba(26,32,53,.5)}
-.tr2:last-child{border-bottom:none}
-.rnk{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;flex-shrink:0}
-.r1{background:rgba(240,192,64,.15);color:#F0C040;border:1px solid rgba(240,192,64,.4)}
-.r2{background:rgba(176,184,196,.1);color:#B0B8C4;border:1px solid rgba(176,184,196,.3)}
-.r3{background:rgba(205,127,50,.1);color:#CD7F32;border:1px solid rgba(205,127,50,.3)}
-.r4,.r5{background:var(--bd);color:var(--mt);border:1px solid var(--bd2)}
-.tnm{flex:1;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'Barlow Condensed',sans-serif}
-.tvl{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);line-height:1}
-.tlb{font-size:9px;color:var(--mt);line-height:1}
-.tvw{text-align:right}
+/* ── EDIT MODE ── */
+.edit-toggle{padding:7px 14px;border-radius:8px;border:1px solid var(--bd2);background:transparent;color:var(--mt);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.05em;text-transform:uppercase}
+.edit-toggle.active{border-color:var(--gold);color:var(--gold);background:rgba(245,200,66,.08)}
+.editable{border:none;background:transparent;color:var(--tx);font-family:'Bebas Neue',sans-serif;font-size:16px;width:52px;text-align:center;border-radius:5px;padding:2px 3px;-moz-appearance:textfield}
+.editable::-webkit-inner-spin-button{-webkit-appearance:none}
+.editable:focus{outline:none;background:rgba(245,200,66,.1);color:var(--gold)}
+.editable:disabled{cursor:default}
+.edit-hint{font-size:10px;color:var(--gold);margin-left:8px;opacity:0;transition:opacity .2s}
+.edit-hint.show{opacity:1}
+.saved-flash{color:var(--grn);font-size:11px;margin-left:8px;opacity:0;transition:opacity .3s}
+.saved-flash.show{opacity:1}
 
-/* CAREER TIMELINE */
-.timeline{padding:20px 24px}
-.tl-item{display:flex;gap:18px;margin-bottom:28px;position:relative}
-.tl-item::before{content:'';position:absolute;left:20px;top:44px;bottom:-28px;width:2px;background:linear-gradient(to bottom,var(--bd2),transparent);z-index:0}
-.tl-item:last-child::before{display:none}
-.tl-dot{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;position:relative;z-index:1;border:2px solid var(--bd2)}
-.tl-content{flex:1;background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:14px 16px}
-.tl-year{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--gold);letter-spacing:.04em}
-.tl-club{font-size:13px;font-weight:700;color:var(--tx);margin-bottom:8px;font-family:'Barlow Condensed',sans-serif;font-size:14px}
-.tl-stats{display:flex;gap:10px;flex-wrap:wrap}
-.tls{background:var(--sf);border:1px solid var(--bd2);border-radius:8px;padding:7px 10px;text-align:center;min-width:60px}
-.tlsv{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--gold)}
-.tlsl{font-size:9px;color:var(--mt);text-transform:uppercase;letter-spacing:.08em}
+/* Promo color helpers */
+.p-hi{color:var(--grn)}
+.p-md{color:var(--gold)}
+.p-lo{color:var(--org)}
+.p-no{color:var(--mt)}
 
-/* FORM INPUTS */
-.atr{display:flex;gap:10px;padding:14px 18px;border-top:1px solid var(--bd);flex-wrap:wrap;align-items:flex-end}
-.abtn{padding:9px 16px;border-radius:8px;border:none;cursor:pointer;font-weight:700;font-size:11px;letter-spacing:.05em;text-transform:uppercase;background:var(--bd2);color:var(--tx);transition:background .15s;font-family:'Barlow Condensed',sans-serif}
-.abtn:hover{background:var(--bd)}
-.abtn.red{background:linear-gradient(135deg,var(--gold),var(--org));color:#060810}
-.abtn.red:hover{filter:brightness(1.1)}
+/* ── FOOTER ── */
+#footer{text-align:center;padding:20px 0 6px;color:var(--mt2);font-size:9px;letter-spacing:.1em;text-transform:uppercase}
 
-/* SECTION DIVIDER */
-.sdiv{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--mt);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
-.sdiv::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--bd),transparent)}
-
-.empty{padding:40px;text-align:center;color:var(--mt);font-size:13px}
-.ovx{overflow-x:auto}
-.mb16{margin-bottom:16px}
-.cc2{display:flex;gap:8px;align-items:center;font-size:12px}
-.btn-red{padding:5px 12px;border-radius:6px;border:none;cursor:pointer;background:var(--red);color:#fff;font-size:11px;font-weight:700}
-.btn-can{padding:5px 12px;border-radius:6px;border:1px solid var(--bd2);cursor:pointer;background:transparent;color:var(--mt);font-size:11px}
-.clr-btn{padding:4px 12px;border-radius:6px;border:1px solid var(--bd2);cursor:pointer;background:transparent;color:var(--mt);font-size:11px;transition:color .15s}
-.clr-btn:hover{color:var(--red)}
-.sumg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-.sumc{background:var(--sf);border:1px solid var(--bd);border-radius:14px;overflow:hidden}
-.sumh{padding:10px 15px;border-bottom:1px solid var(--bd);background:var(--bg);display:flex;justify-content:space-between;align-items:center}
-.sumsn{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.04em}
-.sumco{font-size:10px;color:var(--mt)}
-.sumb{padding:12px 15px}
-.sumr{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(26,32,53,.5);font-size:12px}
-.sumr:last-child{border-bottom:none}
-.sumk{color:var(--mt);font-weight:500}
-.sumv{font-weight:700}
-.prom-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:800}
-
-#footer{text-align:center;padding:32px 0 10px;color:var(--mt2);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
-
-/* NATION ROW */
-.nation-row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid rgba(26,32,53,.5);font-size:12px}
-.nat-flag{font-size:18px;width:28px;text-align:center}
-.nat-name{font-weight:700;font-family:'Barlow Condensed',sans-serif;font-size:14px;flex:1}
-.nat-stat{font-family:'Bebas Neue',sans-serif;font-size:16px;min-width:32px;text-align:center}
-.nat-lbl{font-size:9px;color:var(--mt);text-transform:uppercase}
-
+/* ── RESPONSIVE ── */
 @media(max-width:768px){
-  .cgrid{grid-template-columns:1fr}
-  .kgrid{grid-template-columns:repeat(3,1fr)}
-  #hdr-inner{flex-direction:column;align-items:flex-start}
-  #hl{padding:10px 0 4px}
-  #nav{padding:6px 0 8px;width:100%}
-  #main{padding:16px 12px}
-  .fr{flex-direction:column;align-items:stretch}
-  .sbtn{width:100%}
-  .mcard{grid-template-columns:28px 1fr 96px 1fr 44px;padding:8px 10px}
+  #top-nav{display:none}
+  #bot-nav{display:flex}
+  body{padding-bottom:70px}
+  #footer{padding-bottom:76px}
+  #main{padding:14px 12px 30px}
+  #hdr-in{height:52px;padding:0 14px}
+  .logo-name{font-size:19px}
+  .logo-icon{width:32px;height:32px;font-size:15px}
+  .hero{grid-template-columns:repeat(2,1fr);gap:8px}
+  .hcard{padding:14px 12px}
+  .hcard-val{font-size:34px}
+  th,td{padding:8px 10px;font-size:11px}
+  .trophy-grid{grid-template-columns:1fr 1fr;padding:12px;gap:8px}
+  .trophy-card{padding:11px;gap:9px}
+  .trophy-icon{font-size:22px}
+  .trophy-name{font-size:12px}
+  .palm-summary{padding:12px 14px;gap:6px}
+  .palm-badge{padding:5px 10px}
+  .palm-badge-cnt{font-size:18px}
+  .club-totals{padding:10px 14px;gap:6px}
+  .award-grid{grid-template-columns:1fr 1fr}
+  .card-hdr{padding:10px 14px}
+  .sec-title{font-size:11px}
+  .chart-wrap{height:170px;padding:12px}
 }
 @media(max-width:480px){
-  .kgrid{grid-template-columns:repeat(2,1fr)}
+  .hero{grid-template-columns:1fr 1fr}
+  .hcard-val{font-size:30px}
+  .trophy-grid{grid-template-columns:1fr}
+  .award-grid{grid-template-columns:1fr}
+  th,td{padding:7px 8px;font-size:10px}
+  .editable{width:44px;font-size:14px}
+  .palm-summary{gap:5px}
+  .palm-badge-lbl{font-size:9px;max-width:60px}
 }
 </style>
 </head>
 <body>
+
 <div id="hdr">
-  <div id="hdr-inner">
-    <div id="hl">
-      <div class="player-badge">⚽</div>
+  <div id="hdr-in">
+    <div class="logo">
+      <div class="logo-icon">⚽</div>
       <div>
-        <div class="htitle" id="player-title">MODO CARRERA</div>
-        <div class="hsub" id="player-sub">Jugador · FIFA 26</div>
+        <div class="logo-name">CARLOS ORTIZ</div>
+        <div class="logo-sub">Modo Carrera · FIFA 26</div>
       </div>
     </div>
-    <div id="nav">
-      <button class="nb on" onclick="sw('dashboard')">📊 Dashboard</button>
-      <button class="nb" onclick="sw('partidos')">📋 Partidos</button>
-      <button class="nb" onclick="sw('carrera')">🌐 Carrera</button>
-      <button class="nb" onclick="sw('palmares')">🏆 Palmarés</button>
-      <button class="nb" onclick="sw('perfil')">👤 Perfil</button>
-      <div style="width:1px;background:var(--bd);margin:4px 6px"></div>
-      <button class="nb" onclick="exportData()" title="Exportar">💾</button>
-      <label class="nb" style="cursor:pointer;margin:0">📥<input type="file" id="imp" accept=".json" style="display:none" onchange="importData(event)"/></label>
+    <div id="top-nav">
+      <button class="tn on"  onclick="sw('stats')">📊 Stats</button>
+      <button class="tn"     onclick="sw('carrera')">🌐 Carrera</button>
+      <button class="tn"     onclick="sw('palmares')">🏆 Palmarés</button>
     </div>
   </div>
 </div>
 
 <div id="main">
-  <!-- FORM: always visible on dashboard + partidos -->
-  <div class="fc" id="form-area">
-    <div class="fct">+ Registrar Partido</div>
-    <div class="fr">
-      <div class="fg"><label class="fl">Temporada</label><select id="f-seas"></select></div>
-      <div class="fg"><label class="fl">Club</label><select id="f-club"></select></div>
-      <div class="fg"><label class="fl">Competición</label><select id="f-comp"></select></div>
-      <div class="fg"><label class="fl">Rival</label><input type="text" id="f-rival" placeholder="Ej: Barcelona" maxlength="40" style="width:140px"/></div>
-      <div class="fg"><label class="fl">Resultado Equipo</label><div class="sw"><input class="si" type="number" id="f-gf" placeholder="GF" min="0" max="20"/><span class="ss">–</span><input class="si" type="number" id="f-gc" placeholder="GC" min="0" max="20"/></div></div>
-      <div class="fg"><label class="fl">Mis Goles</label><input class="si" type="number" id="f-goals" placeholder="G" min="0" max="10"/></div>
-      <div class="fg"><label class="fl">Asistencias</label><input class="si" type="number" id="f-asts" placeholder="A" min="0" max="10"/></div>
-      <div class="fg"><label class="fl">Nota</label><select id="f-nota" style="width:70px"><option>5</option><option>6</option><option>7</option><option selected>7.5</option><option>8</option><option>8.5</option><option>9</option><option>9.5</option><option>10</option></select></div>
-      <button class="sbtn" id="save-btn" onclick="addMatch()">Guardar</button>
-      <span class="ferr" id="form-err"></span>
+
+  <!-- ═══ STATS ═══ -->
+  <div id="view-stats" class="view on">
+
+    <!-- Hero KPIs -->
+    <div class="hero" id="hero-kpis"></div>
+
+    <!-- Chart -->
+    <div class="sec-title">📈 Evolución por temporada</div>
+    <div class="card" style="margin-bottom:22px">
+      <div class="chart-wrap"><canvas id="chart-main"></canvas></div>
     </div>
+
+    <!-- Stats table by season & competition -->
+    <div class="card" id="stats-table">
+      <div class="card-hdr">
+        <span class="card-title">⚽ Desglose por Temporada &amp; Competición</span>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="saved-flash" id="saved-txt">✓ Guardado</span>
+          <span class="edit-hint" id="edit-hint">Toca los números para editar</span>
+          <button class="edit-toggle" id="edit-btn" onclick="toggleEdit()">✏️ Editar</button>
+        </div>
+      </div>
+      <div class="ovx" id="stats-body"></div>
+    </div>
+
   </div>
 
-  <!-- DASHBOARD -->
-  <div id="view-dashboard" class="view on">
-    <div class="kgrid" id="kgrid"></div>
-    <div class="cgrid" id="cgrid">
-      <div class="ccard"><div class="ctit">⚽ Goles & Asistencias por temporada</div><div class="cwrap"><canvas id="chart-bar"></canvas></div></div>
-      <div class="ccard"><div class="ctit">📈 Promedio de gol acumulado</div><div class="cwrap"><canvas id="chart-line"></canvas></div></div>
-    </div>
-    <div id="dash-form" style="margin-bottom:16px"></div>
-    <div id="dash-empty" style="text-align:center;padding:60px 20px;color:var(--mt);display:none">
-      <div style="font-size:48px;margin-bottom:12px">⚽</div>
-      <div style="font-weight:700;margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;font-size:18px;letter-spacing:.04em">Sin partidos registrados</div>
-      <div style="font-size:12px">Agrega el primer partido arriba</div>
-    </div>
-  </div>
-
-  <!-- PARTIDOS -->
-  <div id="view-partidos" class="view">
-    <div class="swrap">
-      <div class="shdr"><span class="stit" id="pcnt">Historial</span><div id="clear-area"></div></div>
-      <div id="pbody"></div>
-    </div>
-  </div>
-
-  <!-- CARRERA -->
+  <!-- ═══ CARRERA ═══ -->
   <div id="view-carrera" class="view">
     <div id="career-body"></div>
   </div>
 
-  <!-- PALMARES -->
+  <!-- ═══ PALMARES ═══ -->
   <div id="view-palmares" class="view">
-    <div class="swrap mb16">
-      <div class="shdr"><span class="stit">🏆 Palmarés · Carlos Ortiz</span><span class="smeta" id="palm-cnt"></span></div>
-      <div id="palm-wrap"></div>
-      <div class="atr" style="border-top:1px solid var(--bd);flex-wrap:wrap">
-        <div style="width:100%;font-size:10px;font-weight:800;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">+ Agregar Título</div>
-        <div class="fg"><label class="fl">Competición</label><input type="text" id="t-comp" placeholder="Ej: Liga MX" maxlength="50" style="width:150px"/></div>
-        <div class="fg"><label class="fl">Temporada</label><input type="text" id="t-seas" placeholder="Ej: 2025/26" maxlength="10" style="width:90px"/></div>
-        <div class="fg"><label class="fl">Club / Selecc.</label><input type="text" id="t-club" placeholder="Ej: Real Madrid" maxlength="40" style="width:130px"/></div>
-        <div class="fg"><label class="fl">Final vs</label><input type="text" id="t-rival" placeholder="Rival" maxlength="40" style="width:120px"/></div>
-        <button class="abtn red" onclick="addTrophy()">+ Título</button>
-      </div>
-      <div class="atr" style="background:rgba(138,96,240,.04);flex-wrap:wrap">
-        <div style="width:100%;font-size:10px;font-weight:800;color:#8860F0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">+ Agregar Premio Individual</div>
-        <div class="fg"><label class="fl">Premio</label><input type="text" id="aw-name" placeholder="Ej: Balón de Oro" maxlength="50" style="width:160px"/></div>
-        <div class="fg"><label class="fl">Temporada</label><input type="text" id="aw-seas" placeholder="Ej: 2024/25" maxlength="10" style="width:90px"/></div>
-        <div class="fg"><label class="fl">Detalle</label><input type="text" id="aw-detail" placeholder="Ej: Máximo goleador" maxlength="60" style="width:160px"/></div>
-        <button class="abtn" style="border:1px solid #8860F0;color:#8860F0" onclick="addAward()">+ Premio</button>
-      </div>
-    </div>
+    <div class="card" id="palmares-body"></div>
   </div>
 
-  <!-- PERFIL -->
-  <div id="view-perfil" class="view">
-    <div class="fc mb16">
-      <div class="fct">👤 Datos del Jugador</div>
-      <div class="fr">
-        <div class="fg"><label class="fl">Nombre del Jugador</label><input type="text" id="pf-name" placeholder="Ej: Lionel Messi" style="width:200px"/></div>
-        <div class="fg"><label class="fl">Posición</label><select id="pf-pos"><option>Delantero</option><option>Mediocampista</option><option>Extremo</option><option>Mediapunta</option><option>Defensa</option><option>Portero</option></select></div>
-        <div class="fg"><label class="fl">Nacionalidad</label><input type="text" id="pf-nat" placeholder="Ej: México" style="width:130px"/></div>
-        <div class="fg"><label class="fl">Pie Hábil</label><select id="pf-foot"><option>Derecho</option><option>Izquierdo</option><option>Ambidiestro</option></select></div>
-        <button class="abtn red" onclick="saveProfile()">Guardar Perfil</button>
-      </div>
-    </div>
-    <div class="fc">
-      <div class="fct">📅 Gestionar Temporadas & Clubes</div>
-      <div style="margin-bottom:14px;font-size:12px;color:var(--mt)">Las temporadas controlan qué aparece en el formulario de partidos.</div>
-      <div id="seas-list-perfil" style="margin-bottom:16px"></div>
-      <div class="fr">
-        <div class="fg"><label class="fl">Nueva Temporada</label><input type="text" id="nsn" placeholder="Ej: 2026/27" maxlength="10" style="width:100px"/></div>
-        <div class="fg"><label class="fl">Club</label><input type="text" id="nclub" placeholder="Ej: PSG" maxlength="40" style="width:130px"/></div>
-        <div class="fg"><label class="fl">Competiciones</label>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="nc-liga" checked/> Liga</label>
-            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="nc-copa" checked/> Copa</label>
-            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="nc-ch"/> Champions</label>
-            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="nc-mex"/> Liga MX</label>
-            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="nc-inter"/> Intl.</label>
-          </div>
-        </div>
-        <button class="sbtn" onclick="createSeason()">+ Crear Temporada</button>
-      </div>
-    </div>
-  </div>
 </div>
 
-<div id="footer">MODO CARRERA JUGADOR · FIFA 26 · Datos guardados automáticamente en tu navegador</div>
+<div id="bot-nav">
+  <button class="bn on"  id="bn-stats"    onclick="sw('stats')">   <span class="bn-i">📊</span>Stats</button>
+  <button class="bn"     id="bn-carrera"  onclick="sw('carrera')"> <span class="bn-i">🌐</span>Carrera</button>
+  <button class="bn"     id="bn-palmares" onclick="sw('palmares')"><span class="bn-i">🏆</span>Palmarés</button>
+</div>
+
+<div id="footer">CARLOS ORTIZ · MODO CARRERA FIFA 26 · Datos guardados en tu dispositivo</div>
 
 <script>
-var SK='mc_jugador_v1';
-var TDEF={
-  'Liga':       {i:'🇪🇸',c:'#4A9EF0'},
-  'Liga MX':    {i:'🇲🇽',c:'#22C870'},
-  'Copa':       {i:'🏆',c:'#F07830'},
-  'Copa del Rey':{i:'🏆',c:'#F07830'},
-  'Champions':  {i:'⭐',c:'#F0C040'},
-  'Mundial de Clubes':{i:'🌍',c:'#8860F0'},
-  'Supercopa':  {i:'🥇',c:'#F0C040'},
-  'Intl.':      {i:'🌐',c:'#8860F0'},
-};
-var CLUB_COLORS={
-  'Real Madrid':{c:'#F0C040',i:'👑'},
-  'América':    {c:'#F07830',i:'🦅'},
-  'México':     {c:'#22C870',i:'🇲🇽'},
-  'Barcelona':  {c:'#E03050',i:'🔵🔴'},
-  'PSG':        {c:'#4A9EF0',i:'🗼'},
-  'Manchester City':{c:'#4A9EF0',i:'🩵'},
-  'Bayern':     {c:'#E03050',i:'🔴'},
-};
-function clubColor(name){
-  for(var k in CLUB_COLORS){if(name&&name.toLowerCase().includes(k.toLowerCase()))return CLUB_COLORS[k];}
-  return{c:'#4A5580',i:'⚽'};
-}
+// ─── DATA ──────────────────────────────────────────────────────────────────
+var SK = 'co_career_v1';
 
-var G={
-  profile:{name:'Carlos Ortiz',pos:'Delantero',nationality:'México',foot:'Derecho'},
-  activeSeason:'2025/26',
-  seasons:{},
-  career:{trophies:[]}
+// Competition metadata
+var CMETA = {
+  'Liga MX':             {i:'🇲🇽', c:'#28D470', group:'América'},
+  'Copa MX':             {i:'🏆',  c:'#F07830', group:'América'},
+  'Concachampions':      {i:'🌎',  c:'#3E8EF0', group:'América'},
+  'La Liga':             {i:'🇪🇸', c:'#3E8EF0', group:'Real Madrid'},
+  'Copa del Rey':        {i:'🏆',  c:'#F07830', group:'Real Madrid'},
+  'Champions':           {i:'⭐',  c:'#F5C842', group:'Real Madrid'},
+  'Supercopa ESP':       {i:'🥇',  c:'#3E8EF0', group:'Real Madrid'},
+  'Supercopa UEFA':      {i:'🌍',  c:'#9060F5', group:'Real Madrid'},
+  'Mundial de Clubes':   {i:'🌍',  c:'#9060F5', group:'Real Madrid'},
+  'Intercontinental':    {i:'🌐',  c:'#F5C842', group:'Real Madrid'},
 };
 
-var barC=null,lineC=null,confirmClear=false;
+var CLUBS = {
+  'América':    {i:'🦅', c:'#F07830'},
+  'Real Madrid':{i:'👑', c:'#F5C842'},
+  'México':     {i:'🇲🇽', c:'#28D470'},
+};
 
-function save(){try{localStorage.setItem(SK,JSON.stringify(G));}catch(e){}}
-function load(){
-  try{var r=JSON.parse(localStorage.getItem(SK)||'null');if(r&&r.seasons)G=r;}catch(e){}
-  if(!G.profile)G.profile={name:'Carlos Ortiz',pos:'Delantero',nationality:'México',foot:'Derecho'};
-  if(!G.career)G.career={trophies:[]};
-  if(!G.career.trophies)G.career.trophies=[];
-  if(!G.seasons||!Object.keys(G.seasons).length){
-    loadDefaultData();
-  }
-}
-
-function loadDefaultData(){
+// Trophies
+var TROPHIES = [
   // América
-  initSeason('2018/19','América',['Liga MX','Copa MX','Concachampions']);
-  initSeason('2019/20','América',['Liga MX','Copa MX','Concachampions']);
+  {comp:'Liga MX',          n:2, club:'América',    cat:'club',     seasons:'18/19 · 19/20'},
+  {comp:'Copa MX',          n:1, club:'América',    cat:'club',     seasons:'18/19'},
+  {comp:'Cam. de Campeones',n:1, club:'América',    cat:'club',     seasons:'19/20'},
+  {comp:'Concachampions',   n:1, club:'América',    cat:'club',     seasons:'19/20'},
   // Real Madrid
-  initSeason('2020/21','Real Madrid',['La Liga','Copa del Rey','Champions','Supercopa ESP']);
-  initSeason('2021/22','Real Madrid',['La Liga','Copa del Rey','Champions','Supercopa ESP']);
-  initSeason('2022/23','Real Madrid',['La Liga','Copa del Rey','Champions','Supercopa ESP','Supercopa UEFA','Mundial de Clubes']);
-  initSeason('2023/24','Real Madrid',['La Liga','Copa del Rey','Champions','Supercopa ESP']);
-  initSeason('2024/25','Real Madrid',['La Liga','Copa del Rey','Champions','Supercopa ESP','Supercopa UEFA','Mundial de Clubes','Intercontinental']);
-  initSeason('2025/26','Real Madrid',['La Liga','Copa del Rey','Champions','Supercopa ESP']);
+  {comp:'La Liga',          n:2, club:'Real Madrid', cat:'club',    seasons:'21/22 · 23/24'},
+  {comp:'Copa del Rey',     n:1, club:'Real Madrid', cat:'club',    seasons:'22/23'},
+  {comp:'Supercopa ESP',    n:3, club:'Real Madrid', cat:'club',    seasons:'21/22 · 23/24 · 24/25'},
+  {comp:'Champions',        n:2, club:'Real Madrid', cat:'club',    seasons:'21/22 · 23/24'},
+  {comp:'Supercopa UEFA',   n:1, club:'Real Madrid', cat:'club',    seasons:'22/23'},
+  {comp:'Mundial de Clubes',n:2, club:'Real Madrid', cat:'club',    seasons:'22/23 · 24/25'},
+  {comp:'Intercontinental', n:1, club:'Real Madrid', cat:'club',    seasons:'24/25'},
+  // Selección
+  {comp:'Copa América',     n:1, club:'México',      cat:'nacional', seasons:'2024'},
+  {comp:'Copa Oro',         n:2, club:'México',      cat:'nacional', seasons:'2019 · 2023'},
+  {comp:'CONCACAF Nations', n:4, club:'México',      cat:'nacional', seasons:'21 · 22 · 24 · 25'},
+];
+var AWARDS = [
+  {name:'Balón de Oro', n:2, i:'🪙', c:'#F5C842', seasons:'22/23 · 24/25', detail:'Mejor jugador del mundo'},
+  {name:'Bota de Oro',  n:1, i:'👟', c:'#F07830', seasons:'24/25',         detail:'Máximo goleador de Europa'},
+];
 
-  // DETAILED data per competition per season
-  var DATA = {
-    '2018/19': {'Liga MX':{p:44,g:29}, 'Copa MX':{p:6,g:5}, 'Concachampions':{p:0,g:0}},
-    '2019/20': {'Liga MX':{p:46,g:48}, 'Copa MX':{p:0,g:0}, 'Concachampions':{p:6,g:5}},
-    '2020/21': {'La Liga':{p:28,g:16}, 'Copa del Rey':{p:1,g:1}, 'Champions':{p:12,g:6}, 'Supercopa ESP':{p:1,g:0}},
-    '2021/22': {'La Liga':{p:35,g:24}, 'Copa del Rey':{p:2,g:2}, 'Champions':{p:13,g:15}, 'Supercopa ESP':{p:2,g:2}},
-    '2022/23': {'La Liga':{p:33,g:24}, 'Copa del Rey':{p:6,g:8}, 'Champions':{p:12,g:10}, 'Supercopa ESP':{p:2,g:1}, 'Supercopa UEFA':{p:1,g:1}, 'Mundial de Clubes':{p:2,g:4}},
-    '2023/24': {'La Liga':{p:33,g:32}, 'Copa del Rey':{p:2,g:1}, 'Champions':{p:12,g:12}, 'Supercopa ESP':{p:2,g:3}},
-    '2024/25': {'La Liga':{p:35,g:38}, 'Copa del Rey':{p:5,g:6}, 'Champions':{p:13,g:15}, 'Supercopa ESP':{p:2,g:1}, 'Supercopa UEFA':{p:1,g:1}, 'Mundial de Clubes':{p:7,g:6}, 'Intercontinental':{p:1,g:1}},
-    '2025/26': {'La Liga':{p:27,g:28}, 'Copa del Rey':{p:4,g:3}, 'Champions':{p:8,g:13}, 'Supercopa ESP':{p:2,g:3}},
-  };
-  Object.keys(DATA).forEach(function(sn){
-    var comps=DATA[sn];var total_p=0,total_g=0;
-    var byComp={};
-    Object.keys(comps).forEach(function(c){total_p+=comps[c].p;total_g+=comps[c].g;byComp[c]={p:comps[c].p,g:comps[c].g};});
-    G.seasons[sn].aggregate={pj:total_p,goles:total_g,asistencias:0,byComp:byComp};
-  });
+var TROPHY_ICONS = {
+  'Liga MX':'🇲🇽','Copa MX':'🏆','Cam. de Campeones':'🥇','Concachampions':'🌎',
+  'La Liga':'🇪🇸','Copa del Rey':'🏆','Supercopa ESP':'🥇','Champions':'⭐',
+  'Supercopa UEFA':'🌍','Mundial de Clubes':'🌍','Intercontinental':'🌐',
+  'Copa América':'🌎','Copa Oro':'🏅','CONCACAF Nations':'🌐',
+};
+var TROPHY_COLORS = {
+  'Liga MX':'#28D470','Copa MX':'#F07830','Cam. de Campeones':'#F5C842',
+  'Concachampions':'#3E8EF0','La Liga':'#3E8EF0','Copa del Rey':'#F07830',
+  'Supercopa ESP':'#3E8EF0','Champions':'#F5C842','Supercopa UEFA':'#9060F5',
+  'Mundial de Clubes':'#9060F5','Intercontinental':'#F5C842',
+  'Copa América':'#28D470','Copa Oro':'#F5C842','CONCACAF Nations':'#3E8EF0',
+};
 
-  G.profile={name:'Carlos Ortiz',pos:'Delantero',nationality:'México',foot:'Derecho'};
-  G.activeSeason='2025/26';
-  save();
-}
+// ─── SEASON DATA ───────────────────────────────────────────────────────────
+// Each season: club, array of {comp, p, g}
+var DEFAULT_DATA = [
+  {sn:'2018/19', club:'América', comps:[
+    {comp:'Liga MX',       p:44, g:29},
+    {comp:'Copa MX',       p:6,  g:5},
+    {comp:'Concachampions',p:0,  g:0},
+  ]},
+  {sn:'2019/20', club:'América', comps:[
+    {comp:'Liga MX',       p:46, g:48},
+    {comp:'Copa MX',       p:0,  g:0},
+    {comp:'Concachampions',p:6,  g:5},
+  ]},
+  {sn:'2020/21', club:'Real Madrid', comps:[
+    {comp:'La Liga',      p:28, g:16},
+    {comp:'Copa del Rey', p:1,  g:1},
+    {comp:'Champions',    p:12, g:6},
+    {comp:'Supercopa ESP',p:1,  g:0},
+    {comp:'Supercopa UEFA',p:0, g:0},
+    {comp:'Mundial de Clubes',p:0,g:0},
+    {comp:'Intercontinental', p:0,g:0},
+  ]},
+  {sn:'2021/22', club:'Real Madrid', comps:[
+    {comp:'La Liga',      p:35, g:24},
+    {comp:'Copa del Rey', p:2,  g:2},
+    {comp:'Champions',    p:13, g:15},
+    {comp:'Supercopa ESP',p:2,  g:2},
+    {comp:'Supercopa UEFA',p:0, g:0},
+    {comp:'Mundial de Clubes',p:0,g:0},
+    {comp:'Intercontinental', p:0,g:0},
+  ]},
+  {sn:'2022/23', club:'Real Madrid', comps:[
+    {comp:'La Liga',      p:33, g:24},
+    {comp:'Copa del Rey', p:6,  g:8},
+    {comp:'Champions',    p:12, g:10},
+    {comp:'Supercopa ESP',p:2,  g:1},
+    {comp:'Supercopa UEFA',p:1, g:1},
+    {comp:'Mundial de Clubes',p:2,g:4},
+    {comp:'Intercontinental', p:0,g:0},
+  ]},
+  {sn:'2023/24', club:'Real Madrid', comps:[
+    {comp:'La Liga',      p:33, g:32},
+    {comp:'Copa del Rey', p:2,  g:1},
+    {comp:'Champions',    p:12, g:12},
+    {comp:'Supercopa ESP',p:2,  g:3},
+    {comp:'Supercopa UEFA',p:0, g:0},
+    {comp:'Mundial de Clubes',p:0,g:0},
+    {comp:'Intercontinental', p:0,g:0},
+  ]},
+  {sn:'2024/25', club:'Real Madrid', comps:[
+    {comp:'La Liga',      p:35, g:38},
+    {comp:'Copa del Rey', p:5,  g:6},
+    {comp:'Champions',    p:13, g:15},
+    {comp:'Supercopa ESP',p:2,  g:1},
+    {comp:'Supercopa UEFA',p:1, g:1},
+    {comp:'Mundial de Clubes',p:7,g:6},
+    {comp:'Intercontinental', p:1,g:1},
+  ]},
+  {sn:'2025/26', club:'Real Madrid', comps:[
+    {comp:'La Liga',      p:27, g:28},
+    {comp:'Copa del Rey', p:4,  g:3},
+    {comp:'Champions',    p:8,  g:13},
+    {comp:'Supercopa ESP',p:2,  g:3},
+    {comp:'Supercopa UEFA',p:0, g:0},
+    {comp:'Mundial de Clubes',p:0,g:0},
+    {comp:'Intercontinental', p:0,g:0},
+  ]},
+];
 
-function initSeason(n,club,comps){
-  if(!G.seasons[n])G.seasons[n]={club:club,comps:comps||['Liga'],matches:[],aggregate:null};
-}
-function getAS(){return G.seasons[G.activeSeason];}
-function getMs(){return getAS()&&getAS().matches?getAS().matches:[];}
-function getComps(){return getAS()&&getAS().comps?getAS().comps:['Liga'];}
+var SELECC = {p:74, g:61, a:20};
 
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// ─── STATE ─────────────────────────────────────────────────────────────────
+var D; // loaded data
+var editMode = false;
+var chartInst = null;
 
-function getSeasStats(sn){
-  var sd=G.seasons[sn];if(!sd)return{pj:0,goles:0,asts:0,prom:0,v:0,e:0,d:0};
-  var agg=sd.aggregate;
-  var ms=sd.matches||[];
-  var pj=ms.length,goles=0,asts=0,v=0,e=0,d=0;
-  ms.forEach(function(m){goles+=m.goles||0;asts+=m.asts||0;if(m.result==='V')v++;else if(m.result==='E')e++;else d++;});
-  if(agg){pj+=agg.pj;goles+=agg.goles;asts+=agg.asistencias;}
-  var prom=pj>0?(goles/pj):0;
-  return{pj:pj,goles:goles,asts:asts,prom:prom,v:v,e:e,d:d};
-}
-
-function getCareerTotals(){
-  var pj=0,goles=0,asts=0;
-  Object.keys(G.seasons).forEach(function(sn){var s=getSeasStats(sn);pj+=s.pj;goles+=s.goles;asts+=s.asts;});
-  return{pj:pj,goles:goles,asts:asts,prom:pj>0?goles/pj:0};
-}
-
-function getSeasonsByClub(){
-  var clubs={};
-  Object.keys(G.seasons).forEach(function(sn){
-    var sd=G.seasons[sn];
-    var club=sd.club||'Club';
-    if(!clubs[club])clubs[club]={seasons:[],pj:0,goles:0,asts:0};
-    var st=getSeasStats(sn);
-    clubs[club].seasons.push(sn);
-    clubs[club].pj+=st.pj;
-    clubs[club].goles+=st.goles;
-    clubs[club].asts+=st.asts;
-  });
-  return clubs;
-}
-
-function promColor(p){if(p>=1)return'#22C870';if(p>=.7)return'#F0C040';if(p>=.4)return'#F07830';return'#4A5580';}
-
-function setupSelects(){
-  var seasSel=document.getElementById('f-seas');
-  seasSel.innerHTML='';
-  Object.keys(G.seasons).slice().reverse().forEach(function(sn){
-    var o=document.createElement('option');o.value=sn;o.textContent=sn+(G.seasons[sn].club?' · '+G.seasons[sn].club:'');
-    if(sn===G.activeSeason)o.selected=true;
-    seasSel.appendChild(o);
-  });
-  updateClubComp();
-  seasSel.addEventListener('change',function(){G.activeSeason=this.value;save();updateClubComp();render();});
-}
-
-function updateClubComp(){
-  var sd=getAS();
-  var clubSel=document.getElementById('f-club');
-  clubSel.innerHTML='';
-  if(sd&&sd.club){var o=document.createElement('option');o.value=sd.club;o.textContent=sd.club;clubSel.appendChild(o);}
-  var compSel=document.getElementById('f-comp');
-  compSel.innerHTML='';
-  var comps=getComps();
-  comps.forEach(function(c){var o=document.createElement('option');o.value=c;o.textContent=c;compSel.appendChild(o);});
-}
-
-function addMatch(){
-  var gf=parseInt(document.getElementById('f-gf').value);
-  var gc=parseInt(document.getElementById('f-gc').value);
-  var goals=parseInt(document.getElementById('f-goals').value)||0;
-  var asts=parseInt(document.getElementById('f-asts').value)||0;
-  var nota=parseFloat(document.getElementById('f-nota').value)||7;
-  var err=document.getElementById('form-err');
-  if(isNaN(gf)||isNaN(gc)||gf<0||gc<0){err.textContent='Ingresa el marcador del equipo';return;}
-  err.textContent='';
-  var m={id:Date.now(),comp:document.getElementById('f-comp').value,rival:document.getElementById('f-rival').value.trim(),
-    gf:gf,gc:gc,goles:goals,asts:asts,nota:nota,result:gf>gc?'V':gf===gc?'E':'D'};
-  getAS().matches.push(m);
-  save();
-  ['f-gf','f-gc','f-goals','f-asts'].forEach(function(id){document.getElementById(id).value='';});
-  document.getElementById('f-rival').value='';
-  document.getElementById('f-gf').focus();
-  var btn=document.getElementById('save-btn');btn.textContent='✓ Guardado';btn.classList.add('ok');
-  setTimeout(function(){btn.textContent='Guardar';btn.classList.remove('ok');},1400);
-  render();
-}
-
-document.addEventListener('keydown',function(e){
-  if(e.key==='Enter'&&['f-gf','f-gc','f-rival','f-goals','f-asts'].indexOf(e.target.id)!==-1)addMatch();
-});
-
-function removeMatch(id){
-  getAS().matches=getMs().filter(function(m){return m.id!==id;});
-  save();render();
-}
-
-function askClear(){confirmClear=true;renderPartidos();}
-function cancelClear(){confirmClear=false;renderPartidos();}
-function doClear(){getAS().matches=[];confirmClear=false;save();render();}
-
-function sw(v){
-  document.querySelectorAll('.view').forEach(function(el){el.classList.remove('on');});
-  document.getElementById('view-'+v).classList.add('on');
-  var keys=['dashboard','partidos','carrera','palmares','perfil'];
-  document.querySelectorAll('.nb').forEach(function(b,i){b.classList.toggle('on',keys[i]===v);});
-  var showForm=v==='dashboard'||v==='partidos';
-  document.getElementById('form-area').style.display=showForm?'block':'none';
-  if(v==='perfil')renderPerfil();
-}
-
-function render(){
-  var playerName=G.profile&&G.profile.name?G.profile.name:'Mi Jugador';
-  document.getElementById('player-title').textContent=playerName.toUpperCase();
-  var sd=getAS();
-  var club=sd&&sd.club?sd.club:'';
-  document.getElementById('player-sub').textContent=(club?club+' · ':'')+G.activeSeason+' · FIFA 26';
-  renderKPIs();
-  renderCharts();
-  renderDashForm();
-  renderPartidos();
-  renderCareer();
-  renderPalmares();
-}
-
-function renderKPIs(){
-  var ct=getCareerTotals();
-  var cs=getSeasStats(G.activeSeason);
-  var kpis=[
-    {i:'🎮',l:'Partidos (temporada)',v:cs.pj,c:'#4A9EF0'},
-    {i:'⚽',l:'Goles (temporada)',v:cs.goles,c:'#F0C040'},
-    {i:'🎯',l:'Asistencias (temp.)',v:cs.asts,c:'#F07830'},
-    {i:'📈',l:'Promedio (temp.)',v:cs.pj>0?cs.prom.toFixed(2):'—',c:promColor(cs.prom)},
-    {i:'🌟',l:'Goles carrera',v:ct.goles,c:'#8860F0'},
-    {i:'🏆',l:'Partidos carrera',v:ct.pj,c:'#22C870',sub:'Promedio: '+ct.prom.toFixed(2)},
-  ];
-  document.getElementById('kgrid').innerHTML=kpis.map(function(k){
-    return'<div class="kcard"><div class="kbar" style="background:'+k.c+'"></div>'
-      +'<div class="kico">'+k.i+'</div>'
-      +'<div class="kval" style="color:'+k.c+'">'+k.v+'</div>'
-      +'<div class="klbl">'+k.l+'</div>'
-      +(k.sub?'<div class="ksub">'+k.sub+'</div>':'')+'</div>';
-  }).join('');
-}
-
-function renderCharts(){
-  var sns=Object.keys(G.seasons);
-  var labels=sns;
-  var gData=sns.map(function(sn){return getSeasStats(sn).goles;});
-  var aData=sns.map(function(sn){return getSeasStats(sn).asts;});
-
-  if(barC){barC.destroy();barC=null;}
-  var ctx=document.getElementById('chart-bar');
-  if(!ctx)return;
-  barC=new Chart(ctx.getContext('2d'),{type:'bar',
-    data:{labels:labels,datasets:[
-      {label:'Goles',data:gData,backgroundColor:'#F0C040AA',borderRadius:5,borderColor:'#F0C040',borderWidth:1},
-      {label:'Asistencias',data:aData,backgroundColor:'#F07830AA',borderRadius:5,borderColor:'#F07830',borderWidth:1}
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{labels:{color:'#4A5580',font:{size:10}}},tooltip:{backgroundColor:'#111626',borderColor:'#1A2035',borderWidth:1,titleColor:'#4A5580',bodyColor:'#EEF2FF'}},
-      scales:{x:{ticks:{color:'#4A5580',font:{size:9},maxRotation:30},grid:{display:false},border:{display:false}},
-        y:{ticks:{color:'#4A5580',font:{size:9}},grid:{color:'#1A2035'},border:{display:false},beginAtZero:true}}}});
-
-  // Promedio acumulado line
-  var cumPJ=0,cumG=0;
-  var ldata=sns.map(function(sn){var s=getSeasStats(sn);cumPJ+=s.pj;cumG+=s.goles;return cumPJ>0?parseFloat((cumG/cumPJ).toFixed(3)):0;});
-
-  if(lineC){lineC.destroy();lineC=null;}
-  var ctx2=document.getElementById('chart-line');
-  if(!ctx2)return;
-  lineC=new Chart(ctx2.getContext('2d'),{type:'line',
-    data:{labels:labels,datasets:[{label:'Promedio',data:ldata,borderColor:'#8860F0',backgroundColor:'#8860F015',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#8860F0',fill:true,tension:0.3},{label:'Meta (0.9)',data:sns.map(function(){return 0.9;}),borderColor:'#F0C04050',borderWidth:1,borderDash:[4,4],pointRadius:0,fill:false}]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{labels:{color:'#4A5580',font:{size:10}}},tooltip:{backgroundColor:'#111626',borderColor:'#1A2035',borderWidth:1,titleColor:'#4A5580',bodyColor:'#8860F0'}},
-      scales:{x:{ticks:{color:'#4A5580',font:{size:9},maxRotation:30},grid:{color:'#1A2035'},border:{display:false}},
-        y:{ticks:{color:'#4A5580',font:{size:9},callback:function(v){return v.toFixed(2);}},grid:{color:'#1A2035'},border:{display:false},min:0,suggestedMax:1.5}}}});
-}
-
-function renderDashForm(){
-  var sns=Object.keys(G.seasons);
-  if(!sns.length){document.getElementById('dash-form').innerHTML='';return;}
-
-  // Collect all competitions ever used (in order)
-  var compOrder=['Liga MX','Copa MX','Concachampions','La Liga','Copa del Rey','Champions','Supercopa ESP','Supercopa UEFA','Mundial de Clubes','Intercontinental'];
-  var allComps=[];
-  compOrder.forEach(function(c){
-    var found=false;
-    sns.forEach(function(sn){if((G.seasons[sn].comps||[]).indexOf(c)!==-1)found=true;});
-    if(found)allComps.push(c);
-  });
-
-  var def2=function(c){return TDEF[c]||{i:'🏅',c:'#4A5580'};};
-
-  // Header rows
-  var thCols='<th style="text-align:left;min-width:70px;position:sticky;left:0;background:var(--bg);z-index:2">Temp.</th><th style="min-width:90px">Club</th>';
-  allComps.forEach(function(c){var d=def2(c);thCols+='<th colspan="2" style="border-left:1px solid #1A2035;color:'+d.c+';font-size:10px">'+d.i+' '+esc(c)+'</th>';});
-  thCols+='<th colspan="2" style="border-left:2px solid #F0C04060;color:#F0C040">⭐ Total</th>';
-
-  var subCols='<th style="position:sticky;left:0;background:var(--bg)"></th><th></th>';
-  allComps.forEach(function(){subCols+='<th style="color:#4A5580;font-size:9px;border-left:1px solid #1A2035">PJ</th><th style="color:#4A5580;font-size:9px">G</th>';});
-  subCols+='<th style="color:#F0C040;font-size:9px;border-left:2px solid #F0C04040">PJ</th><th style="color:#F0C040;font-size:9px">G</th>';
-
-  var clubSums={};var totalByComp={};var rows='';
-
-  sns.forEach(function(sn){
-    var sd=G.seasons[sn];var st=getSeasStats(sn);
-    var club=sd.club||'—';var ci=clubColor(club);
-    var isCur=sn===G.activeSeason;
-    var agg=(sd.aggregate&&sd.aggregate.byComp)||{};
-    if(!clubSums[club])clubSums[club]={pj:0,g:0,byComp:{}};
-    rows+='<tr style="'+(isCur?'background:rgba(240,192,64,.06)':'')+'">'
-      +'<td style="font-weight:700;position:sticky;left:0;background:'+(isCur?'#1A1800':'var(--bg)')+'">'+esc(sn)+(isCur?' <span style="font-size:8px;color:#E03050;background:#E0305020;padding:1px 4px;border-radius:3px">HOY</span>':'')+'</td>'
-      +'<td style="color:'+ci.c+';font-weight:700;font-family:'Barlow Condensed',sans-serif;font-size:13px">'+esc(club)+'</td>';
-    allComps.forEach(function(c){
-      var v=agg[c]||{p:0,g:0};
-      var d=def2(c);
-      if(!clubSums[club].byComp[c])clubSums[club].byComp[c]={p:0,g:0};
-      clubSums[club].byComp[c].p+=v.p;clubSums[club].byComp[c].g+=v.g;
-      if(!totalByComp[c])totalByComp[c]={p:0,g:0};
-      totalByComp[c].p+=v.p;totalByComp[c].g+=v.g;
-      rows+='<td style="border-left:1px solid #1A2035;color:'+(v.p?d.c:'#2E3855')+';font-weight:'+(v.p?'600':'400')+'">'+(v.p||'–')+'</td>'
-        +'<td style="color:'+(v.g?'#F0C040':'#2E3855')+';font-family:\'Bebas Neue\',sans-serif;font-size:'+(v.g?'16':'12')+'px">'+(v.g||'–')+'</td>';
-    });
-    clubSums[club].pj+=st.pj;clubSums[club].g+=st.goles;
-    rows+='<td style="border-left:2px solid #F0C04040;font-family:\'Bebas Neue\',sans-serif;font-size:15px;color:#4A9EF0">'+st.pj+'</td>'
-      +'<td style="font-family:\'Bebas Neue\',sans-serif;font-size:18px;color:#F0C040;font-weight:900">'+st.goles+'</td></tr>';
-  });
-
-  // Club subtotals
-  Object.keys(clubSums).forEach(function(club){
-    var cs=clubSums[club];var ci=clubColor(club);
-    rows+='<tr class="total-row"><td style="position:sticky;left:0;background:#0C0F1A">Total '+esc(club)+'</td>'
-      +'<td style="color:'+ci.c+';font-size:12px">'+esc(club)+'</td>';
-    allComps.forEach(function(c){
-      var v=cs.byComp[c]||{p:0,g:0};var d=def2(c);
-      rows+='<td style="border-left:1px solid #1A2035;color:'+(v.p?d.c:'#2E3855')+'">'+(v.p||'–')+'</td>'
-        +'<td style="color:'+(v.g?'#F0C040':'#2E3855')+';font-family:\'Bebas Neue\',sans-serif;font-size:16px">'+(v.g||'–')+'</td>';
-    });
-    rows+='<td style="border-left:2px solid #F0C04040;font-family:\'Bebas Neue\',sans-serif;font-size:17px;color:#4A9EF0">'+cs.pj+'</td>'
-      +'<td style="font-family:\'Bebas Neue\',sans-serif;font-size:20px;color:#F0C040">'+cs.g+'</td></tr>';
-  });
-
-  // Career total
-  var ct=getCareerTotals();
-  rows+='<tr class="career-row"><td style="position:sticky;left:0;background:#0C0F18;font-size:13px" colspan="2">⭐ TOTAL CARRERA CLUBES</td>';
-  allComps.forEach(function(c){
-    var v=totalByComp[c]||{p:0,g:0};var d=def2(c);
-    rows+='<td style="border-left:1px solid #1A2035;color:'+(v.p?d.c:'#2E3855')+'">'+(v.p||'–')+'</td>'
-      +'<td style="color:'+(v.g?'#F0C040':'#2E3855')+';font-family:\'Bebas Neue\',sans-serif;font-size:17px">'+(v.g||'–')+'</td>';
-  });
-  rows+='<td style="border-left:2px solid #F0C04040;font-family:\'Bebas Neue\',sans-serif;font-size:20px;color:#4A9EF0">'+ct.pj+'</td>'
-    +'<td style="font-family:\'Bebas Neue\',sans-serif;font-size:24px;color:#F0C040">'+ct.goles+'</td></tr>';
-
-  var html='<div class="swrap mb16"><div class="shdr"><span class="stit">📊 Desglose por Competición</span><span class="smeta">Carlos Ortiz · Partidos / Goles por competición</span></div>'
-    +'<div class="ovx"><table class="tbl"><thead><tr>'+thCols+'</tr><tr style="background:var(--bg)">'+subCols+'</tr></thead><tbody>'+rows+'</tbody></table></div></div>';
-
-  // Selección + career summary
-  html+='<div class="swrap mb16"><div class="shdr"><span class="stit">🌐 Selección Nacional · México + Total General</span></div>'
-    +'<div style="display:flex;gap:10px;flex-wrap:wrap;padding:14px 16px">'
-    +[['🇲🇽 México (Partidos)','74','#22C870'],['⚽ Selección (Goles)','61','#F0C040'],
-      ['📈 Prom. Selecc.','0.82',promColor(0.82)],
-      ['🎮 Total Carrera (PJ)','480','#4A9EF0'],['⚽ Total Carrera (G)','425','#F0C040'],
-      ['📈 Prom. General','0.89',promColor(0.89)]]
-      .map(function(r){return'<div style="background:var(--bg);border:1px solid var(--bd);border-radius:11px;padding:11px 15px;text-align:center;flex:1;min-width:110px">'
-        +'<div style="font-size:10px;color:#4A5580;margin-bottom:4px">'+r[0]+'</div>'
-        +'<div style="font-family:\'Bebas Neue\',sans-serif;font-size:24px;color:'+r[2]+'">'+r[1]+'</div></div>';}).join('')
-    +'</div></div>';
-
-  document.getElementById('dash-form').innerHTML=html;
-}
-
-
-function renderPartidos(){
-  var ms=getMs().slice().reverse();
-  var cnt=ms.length;
-  document.getElementById('pcnt').textContent='📋 Partidos registrados · '+G.activeSeason+(getAS()&&getAS().club?' · '+getAS().club:'')+(cnt?' · '+cnt+' partidos':'');
-  var ca=document.getElementById('clear-area');
-  var allMs=getMs();
-  if(!allMs.length)ca.innerHTML='';
-  else if(confirmClear)ca.innerHTML='<div class="cc2"><span>¿Borrar todos?</span><button class="btn-red" onclick="doClear()">Sí</button><button class="btn-can" onclick="cancelClear()">No</button></div>';
-  else ca.innerHTML='<button class="clr-btn" onclick="askClear()">🗑 Limpiar temporada</button>';
-
-  var body=document.getElementById('pbody');
-  if(!allMs.length){
-    var agg=getAS()&&getAS().aggregate;
-    if(agg){
-      body.innerHTML='<div style="padding:16px 18px;font-size:12px;color:var(--mt);border-bottom:1px solid var(--bd)">Esta temporada tiene datos históricos agregados ('+agg.pj+' partidos, '+agg.goles+' goles, '+agg.asistencias+' asistencias). Puedes agregar partidos individuales arriba.</div>';
-    } else {
-      body.innerHTML='<div class="empty">No hay partidos individuales registrados en '+G.activeSeason+'</div>';
-    }
-    return;
+function save(){ try{localStorage.setItem(SK, JSON.stringify(D));}catch(e){} }
+function load(){
+  try{
+    var r = JSON.parse(localStorage.getItem(SK)||'null');
+    if(r && r.seasons) D = r; else throw 0;
+  } catch(e){
+    D = { seasons: JSON.parse(JSON.stringify(DEFAULT_DATA)), selecc: SELECC };
   }
-  body.innerHTML=ms.map(function(m,i){
-    var idx=allMs.length-i;
-    var rc=m.result==='V'?'#22C870':m.result==='D'?'#E03050':'#F07830';
-    var cc=TDEF[m.comp]||{c:'#4A5580'};
-    return'<div class="mcard">'
-      +'<div class="mc-meta"><span class="mc-num">'+idx+'</span><span style="color:'+cc.c+'">'+((TDEF[m.comp]&&TDEF[m.comp].i)||'🏅')+'</span></div>'
-      +'<div class="mc-team mc-home"><span class="mc-name">'+(getAS().club?esc(getAS().club):'Girona FC')+'</span></div>'
-      +'<div class="mc-sbox"><span class="mc-s" style="color:'+rc+'">'+m.gf+'</span><span class="mc-dash">–</span><span class="mc-s" style="color:'+rc+'">'+m.gc+'</span></div>'
-      +'<div class="mc-team mc-away"><span class="mc-name" style="color:#4A5580">'+esc(m.rival||'Rival')+'</span></div>'
-      +'<div class="mc-act">'
-        +'<div class="bdg b'+m.result+'">'+m.result+'</div>'
-        +'<span style="font-family:\'Bebas Neue\',sans-serif;color:#F0C040;font-size:15px;min-width:20px;text-align:center">'+m.goles+'</span>'
-        +'<span style="color:#4A5580;font-size:10px;font-family:\'Barlow Condensed\',sans-serif;letter-spacing:.04em">G</span>'
-        +'<button class="del-btn" onclick="removeMatch('+m.id+')">✕</button>'
-      +'</div>'
+  if(!D.selecc) D.selecc = SELECC;
+}
+
+// ─── CALC ──────────────────────────────────────────────────────────────────
+function seasTotals(s){ // sum all comps in a season
+  var p=0,g=0;
+  s.comps.forEach(function(c){p+=c.p||0;g+=c.g||0;});
+  return{p:p,g:g,prom:p>0?g/p:0};
+}
+function clubTotals(clubName){
+  var p=0,g=0;
+  D.seasons.forEach(function(s){if(s.club===clubName){var t=seasTotals(s);p+=t.p;g+=t.g;}});
+  return{p:p,g:g,prom:p>0?g/p:0};
+}
+function careerTotals(){
+  var p=0,g=0;
+  D.seasons.forEach(function(s){var t=seasTotals(s);p+=t.p;g+=t.g;});
+  p+=D.selecc.p; g+=D.selecc.g;
+  return{p:p,g:g,prom:p>0?g/p:0};
+}
+function promClass(v){ return v>=1?'p-hi':v>=0.7?'p-md':v>=0.4?'p-lo':'p-no'; }
+function promColor(v){ return v>=1?'#28D470':v>=0.7?'#F5C842':v>=0.4?'#F07830':'#3D4870'; }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ─── NAV ───────────────────────────────────────────────────────────────────
+function sw(v){
+  ['stats','carrera','palmares'].forEach(function(k){
+    document.getElementById('view-'+k).classList.toggle('on', k===v);
+    // top nav
+    document.querySelectorAll('.tn').forEach(function(b,i){
+      b.classList.toggle('on', ['stats','carrera','palmares'][i]===v);
+    });
+    // bottom nav
+    var bn=document.getElementById('bn-'+k);
+    if(bn) bn.classList.toggle('on', k===v);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ─── EDIT ──────────────────────────────────────────────────────────────────
+function toggleEdit(){
+  editMode = !editMode;
+  var btn = document.getElementById('edit-btn');
+  var hint = document.getElementById('edit-hint');
+  btn.textContent = editMode ? '✅ Listo' : '✏️ Editar';
+  btn.classList.toggle('active', editMode);
+  hint.classList.toggle('show', editMode);
+  renderStatsTable();
+}
+function onEdit(sni, ci, field, val){
+  var v = parseInt(val)||0; if(v<0)v=0;
+  D.seasons[sni].comps[ci][field] = v;
+  save();
+  // flash
+  var sf = document.getElementById('saved-txt');
+  sf.classList.add('show');
+  setTimeout(function(){sf.classList.remove('show');},1400);
+  renderHero();
+  renderChart();
+  if(document.getElementById('view-carrera').classList.contains('on')) renderCareer();
+}
+
+// ─── HERO KPIS ─────────────────────────────────────────────────────────────
+function renderHero(){
+  var ct = careerTotals();
+  var cur = D.seasons[D.seasons.length-1];
+  var curT = seasTotals(cur);
+  var pc = promColor(ct.prom);
+  var kpis = [
+    {val: ct.p,            lbl:'Partidos carrera',  sub:'incl. selección', c:'#3E8EF0'},
+    {val: ct.g,            lbl:'Goles carrera',     sub:'incl. selección', c:'#F5C842'},
+    {val: ct.prom.toFixed(2), lbl:'Promedio carrera', sub:'goles por partido', c:pc},
+    {val: curT.g+'/'+curT.p, lbl:'Temporada actual', sub:cur.sn+' · '+cur.club, c:'#9060F5'},
+  ];
+  document.getElementById('hero-kpis').innerHTML = kpis.map(function(k){
+    return '<div class="hcard" style="--hc:'+k.c+'">'
+      +'<div class="hcard-bar"></div>'
+      +'<div class="hcard-val">'+k.val+'</div>'
+      +'<div class="hcard-lbl">'+k.lbl+'</div>'
+      +'<div class="hcard-sub">'+k.sub+'</div>'
       +'</div>';
   }).join('');
 }
 
-function renderCareer(){
-  var el=document.getElementById('career-body');
-  var sns=Object.keys(G.seasons);
-  if(!sns.length){el.innerHTML='<div class="empty">Sin datos de carrera</div>';return;}
-
-  var clubs=getSeasonsByClub();
-  var ct=getCareerTotals();
-  var pc=promColor(ct.prom);
-
-  // Timeline
-  var tlHtml='<div class="swrap mb16"><div class="shdr"><span class="stit">📅 Línea de Carrera</span><span class="smeta">Clubes & Temporadas</span></div><div class="timeline">';
-  Object.keys(clubs).forEach(function(club){
-    var ci=clubColor(club);
-    var c=clubs[club];
-    tlHtml+='<div class="tl-item">'
-      +'<div class="tl-dot" style="background:'+ci.c+'20;border-color:'+ci.c+'50"><span style="font-size:18px">'+ci.i+'</span></div>'
-      +'<div class="tl-content">'
-        +'<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">'
-          +'<div class="tl-club" style="color:'+ci.c+'">'+esc(club)+'</div>'
-          +'<div style="font-size:11px;color:var(--mt)">'+c.seasons.join(', ')+'</div>'
-        +'</div>'
-        +'<div class="tl-stats">'
-          +'<div class="tls"><div class="tlsv" style="color:#4A9EF0">'+c.pj+'</div><div class="tlsl">PJ</div></div>'
-          +'<div class="tls"><div class="tlsv" style="color:#F0C040">'+c.goles+'</div><div class="tlsl">Goles</div></div>'
-          +'<div class="tls"><div class="tlsv" style="color:#F07830">'+c.asts+'</div><div class="tlsl">Asist.</div></div>'
-          +'<div class="tls"><div class="tlsv" style="color:'+promColor(c.pj>0?c.goles/c.pj:0)+'">'+(c.pj>0?(c.goles/c.pj).toFixed(2):'—')+'</div><div class="tlsl">Prom.</div></div>'
-        +'</div>'
-      +'</div></div>';
+// ─── CHART ─────────────────────────────────────────────────────────────────
+function renderChart(){
+  var labels = D.seasons.map(function(s){return s.sn.replace('20','').replace('/','/')});
+  var gData  = D.seasons.map(function(s){return seasTotals(s).g;});
+  var pData  = D.seasons.map(function(s){return seasTotals(s).p;});
+  var prData = D.seasons.map(function(s){var t=seasTotals(s);return t.p?parseFloat((t.g/t.p).toFixed(2)):0;});
+  if(chartInst){chartInst.destroy();chartInst=null;}
+  chartInst = new Chart(document.getElementById('chart-main').getContext('2d'),{
+    type:'bar',
+    data:{labels:labels, datasets:[
+      {label:'Goles', data:gData, backgroundColor:'rgba(245,200,66,.75)', borderColor:'#F5C842', borderWidth:1.5, borderRadius:5, yAxisID:'y'},
+      {label:'Partidos', data:pData, backgroundColor:'rgba(62,142,240,.25)', borderColor:'#3E8EF0', borderWidth:1.5, borderRadius:5, yAxisID:'y'},
+      {label:'Promedio', data:prData, type:'line', borderColor:'#9060F5', backgroundColor:'transparent', borderWidth:2.5, pointRadius:4, pointBackgroundColor:'#9060F5', tension:0.3, yAxisID:'y2'},
+    ]},
+    options:{responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#3D4870',font:{size:10}}},
+        tooltip:{backgroundColor:'#0D1020',borderColor:'#1C2340',borderWidth:1,titleColor:'#3D4870',bodyColor:'#F0F4FF'}},
+      scales:{
+        y:{position:'left', ticks:{color:'#3D4870',font:{size:9}}, grid:{color:'#1C2340'}, border:{display:false}, beginAtZero:true},
+        y2:{position:'right', ticks:{color:'#9060F5',font:{size:9},callback:function(v){return v.toFixed(1);}}, grid:{display:false}, border:{display:false}, min:0, max:1.5},
+        x:{ticks:{color:'#3D4870',font:{size:9}}, grid:{display:false}, border:{display:false}},
+      }
+    }
   });
-  tlHtml+='</div></div>';
-
-  // Career summary
-  var sumHtml='<div class="swrap mb16"><div class="shdr"><span class="stit">🌟 Resumen Total de Carrera</span></div>'
-    +'<div style="display:flex;gap:12px;flex-wrap:wrap;padding:16px">'
-    +[['🎮 Partidos',ct.pj,'#4A9EF0'],['⚽ Goles',ct.goles,'#F0C040'],['🎯 Asist.',ct.asts,'#F07830'],
-      ['📈 Promedio',ct.prom.toFixed(2),pc],['🏆 Títulos',(G.career.trophies||[]).length,'#8860F0'],['📅 Temporadas',sns.length,'#22C870']]
-      .map(function(r){
-        return'<div style="background:var(--bg);border:1px solid var(--bd);border-radius:11px;padding:12px 16px;min-width:100px;text-align:center">'
-          +'<div style="font-size:10px;color:#4A5580;margin-bottom:4px">'+r[0]+'</div>'
-          +'<div style="font-family:\'Bebas Neue\',sans-serif;font-size:26px;color:'+r[2]+'">'+r[1]+'</div></div>';
-      }).join('')
-    +'</div></div>';
-
-  // Selection nacional
-  var nat=G.profile&&G.profile.nationality?G.profile.nationality:'México';
-  var natHtml='<div class="swrap"><div class="shdr"><span class="stit">🌐 Selección · '+esc(nat)+'</span></div>'
-    +'<div style="display:flex;gap:12px;flex-wrap:wrap;padding:16px">'
-    +[['🎮 Partidos','74','#4A9EF0'],['⚽ Goles','61','#F0C040'],['🎯 Asist.','20','#F07830'],['📈 Promedio','0.82',promColor(0.82)]]
-      .map(function(r){
-        return'<div style="background:var(--bg);border:1px solid var(--bd);border-radius:11px;padding:12px 16px;min-width:100px;text-align:center">'
-          +'<div style="font-size:10px;color:#4A5580;margin-bottom:4px">'+r[0]+'</div>'
-          +'<div style="font-family:\'Bebas Neue\',sans-serif;font-size:26px;color:'+r[2]+'">'+r[1]+'</div></div>';
-      }).join('')
-    +'<div style="background:var(--bg);border:1px solid #22C87030;border-radius:11px;padding:12px 16px;flex:1;min-width:200px;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--mt)">'
-      +'<span style="font-size:24px">🌐</span>'
-      +'<span>Estadísticas de selección registradas como histórico. Puedes editar estos datos en el perfil.</span>'
-    +'</div>'
-    +'</div></div>';
-
-  el.innerHTML=tlHtml+sumHtml+natHtml;
 }
 
-function addTrophy(){
-  var comp=document.getElementById('t-comp').value.trim();
-  var seas=document.getElementById('t-seas').value.trim();
-  var club=document.getElementById('t-club').value.trim();
-  var rival=document.getElementById('t-rival').value.trim();
-  if(!comp||!seas)return;
-  G.career.trophies.push({id:Date.now(),comp:comp,season:seas,club:club,rival:rival});
+// ─── STATS TABLE ───────────────────────────────────────────────────────────
+function renderStatsTable(){
+  var html = '';
+
+  // Group seasons by club
+  var clubs = [];
+  D.seasons.forEach(function(s){
+    if(clubs.indexOf(s.club)===-1) clubs.push(s.club);
+  });
+
+  clubs.forEach(function(club){
+    var clubSeasons = D.seasons.filter(function(s){return s.club===club;});
+    var ci = CLUBS[club]||{i:'⚽',c:'#F5C842'};
+
+    // Collect all comps for this club
+    var allComps = [];
+    clubSeasons.forEach(function(s){
+      s.comps.forEach(function(c){
+        if(c.p>0||c.g>0){if(allComps.indexOf(c.comp)===-1) allComps.push(c.comp);}
+      });
+    });
+    // also include comps with data if edit mode
+    if(editMode){
+      clubSeasons.forEach(function(s){s.comps.forEach(function(c){if(allComps.indexOf(c.comp)===-1) allComps.push(c.comp);});});
+    }
+
+    // Header
+    var th = '<th style="text-align:left;position:sticky;left:0;background:#0D1020;z-index:2">Temporada</th>';
+    allComps.forEach(function(comp){
+      var m = CMETA[comp]||{i:'🏅',c:'#3D4870'};
+      th += '<th style="border-left:1px solid #1C2340;color:'+m.c+'">'+m.i+' '+esc(comp)+'</th>'
+           +'<th style="color:'+m.c+';opacity:.6">G</th>';
+    });
+    th += '<th style="border-left:2px solid rgba(245,200,66,.3);color:#F5C842">PJ</th>'
+        + '<th style="color:#F5C842">G</th>'
+        + '<th style="color:#9060F5">Prom.</th>';
+
+    var rows = '';
+    var sni_offset = D.seasons.indexOf(clubSeasons[0]);
+
+    clubSeasons.forEach(function(s, idx){
+      var sni = sni_offset + idx;
+      var tot = seasTotals(s);
+      var pc = promColor(tot.prom);
+      rows += '<tr>';
+      rows += '<td style="position:sticky;left:0;background:var(--s1);font-size:12px">'+esc(s.sn)+'</td>';
+      allComps.forEach(function(comp){
+        var ci2 = s.comps.findIndex(function(c){return c.comp===comp;});
+        var cv = ci2>=0 ? s.comps[ci2] : {p:0,g:0};
+        var m = CMETA[comp]||{i:'🏅',c:'#3D4870'};
+        var hasData = cv.p>0||cv.g>0;
+        if(editMode && ci2>=0){
+          rows += '<td style="border-left:1px solid #1C2340">'
+            +'<input class="editable" type="number" min="0" value="'+cv.p+'" oninput="onEdit('+sni+','+ci2+',\'p\',this.value)"/></td>'
+            +'<td><input class="editable" type="number" min="0" value="'+cv.g+'" oninput="onEdit('+sni+','+ci2+',\'g\',this.value)"/></td>';
+        } else {
+          rows += '<td style="border-left:1px solid #1C2340;color:'+(hasData?m.c:'#252E50')+'">'+(hasData?'<span class="vnum">'+cv.p+'</span>':'–')+'</td>'
+                + '<td style="color:'+(hasData?'#F5C842':'#252E50')+'">'+(hasData?'<span class="vnum g">'+cv.g+'</span>':'–')+'</td>';
+        }
+      });
+      rows += '<td style="border-left:2px solid rgba(245,200,66,.2)"><span class="vnum b">'+tot.p+'</span></td>'
+            + '<td><span class="vnum g">'+tot.g+'</span></td>'
+            + '<td><span class="prom-tag" style="background:'+pc+'22;color:'+pc+'">'+tot.prom.toFixed(2)+'</span></td>';
+      rows += '</tr>';
+    });
+
+    // Club subtotal row
+    var cTotal = clubTotals(club);
+    var ptc = promColor(cTotal.prom);
+    rows += '<tr class="subtotal">'
+          + '<td style="position:sticky;left:0;background:#0C0F1A">Total '+esc(club)+'</td>';
+    allComps.forEach(function(comp){
+      var tp=0,tg=0;
+      clubSeasons.forEach(function(s){
+        var cc=s.comps.find(function(c){return c.comp===comp;});
+        if(cc){tp+=cc.p||0;tg+=cc.g||0;}
+      });
+      var m=CMETA[comp]||{i:'🏅',c:'#3D4870'};
+      rows+='<td style="border-left:1px solid #1C2340;color:'+(tp?m.c:'#252E50')+'">'+(tp||'–')+'</td>'
+           +'<td style="color:'+(tg?'#F5C842':'#252E50')+'">'+(tg||'–')+'</td>';
+    });
+    rows+='<td style="border-left:2px solid rgba(245,200,66,.2)"><span class="vnum b">'+cTotal.p+'</span></td>'
+        +'<td><span class="vnum g">'+cTotal.g+'</span></td>'
+        +'<td><span class="prom-tag" style="background:'+ptc+'22;color:'+ptc+'">'+cTotal.prom.toFixed(2)+'</span></td></tr>';
+
+    html += '<div style="font-size:10px;font-weight:800;color:'+ci.c+';letter-spacing:.1em;text-transform:uppercase;padding:12px 16px 6px;border-top:1px solid #1C2340;display:flex;align-items:center;gap:8px">'
+          + '<span>'+ci.i+'</span><span>'+esc(club)+'</span></div>'
+          + '<div class="ovx"><table><thead><tr>'+th+'</tr></thead><tbody>'+rows+'</tbody></table></div>';
+  });
+
+  // Selección block
+  var sp = D.selecc.p, sg = D.selecc.g, sa = D.selecc.a;
+  var sprom = sp>0?sg/sp:0, spc = promColor(sprom);
+  html += '<div style="font-size:10px;font-weight:800;color:#28D470;letter-spacing:.1em;text-transform:uppercase;padding:12px 16px 0;border-top:1px solid #1C2340;display:flex;align-items:center;gap:8px">'
+        + '<span>🌐</span><span>Selección México</span></div>';
+  if(editMode){
+    html += '<div style="padding:12px 16px;display:flex;gap:14px;flex-wrap:wrap;align-items:center">'
+          + '<div style="display:flex;flex-direction:column;gap:4px"><div style="font-size:9px;color:#3D4870;text-transform:uppercase;letter-spacing:.08em">Partidos</div>'
+          + '<input class="editable" type="number" min="0" value="'+sp+'" style="background:rgba(40,212,112,.06);border:1px solid rgba(40,212,112,.2)" oninput="onEditSelecc(\'p\',this.value)"/></div>'
+          + '<div style="display:flex;flex-direction:column;gap:4px"><div style="font-size:9px;color:#3D4870;text-transform:uppercase;letter-spacing:.08em">Goles</div>'
+          + '<input class="editable" type="number" min="0" value="'+sg+'" style="background:rgba(40,212,112,.06);border:1px solid rgba(40,212,112,.2)" oninput="onEditSelecc(\'g\',this.value)"/></div>'
+          + '<div style="display:flex;flex-direction:column;gap:4px"><div style="font-size:9px;color:#3D4870;text-transform:uppercase;letter-spacing:.08em">Asistencias</div>'
+          + '<input class="editable" type="number" min="0" value="'+sa+'" style="background:rgba(40,212,112,.06);border:1px solid rgba(40,212,112,.2)" oninput="onEditSelecc(\'a\',this.value)"/></div>'
+          + '</div>';
+  } else {
+    html += '<div style="padding:10px 16px;display:flex;gap:10px;flex-wrap:wrap">'
+          + [['PJ',sp,'#3E8EF0'],['⚽ Goles',sg,'#F5C842'],['🎯 Asist.',sa,'#F07830'],['Prom.',sprom.toFixed(2),spc]]
+            .map(function(r){return '<div class="ct-pill" style="border-color:rgba(40,212,112,.2)">'
+              +'<div class="ct-v" style="color:'+r[2]+'">'+r[1]+'</div><div class="ct-l">'+r[0]+'</div></div>';}).join('')
+          + '</div>';
+  }
+
+  // Grand total row
+  var ct = careerTotals(), gpc = promColor(ct.prom);
+  html += '<div class="ovx"><table><tbody><tr class="grandtotal">'
+        + '<td style="position:sticky;left:0;background:#0D1020;text-align:left">⭐ TOTAL CARRERA</td>'
+        + '<td colspan="2" style="color:#3E8EF0"><span class="vnum">'+ct.p+'</span> <span style="font-size:10px;color:#3D4870">PJ</span></td>'
+        + '<td colspan="2" style="color:#F5C842"><span style="font-family:\'Bebas Neue\',sans-serif;font-size:22px">'+ct.g+'</span> <span style="font-size:10px;color:#3D4870">Goles</span></td>'
+        + '<td colspan="3"><span class="prom-tag" style="background:'+gpc+'22;color:'+gpc+';font-size:12px;padding:3px 11px">'+ct.prom.toFixed(2)+'</span></td>'
+        + '</tr></tbody></table></div>';
+
+  document.getElementById('stats-body').innerHTML = html;
+}
+
+function onEditSelecc(field, val){
+  var v = parseInt(val)||0; if(v<0)v=0;
+  D.selecc[field] = v;
   save();
-  ['t-comp','t-club','t-rival'].forEach(function(id){document.getElementById(id).value='';});
-  renderPalmares();
-}
-function removeTrophy(id){G.career.trophies=G.career.trophies.filter(function(t){return t.id!==id;});save();renderPalmares();}
-function addAward(){
-  var name=document.getElementById('aw-name').value.trim();
-  var seas=document.getElementById('aw-seas').value.trim();
-  var detail=document.getElementById('aw-detail').value.trim();
-  if(!name||!seas)return;
-  if(!G.career.awards)G.career.awards=[];
-  G.career.awards.push({id:Date.now(),name:name,season:seas,detail:detail});
-  save();
-  ['aw-name','aw-seas','aw-detail'].forEach(function(id){document.getElementById(id).value='';});
-  renderPalmares();
+  var sf = document.getElementById('saved-txt');
+  sf.classList.add('show');
+  setTimeout(function(){sf.classList.remove('show');},1400);
+  renderHero(); renderChart();
 }
 
+// ─── CAREER VIEW ───────────────────────────────────────────────────────────
+function renderCareer(){
+  var html = '';
+
+  // Club blocks
+  var clubs = [];
+  D.seasons.forEach(function(s){if(clubs.indexOf(s.club)===-1) clubs.push(s.club);});
+
+  clubs.forEach(function(club){
+    var ci = CLUBS[club]||{i:'⚽',c:'#F5C842'};
+    var ct = clubTotals(club);
+    var cSeasons = D.seasons.filter(function(s){return s.club===club;});
+    var years = cSeasons[0].sn.split('/')[0]+'–'+cSeasons[cSeasons.length-1].sn.split('/')[1];
+
+    html += '<div class="card club-block">'
+          + '<div class="club-hdr">'
+          + '<div class="club-icon" style="background:'+ci.c+'20;border:1px solid '+ci.c+'40">'+ci.i+'</div>'
+          + '<div><div class="club-name-big" style="color:'+ci.c+'">'+esc(club)+'</div>'
+          + '<div class="club-years">'+years+' · '+cSeasons.length+' temporada'+(cSeasons.length>1?'s':'')+'</div></div></div>'
+          + '<div class="club-totals">'
+          + [['PJ',ct.p,'#3E8EF0'],['⚽ Goles',ct.g,'#F5C842'],['📈 Prom.',ct.prom.toFixed(2),promColor(ct.prom)]]
+            .map(function(r){return '<div class="ct-pill"><div class="ct-v" style="color:'+r[2]+'">'+r[1]+'</div><div class="ct-l">'+r[0]+'</div></div>';}).join('')
+          + '</div>'
+          // Season sub-rows
+          + '<div class="ovx"><table><thead><tr>'
+          + '<th style="text-align:left">Temporada</th><th>PJ</th><th>⚽ Goles</th><th>📈 Prom.</th></tr></thead><tbody>'
+          + cSeasons.map(function(s){
+              var t=seasTotals(s); var pc=promColor(t.prom);
+              return '<tr><td>'+esc(s.sn)+'</td><td><span class="vnum b">'+t.p+'</span></td>'
+                    +'<td><span class="vnum g">'+t.g+'</span></td>'
+                    +'<td><span class="prom-tag" style="background:'+pc+'22;color:'+pc+'">'+t.prom.toFixed(2)+'</span></td></tr>';
+            }).join('')
+          + '</tbody></table></div></div>';
+  });
+
+  // Selección
+  var sp=D.selecc.p,sg=D.selecc.g,sa=D.selecc.a,sprom=sp>0?sg/sp:0;
+  html += '<div class="card">'
+        + '<div class="nat-bar">'
+        + '<div class="nat-flag-big">🌐</div>'
+        + '<div class="nat-info"><div class="nat-name-big">Selección México</div>'
+        + '<div style="font-size:11px;color:var(--mt);margin-top:3px">2019 – Actual</div>'
+        + '<div class="nat-stats">'
+        + [['PJ',sp,'#3E8EF0'],['Goles',sg,'#F5C842'],['Asist.',sa,'#F07830'],['Prom.',sprom.toFixed(2),promColor(sprom)]]
+          .map(function(r){return '<div class="np"><div class="npv" style="color:'+r[2]+'">'+r[1]+'</div><div class="npl">'+r[0]+'</div></div>';}).join('')
+        + '</div></div></div></div>';
+
+  // Grand total
+  var ct2=careerTotals(),gpc=promColor(ct2.prom);
+  html += '<div class="card">'
+        + '<div style="display:flex;gap:10px;flex-wrap:wrap;padding:16px">'
+        + [['🎮 PJ total',ct2.p,'#3E8EF0'],['⚽ Goles total',ct2.g,'#F5C842'],
+           ['📈 Promedio',ct2.prom.toFixed(2),gpc],['🏆 Títulos','24','#9060F5']]
+          .map(function(r){return '<div style="flex:1;min-width:100px;background:var(--s2);border:1px solid var(--bd2);border-radius:12px;padding:13px 14px;text-align:center">'
+            +'<div style="font-size:10px;color:#3D4870;margin-bottom:4px">'+r[0]+'</div>'
+            +'<div style="font-family:\'Bebas Neue\',sans-serif;font-size:28px;color:'+r[2]+'">'+r[1]+'</div></div>';}).join('')
+        + '</div></div>';
+
+  document.getElementById('career-body').innerHTML = html;
+}
+
+// ─── PALMARES ──────────────────────────────────────────────────────────────
 function renderPalmares(){
-  var trs=G.career.trophies||[];
-  var awards=G.career.awards||[];
-  var total=trs.length;
-  document.getElementById('palm-cnt').textContent=total+' título'+(total!==1?'s':'')+' · '+awards.length+' premio'+(awards.length!==1?'s':'') +' individual'+(awards.length!==1?'es':'');
-  var wrap=document.getElementById('palm-wrap');
-
-  // Extended TDEF for all trophies
-  var TDEF2={
-    'Liga MX':           {i:'🇲🇽',c:'#22C870',cat:'club'},
-    'Copa MX':           {i:'🏆',c:'#22C870',cat:'club'},
-    'Campeón de Campeones':{i:'🥇',c:'#F07830',cat:'club'},
-    'Concachampions':    {i:'🌎',c:'#22C870',cat:'club'},
-    'La Liga':           {i:'🇪🇸',c:'#4A9EF0',cat:'club'},
-    'Copa del Rey':      {i:'🏆',c:'#F07830',cat:'club'},
-    'Champions League':  {i:'⭐',c:'#F0C040',cat:'club'},
-    'Supercopa de España':{i:'🥇',c:'#4A9EF0',cat:'club'},
-    'Supercopa de Europa':{i:'🌍',c:'#8860F0',cat:'club'},
-    'Mundial de Clubes': {i:'🌍',c:'#8860F0',cat:'club'},
-    'Copa Intercontinental':{i:'🌐',c:'#F0C040',cat:'club'},
-    'Copa América':      {i:'🌎',c:'#22C870',cat:'nacional'},
-    'Copa Oro':          {i:'🏅',c:'#F0C040',cat:'nacional'},
-    'CONCACAF Nations League':{i:'🌐',c:'#4A9EF0',cat:'nacional'},
-  };
-  var AWARDS2={
-    'Balón de Oro':{i:'🪙',c:'#F0C040'},
-    'Bota de Oro': {i:'👟',c:'#F07830'},
-  };
-
-  function def2(c){return TDEF2[c]||TDEF[c]||{i:'🏅',c:'#F0C040',cat:'club'};}
-
-  if(!trs.length&&!awards.length){wrap.innerHTML='<div class="empty">Aún sin títulos</div>';return;}
-
-  // ── SCOREBOARD ───────────────────────────────────────────────
-  var grouped={};
-  trs.forEach(function(t){if(!grouped[t.comp])grouped[t.comp]=[];grouped[t.comp].push(t);});
-  var COMP_ORDER=['Liga MX','Copa MX','Campeón de Campeones','Concachampions','La Liga','Copa del Rey','Supercopa de España','Champions League','Supercopa de Europa','Mundial de Clubes','Copa Intercontinental','Copa América','Copa Oro','CONCACAF Nations League'];
+  var clubTrs = TROPHIES.filter(function(t){return t.cat==='club';});
+  var natTrs  = TROPHIES.filter(function(t){return t.cat==='nacional';});
+  var total   = TROPHIES.reduce(function(a,t){return a+t.n;},0);
 
   // Summary badges
-  var summaryHtml='<div style="display:flex;gap:8px;flex-wrap:wrap;padding:16px 18px 8px;border-bottom:1px solid var(--bd)">';
-  COMP_ORDER.forEach(function(c){
-    if(!grouped[c])return;
-    var d=def2(c);
-    summaryHtml+='<div style="background:var(--bg);border:1px solid '+d.c+'40;border-radius:9px;padding:6px 13px;display:flex;align-items:center;gap:8px;transition:border-color .2s" title="'+c+'">'
-      +'<span style="font-size:16px">'+d.i+'</span>'
-      +'<span style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;color:'+d.c+';line-height:1">'+grouped[c].length+'</span>'
-      +'<span style="font-size:11px;color:#4A5580;max-width:90px;line-height:1.2">'+esc(c)+'</span></div>';
+  var summaryHtml = '<div class="palm-summary">';
+  TROPHIES.forEach(function(t){
+    var ic = TROPHY_ICONS[t.comp]||'🏅';
+    var cc = TROPHY_COLORS[t.comp]||'#F5C842';
+    summaryHtml += '<div class="palm-badge" style="border-color:'+cc+'40">'
+                 + '<span style="font-size:16px">'+ic+'</span>'
+                 + '<span class="palm-badge-cnt" style="color:'+cc+'">'+t.n+'</span>'
+                 + '<span class="palm-badge-lbl">'+esc(t.comp)+'</span></div>';
   });
-  // Awards in summary
-  var groupedAw={};awards.forEach(function(a){if(!groupedAw[a.name])groupedAw[a.name]=[];groupedAw[a.name].push(a);});
-  Object.keys(groupedAw).forEach(function(n){
-    var d=AWARDS2[n]||{i:'🏅',c:'#F0C040'};
-    summaryHtml+='<div style="background:var(--bg);border:2px solid '+d.c+'60;border-radius:9px;padding:6px 13px;display:flex;align-items:center;gap:8px">'
-      +'<span style="font-size:16px">'+d.i+'</span>'
-      +'<span style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;color:'+d.c+';line-height:1">'+groupedAw[n].length+'</span>'
-      +'<span style="font-size:11px;color:#4A5580;line-height:1.2">'+esc(n)+'</span></div>';
-  });
-  // Total badge
-  summaryHtml+='<div style="background:linear-gradient(135deg,#F0C04015,#8860F015);border:1px solid #F0C04050;border-radius:9px;padding:6px 15px;display:flex;align-items:center;gap:8px;margin-left:auto">'
-    +'<span style="font-size:14px">🏆</span>'
-    +'<span style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;color:#F0C040">'+total+'</span>'
-    +'<span style="font-size:11px;color:#4A5580">títulos</span></div>';
-  summaryHtml+='</div>';
+  summaryHtml += '<div class="palm-badge palm-total">'
+               + '<span style="font-size:18px">🏆</span>'
+               + '<span class="palm-badge-cnt" style="color:#F5C842">'+total+'</span>'
+               + '<span class="palm-badge-lbl" style="color:#F5C842">Títulos</span></div>';
+  summaryHtml += '</div>';
 
-  // ── SECTIONS ─────────────────────────────────────────────────
-  function sectionHeader(label){
-    return'<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:800;color:#4A5580;letter-spacing:.12em;text-transform:uppercase;padding:14px 18px 8px;border-top:1px solid var(--bd)">'+label+'</div>';
+  // Section: Club
+  function trophyCards(list){
+    return '<div class="trophy-grid">'
+      + list.map(function(t){
+          var ic = TROPHY_ICONS[t.comp]||'🏅';
+          var cc = TROPHY_COLORS[t.comp]||'#F5C842';
+          var ci2 = CLUBS[t.club]||{c:'#F5C842'};
+          return '<div class="trophy-card" style="--tc:'+cc+'">'
+               + '<div class="trophy-icon">'+ic+(t.n>1?'<span style="font-size:12px;color:'+cc+';font-weight:900;font-family:\'Bebas Neue\',sans-serif"> x'+t.n+'</span>':'')+'</div>'
+               + '<div><div class="trophy-name">'+esc(t.comp)+'</div>'
+               + '<div class="trophy-club" style="color:'+ci2.c+'">'+esc(t.club)+'</div>'
+               + '<div class="trophy-seas">'+esc(t.seasons)+'</div></div></div>';
+        }).join('')
+      + '</div>';
   }
 
-  // Club trophies
-  var clubTrs=trs.filter(function(t){return (def2(t.comp).cat||'club')==='club';});
-  var natTrs=trs.filter(function(t){return def2(t.comp).cat==='nacional';});
-
-  function renderCards(list){
-    if(!list.length)return'<div class="empty" style="padding:16px">–</div>';
-    var html='<div class="pgrid">';
-    list.slice().sort(function(a,b){return a.season>b.season?-1:1;}).forEach(function(t){
-      var d=def2(t.comp);
-      html+='<div class="phcard" style="border-color:'+d.c+'40">'
-        +'<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,'+d.c+',transparent)"></div>'
-        +'<div class="phico">'+d.i+'</div>'
-        +'<div style="flex:1;min-width:0">'
-          +'<div class="phnm">'+esc(t.comp)+'</div>'
-          +(t.club?'<div style="font-size:11px;color:'+clubColor(t.club).c+';font-weight:700;margin-top:2px;font-family:\'Barlow Condensed\',sans-serif">'+esc(t.club)+'</div>':'')
-          +'<div class="phsn">'+esc(t.season)+'</div>'
-          +(t.rival?'<div class="phdt">Final vs '+esc(t.rival)+'</div>':'')
-        +'</div>'
-        +'<button class="del-btn" onclick="removeTrophy('+t.id+')" style="align-self:flex-start">✕</button>'
-        +'</div>';
-    });
-    return html+'</div>';
+  function sectionLbl(txt){
+    return '<div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mt);padding:14px 18px 6px;border-top:1px solid var(--bd)">'+txt+'</div>';
   }
 
-  // Individual awards section
-  var awHtml='';
-  if(awards.length){
-    awHtml+=sectionHeader('🏅 Premios Individuales');
-    awHtml+='<div class="pgrid" style="padding-bottom:14px">';
-    awards.forEach(function(a){
-      var d=AWARDS2[a.name]||{i:'🏅',c:'#F0C040'};
-      awHtml+='<div class="phcard" style="border-color:'+d.c+'60;background:linear-gradient(135deg,'+d.c+'08,transparent)">'
-        +'<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,'+d.c+',transparent)"></div>'
-        +'<div class="phico" style="font-size:36px">'+d.i+'</div>'
-        +'<div style="flex:1;min-width:0">'
-          +'<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:18px;font-weight:800;color:'+d.c+'">'+esc(a.name)+'</div>'
-          +'<div class="phsn">'+esc(a.season)+'</div>'
-          +(a.detail?'<div class="phdt">'+esc(a.detail)+'</div>':'')
-        +'</div>'
-        +'<button class="del-btn" onclick="removeAward('+a.id+')" style="align-self:flex-start">✕</button>'
-        +'</div>';
-    });
-    awHtml+='</div>';
-  }
+  // Awards
+  var awHtml = '<div class="award-section">'
+             + '<div class="award-title-row">🏅 Premios Individuales</div>'
+             + '<div class="award-grid">'
+             + AWARDS.map(function(a){
+                 return '<div class="award-card">'
+                      + '<div class="award-icon">'+a.i+(a.n>1?'<span style="font-size:11px;color:'+a.c+';font-weight:900;font-family:\'Bebas Neue\',sans-serif"> x'+a.n+'</span>':'')+'</div>'
+                      + '<div><div class="award-name" style="color:'+a.c+'">'+esc(a.name)+'</div>'
+                      + '<div class="award-seas">'+esc(a.seasons)+'</div>'
+                      + '<div class="award-detail">'+esc(a.detail)+'</div></div></div>';
+               }).join('')
+             + '</div></div>';
 
-  wrap.innerHTML=summaryHtml
-    +sectionHeader('🏟️ Títulos de Club ('+clubTrs.length+')')
-    +renderCards(clubTrs)
-    +sectionHeader('🌎 Títulos con Selección ('+natTrs.length+')')
-    +renderCards(natTrs)
-    +awHtml;
+  document.getElementById('palmares-body').innerHTML =
+    '<div class="card-hdr"><span class="card-title">🏆 Palmarés · Carlos Ortiz</span>'
+    +'<span class="card-meta">'+total+' títulos · '+AWARDS.reduce(function(a,x){return a+x.n;},0)+' premios ind.</span></div>'
+    + summaryHtml
+    + sectionLbl('🏟️ Títulos de Club — '+clubTrs.reduce(function(a,t){return a+t.n;},0))
+    + trophyCards(clubTrs)
+    + sectionLbl('🌎 Títulos con Selección — '+natTrs.reduce(function(a,t){return a+t.n;},0))
+    + trophyCards(natTrs)
+    + awHtml;
 }
 
-function removeAward(id){
-  if(!G.career.awards)return;
-  G.career.awards=G.career.awards.filter(function(a){return a.id!==id;});
-  save();renderPalmares();
-}
-
-
-function saveProfile(){
-  G.profile={
-    name:document.getElementById('pf-name').value.trim()||'Carlos Ortiz',
-    pos:document.getElementById('pf-pos').value,
-    nationality:document.getElementById('pf-nat').value.trim(),
-    foot:document.getElementById('pf-foot').value
-  };
-  save();render();
-}
-
-function createSeason(){
-  var name=document.getElementById('nsn').value.trim();
-  var club=document.getElementById('nclub').value.trim();
-  if(!name||!club){alert('Introduce temporada y club');return;}
-  var comps=[];
-  if(document.getElementById('nc-liga').checked)comps.push('Liga');
-  if(document.getElementById('nc-copa').checked)comps.push('Copa');
-  if(document.getElementById('nc-ch').checked)comps.push('Champions');
-  if(document.getElementById('nc-mex').checked)comps.push('Liga MX');
-  if(document.getElementById('nc-inter').checked)comps.push('Intl.');
-  if(!comps.length){alert('Selecciona al menos una competición');return;}
-  if(G.seasons[name]){alert('Esa temporada ya existe');return;}
-  initSeason(name,club,comps);
-  G.activeSeason=name;
-  document.getElementById('nsn').value='';document.getElementById('nclub').value='';
-  save();setupSelects();render();renderPerfil();
-}
-
-function switchToSeason(sn){G.activeSeason=sn;save();setupSelects();render();sw('dashboard');}
-
-function renderPerfil(){
-  var p=G.profile||{};
-  document.getElementById('pf-name').value=p.name||'';
-  document.getElementById('pf-pos').value=p.pos||'Delantero';
-  document.getElementById('pf-nat').value=p.nationality||'';
-  document.getElementById('pf-foot').value=p.foot||'Derecho';
-
-  var sns=Object.keys(G.seasons);
-  var html='';
-  if(sns.length){
-    html='<div class="sumg">';
-    sns.slice().reverse().forEach(function(sn){
-      var sd=G.seasons[sn];var st=getSeasStats(sn);var isCur=sn===G.activeSeason;
-      var ci=clubColor(sd.club||'');
-      html+='<div class="sumc" style="'+(isCur?'border-color:var(--gold)':'')+'">'
-        +'<div class="sumh"><span class="sumsn" style="color:'+(isCur?'var(--gold)':'var(--tx)')+'">'+esc(sn)+(isCur?' <span style="font-size:9px;color:#E03050;background:#E0305020;padding:1px 5px;border-radius:3px">ACTUAL</span>':'')+'</span>'
-        +'<span class="sumco" style="color:'+ci.c+'">'+esc(sd.club||'')+'</span></div>'
-        +'<div class="sumb">'
-        +[['Partidos',st.pj],['Goles',st.goles],['Asistencias',st.asts],['Promedio',st.prom.toFixed(2)]]
-          .map(function(r){return'<div class="sumr"><span class="sumk">'+r[0]+'</span><span class="sumv">'+r[1]+'</span></div>';}).join('')
-        +'</div>'
-        +(!isCur?'<div style="padding:10px 14px;border-top:1px solid var(--bd)"><button class="abtn" onclick="switchToSeason(\''+sn+'\')">Ir a temporada</button></div>':'')
-        +'</div>';
-    });
-    html+='</div>';
-  }
-  document.getElementById('seas-list-perfil').innerHTML=html;
-}
-
-function exportData(){
-  var blob=new Blob([JSON.stringify(G,null,2)],{type:'application/json'});
-  var url=URL.createObjectURL(blob);var a=document.createElement('a');
-  var d=new Date();
-  a.href=url;a.download='carrera_jugador_'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+'.json';
-  a.click();URL.revokeObjectURL(url);
-}
-function importData(e){
-  var file=e.target.files[0];if(!file)return;
-  var reader=new FileReader();
-  reader.onload=function(ev){
-    try{
-      var data=JSON.parse(ev.target.result);
-      if(data.seasons&&confirm('¿Importar datos? Reemplazará todo lo actual.')){
-        G=data;if(!G.career)G.career={trophies:[]};if(!G.career.trophies)G.career.trophies=[];
-        save();setupSelects();render();alert('✓ Importado correctamente');
-      }
-    }catch(err){alert('Error al leer el archivo.');}
-    e.target.value='';
-  };
-  reader.readAsText(file);
-}
-
+// ─── INIT ──────────────────────────────────────────────────────────────────
 load();
-setupSelects();
-render();
-
-// Inject default trophies if none exist
-(function(){
-  if(!G.career.trophies||G.career.trophies.length===0){
-    var dTrophies=[
-      // Club - América
-      {id:1001,comp:'Liga MX',season:'2018/19',club:'América',rival:'',cnt:1},
-      {id:1002,comp:'Liga MX',season:'2019/20',club:'América',rival:'',cnt:1},
-      {id:1003,comp:'Copa MX',season:'2018/19',club:'América',rival:'',cnt:1},
-      {id:1004,comp:'Campeón de Campeones',season:'2019/20',club:'América',rival:'',cnt:1},
-      {id:1005,comp:'Concachampions',season:'2019/20',club:'América',rival:'',cnt:1},
-      // Club - Real Madrid
-      {id:2001,comp:'La Liga',season:'2021/22',club:'Real Madrid',rival:'',cnt:1},
-      {id:2002,comp:'La Liga',season:'2023/24',club:'Real Madrid',rival:'',cnt:1},
-      {id:2003,comp:'Copa del Rey',season:'2022/23',club:'Real Madrid',rival:'',cnt:1},
-      {id:2004,comp:'Supercopa de España',season:'2021/22',club:'Real Madrid',rival:'',cnt:1},
-      {id:2005,comp:'Supercopa de España',season:'2023/24',club:'Real Madrid',rival:'',cnt:1},
-      {id:2006,comp:'Supercopa de España',season:'2024/25',club:'Real Madrid',rival:'',cnt:1},
-      {id:2007,comp:'Champions League',season:'2021/22',club:'Real Madrid',rival:'',cnt:1},
-      {id:2008,comp:'Champions League',season:'2023/24',club:'Real Madrid',rival:'',cnt:1},
-      {id:2009,comp:'Supercopa de Europa',season:'2022/23',club:'Real Madrid',rival:'',cnt:1},
-      {id:2010,comp:'Mundial de Clubes',season:'2022/23',club:'Real Madrid',rival:'',cnt:1},
-      {id:2011,comp:'Mundial de Clubes',season:'2024/25',club:'Real Madrid',rival:'',cnt:1},
-      {id:2012,comp:'Copa Intercontinental',season:'2024/25',club:'Real Madrid',rival:'',cnt:1},
-      // Selección México
-      {id:3001,comp:'Copa América',season:'2022/23',club:'México',rival:'',cnt:1},
-      {id:3002,comp:'Copa Oro',season:'2019/20',club:'México',rival:'',cnt:1},
-      {id:3003,comp:'Copa Oro',season:'2022/23',club:'México',rival:'',cnt:1},
-      {id:3004,comp:'CONCACAF Nations League',season:'2020/21',club:'México',rival:'',cnt:1},
-      {id:3005,comp:'CONCACAF Nations League',season:'2021/22',club:'México',rival:'',cnt:1},
-      {id:3006,comp:'CONCACAF Nations League',season:'2023/24',club:'México',rival:'',cnt:1},
-      {id:3007,comp:'CONCACAF Nations League',season:'2024/25',club:'México',rival:'',cnt:1},
-    ];
-    G.career.trophies=dTrophies;
-    G.career.awards=[
-      {id:4001,name:'Balón de Oro',season:'2022/23',detail:'Mejor jugador del mundo'},
-      {id:4002,name:'Balón de Oro',season:'2024/25',detail:'Mejor jugador del mundo'},
-      {id:4003,name:'Bota de Oro',season:'2024/25',detail:'Máximo goleador de Europa'},
-    ];
-    save();renderPalmares();
-  }
-})();
+renderHero();
+renderChart();
+renderStatsTable();
+renderCareer();
+renderPalmares();
 </script>
 </body>
 </html>
