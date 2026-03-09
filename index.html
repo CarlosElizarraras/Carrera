@@ -250,6 +250,23 @@ tr.grandtotal td{background:rgba(144,96,245,.08);border-top:2px solid rgba(144,9
   .cur-inp{width:50px;height:38px;font-size:20px}
 }
 
+/* ── COMPETITION TOTALS ── */
+.sh-comptotals{border-top:2px solid rgba(62,142,240,.2);padding:20px 18px;background:rgba(0,0,0,.1)}
+.sh-comptotals-hdr{font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:#5A6890;margin-bottom:14px}
+.sh-comptotals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.sh-ctcard{background:var(--s2);border:1px solid var(--bd2);border-radius:12px;padding:12px 14px;position:relative;overflow:hidden;border-top:2px solid var(--ctc,var(--gold))}
+.sh-ctcard-top{display:flex;align-items:center;gap:7px;margin-bottom:10px}
+.sh-ctcard-icon{font-size:16px;line-height:1}
+.sh-ctcard-name{font-size:11px;font-weight:800;color:var(--ctc,var(--gold));letter-spacing:.02em;line-height:1.2}
+.sh-ctcard-stats{display:flex;gap:8px;flex-wrap:wrap}
+.sh-ctcard-stat{display:flex;flex-direction:column;align-items:center;min-width:32px}
+.sh-ctcard-val{font-family:'Bebas Neue',sans-serif;font-size:24px;line-height:1;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+.sh-ctcard-lbl{font-size:8px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5A6890;margin-top:1px}
+@media(max-width:600px){
+  .sh-comptotals-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+  .sh-ctcard-val{font-size:20px}
+}
+
 /* ── SEASON CARDS (stats view) ── */
 .sh-club-hdr{display:flex;align-items:center;gap:10px;padding:16px 20px 8px;border-top:1px solid #1C2340;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
 .sh-season-card{display:flex;align-items:stretch;gap:0;border-bottom:1px solid #1C2340;transition:background .15s}
@@ -705,6 +722,35 @@ function renderStatsTable(){
     html+='<div class="sh-comps"><div style="font-size:11px;color:#3D4870;padding-top:4px">Acumulado total · todas las competiciones</div></div>';
   }
   html+='</div>';
+
+  // Totals by competition (all clubs combined)
+  var compMap={};
+  D.seasons.forEach(function(s){
+    s.comps.forEach(function(c){
+      if(!compMap[c.comp])compMap[c.comp]={p:0,g:0,a:0,m:CMETA[c.comp]||{i:'🏅',c:'#3D4870'}};
+      compMap[c.comp].p+=c.p||0;
+      compMap[c.comp].g+=c.g||0;
+      compMap[c.comp].a+=c.a||0;
+    });
+  });
+  // Only show comps with actual data
+  var compList=Object.keys(compMap).filter(function(k){return compMap[k].p>0||compMap[k].g>0;});
+
+  html+='<div class="sh-comptotals">'
+       +'<div class="sh-comptotals-hdr">📊 Total por competición · clubes</div>'
+       +'<div class="sh-comptotals-grid">';
+  compList.forEach(function(k){
+    var d=compMap[k],pc=promColor(d.p>0?d.g/d.p:0);
+    html+='<div class="sh-ctcard" style="--ctc:'+d.m.c+'">'
+         +'<div class="sh-ctcard-top"><span class="sh-ctcard-icon">'+d.m.i+'</span><span class="sh-ctcard-name">'+esc(k)+'</span></div>'
+         +'<div class="sh-ctcard-stats">'
+         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#F5C842">'+d.g+'</div><div class="sh-ctcard-lbl">G</div></div>'
+         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#F07830">'+d.a+'</div><div class="sh-ctcard-lbl">A</div></div>'
+         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#3E8EF0">'+d.p+'</div><div class="sh-ctcard-lbl">PJ</div></div>'
+         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val sh-prom" style="background:'+pc+'22;color:'+pc+'">'+( d.p>0?(d.g/d.p).toFixed(2):'–' )+'</div><div class="sh-ctcard-lbl">Prom</div></div>'
+         +'</div></div>';
+  });
+  html+='</div></div>';
 
   // Grand total
   var ct=careerTotals(),gpc=promColor(ct.prom);
