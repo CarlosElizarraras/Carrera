@@ -757,19 +757,9 @@ function renderStatsTable(){
       html+='<div class="sh-comp-row">'
            +'<div class="sh-comp-name" style="color:'+sc.c+'">'+sc.i+' '+esc(sc.comp)+'</div>'
            +'<div class="sh-comp-vals">';
-      sc.subs.forEach(function(s){
-        html+='<span style="font-size:10px;color:#5A6890;margin-right:3px">'+esc(s.sn)+'</span>'
-             +'<span class="sh-pill sh-pill-p">'+s.p+' <span style="opacity:.5">PJ</span></span>'
-             +'<span class="sh-pill sh-pill-g">'+s.g+' <span style="opacity:.5">G</span></span>';
-        if(s.a>0)html+='<span class="sh-pill sh-pill-a">'+s.a+' <span style="opacity:.5">A</span></span>';
-        if(sc.subs.length>1)html+='<span style="color:#1C2340;margin:0 3px">·</span>';
-      });
-      if(sc.subs.length>1){
-        html+='<span style="font-size:10px;color:#5A6890;margin-right:3px">Tot.</span>'
-             +'<span class="sh-pill sh-pill-p">'+tp+' <span style="opacity:.5">PJ</span></span>'
-             +'<span class="sh-pill sh-pill-g">'+tg+' <span style="opacity:.5">G</span></span>'
-             +'<span class="sh-pill sh-pill-a">'+ta+' <span style="opacity:.5">A</span></span>';
-      }
+      html+='<span class="sh-pill sh-pill-p">'+tp+' <span style="opacity:.5">PJ</span></span>'
+           +'<span class="sh-pill sh-pill-g">'+tg+' <span style="opacity:.5">G</span></span>'
+           +'<span class="sh-pill sh-pill-a">'+ta+' <span style="opacity:.5">A</span></span>';
       html+='</div></div>';
     });
     html+='</div>';
@@ -801,6 +791,26 @@ function renderStatsTable(){
          +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#F5C842">'+d.g+'</div><div class="sh-ctcard-lbl">G</div></div>'
          +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#F07830">'+d.a+'</div><div class="sh-ctcard-lbl">A</div></div>'
          +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val sh-prom" style="background:'+pc+'22;color:'+pc+'">'+( d.p>0?(d.g/d.p).toFixed(2):'–' )+'</div><div class="sh-ctcard-lbl">Prom</div></div>'
+         +'</div></div>';
+  });
+  html+='</div></div>';
+
+  // Selección totals by competition
+  var selCompMeta={'Copa Oro':{i:'🏅',c:'#F5C842'},'Copa del Mundo':{i:'🌍',c:'#9060F5'},'Copa América':{i:'🌎',c:'#28D470'},'Nations League':{i:'🌐',c:'#3E8EF0'},'Eliminatorias':{i:'⚽',c:'#F07830'},'Amistosos':{i:'🤝',c:'#5A6890'}};
+  html+='<div class="sh-comptotals">'
+       +'<div class="sh-comptotals-hdr">🌐 Total por competición · selección</div>'
+       +'<div class="sh-comptotals-grid">';
+  SELECC_COMPS.forEach(function(sc){
+    var tp=0,tg=0,ta=0;
+    sc.subs.forEach(function(s){tp+=s.p;tg+=s.g;ta+=s.a;});
+    var pc=promColor(tp>0?tg/tp:0);
+    html+='<div class="sh-ctcard" style="--ctc:'+sc.c+'">'
+         +'<div class="sh-ctcard-top"><span class="sh-ctcard-icon">'+sc.i+'</span><span class="sh-ctcard-name">'+esc(sc.comp)+'</span></div>'
+         +'<div class="sh-ctcard-stats">'
+         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#3E8EF0">'+tp+'</div><div class="sh-ctcard-lbl">PJ</div></div>'
+         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#F5C842">'+tg+'</div><div class="sh-ctcard-lbl">G</div></div>'
+         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#F07830">'+ta+'</div><div class="sh-ctcard-lbl">A</div></div>'
+         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val sh-prom" style="background:'+pc+'22;color:'+pc+'">'+(tp>0?(tg/tp).toFixed(2):'–')+'</div><div class="sh-ctcard-lbl">Prom</div></div>'
          +'</div></div>';
   });
   html+='</div></div>';
@@ -861,8 +871,7 @@ function renderCareer(){
          var yp=0,yg=0,ya=0;
          yr.comps.forEach(function(cv){yp+=cv.p;yg+=cv.g;ya+=cv.a;});
          var pc=promColor(yp>0?yg/yp:0);
-         var compsDetail=yr.comps.map(function(cv){return '<span style="color:'+cv.c+';font-size:10px">'+cv.i+' '+cv.comp+'</span>';}).join(' · ');
-         return '<tr><td>'+esc(yr.yr)+'<br><span style="font-size:9px;color:#5A6890">'+compsDetail+'</span></td>'
+         return '<tr><td>'+esc(yr.yr)+'</td>'
                +'<td><span class="vnum b">'+yp+'</span></td>'
                +'<td><span class="vnum g">'+yg+'</span></td>'
                +'<td><span class="vnum" style="color:#F07830">'+ya+'</span></td>'
