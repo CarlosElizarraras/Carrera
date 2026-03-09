@@ -650,9 +650,9 @@ function renderStatsTable(){
       html+='<div class="sh-totals">'
            +'<div class="sh-sn">'+esc(s.sn)+(isCur?' <span class="cur-badge">ACTUAL</span>':'')+'</div>'
            +'<div class="sh-big-row">'
+           +'<div class="sh-stat"><div class="sh-val" style="color:#3E8EF0">'+t.p+'</div><div class="sh-lbl">PJ</div></div>'
            +'<div class="sh-stat"><div class="sh-val" style="color:#F5C842">'+t.g+'</div><div class="sh-lbl">Goles</div></div>'
            +'<div class="sh-stat"><div class="sh-val" style="color:#F07830">'+t.a+'</div><div class="sh-lbl">Asist.</div></div>'
-           +'<div class="sh-stat"><div class="sh-val" style="color:#3E8EF0">'+t.p+'</div><div class="sh-lbl">PJ</div></div>'
            +'<div class="sh-stat"><div class="sh-val sh-prom" style="background:'+pc+'22;color:'+pc+'">'+t.prom.toFixed(2)+'</div><div class="sh-lbl">Prom.</div></div>'
            +'</div></div>';
       // RIGHT comps
@@ -707,9 +707,9 @@ function renderStatsTable(){
   html+='<div class="sh-totals">'
        +'<div class="sh-sn">2019 – Actual</div>'
        +'<div class="sh-big-row">'
+       +'<div class="sh-stat"><div class="sh-val" style="color:#3E8EF0">'+sp+'</div><div class="sh-lbl">PJ</div></div>'
        +'<div class="sh-stat"><div class="sh-val" style="color:#F5C842">'+sg+'</div><div class="sh-lbl">Goles</div></div>'
        +'<div class="sh-stat"><div class="sh-val" style="color:#F07830">'+sa+'</div><div class="sh-lbl">Asist.</div></div>'
-       +'<div class="sh-stat"><div class="sh-val" style="color:#3E8EF0">'+sp+'</div><div class="sh-lbl">PJ</div></div>'
        +'<div class="sh-stat"><div class="sh-val sh-prom" style="background:'+spc+'22;color:'+spc+'">'+sprom.toFixed(2)+'</div><div class="sh-lbl">Prom.</div></div>'
        +'</div></div>';
   if(editMode){
@@ -744,9 +744,9 @@ function renderStatsTable(){
     html+='<div class="sh-ctcard" style="--ctc:'+d.m.c+'">'
          +'<div class="sh-ctcard-top"><span class="sh-ctcard-icon">'+d.m.i+'</span><span class="sh-ctcard-name">'+esc(k)+'</span></div>'
          +'<div class="sh-ctcard-stats">'
+         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#3E8EF0">'+d.p+'</div><div class="sh-ctcard-lbl">PJ</div></div>'
          +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#F5C842">'+d.g+'</div><div class="sh-ctcard-lbl">G</div></div>'
          +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#F07830">'+d.a+'</div><div class="sh-ctcard-lbl">A</div></div>'
-         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#3E8EF0">'+d.p+'</div><div class="sh-ctcard-lbl">PJ</div></div>'
          +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val sh-prom" style="background:'+pc+'22;color:'+pc+'">'+( d.p>0?(d.g/d.p).toFixed(2):'–' )+'</div><div class="sh-ctcard-lbl">Prom</div></div>'
          +'</div></div>';
   });
