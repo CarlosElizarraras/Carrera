@@ -493,6 +493,14 @@ var SELECC_YEARS=[
   {yr:'2024', comps:[{comp:'Copa América',i:'🌎',c:'#28D470',p:6,g:6,a:2},{comp:'Nations League',i:'🌐',c:'#3E8EF0',p:3,g:3,a:1},{comp:'Amistosos',i:'🤝',c:'#5A6890',p:4,g:3,a:1}]},
   {yr:'2025', comps:[{comp:'Nations League',i:'🌐',c:'#3E8EF0',p:2,g:2,a:0},{comp:'Amistosos',i:'🤝',c:'#5A6890',p:2,g:2,a:1}]},
 ];
+var SELECC_COMPS=[
+  {comp:'Copa Oro',       i:'🏅',c:'#F5C842', subs:[{sn:'2019',p:6,g:5,a:1},{sn:'2023',p:6,g:7,a:1}]},
+  {comp:'Copa del Mundo', i:'🌍',c:'#9060F5', subs:[{sn:'2022',p:5,g:5,a:2}]},
+  {comp:'Copa América',   i:'🌎',c:'#28D470', subs:[{sn:'2024',p:6,g:6,a:2}]},
+  {comp:'Nations League', i:'🌐',c:'#3E8EF0', subs:[{sn:'2021',p:4,g:2,a:0},{sn:'2023',p:4,g:4,a:1},{sn:'2024',p:3,g:3,a:1},{sn:'2025',p:2,g:2,a:0}]},
+  {comp:'Eliminatorias',  i:'⚽',c:'#F07830', subs:[{sn:'2021-2022',p:14,g:9,a:5}]},
+  {comp:'Amistosos',      i:'🤝',c:'#5A6890', subs:[{sn:'2019-act.',p:24,g:18,a:7}]},
+];
 
 var SVG_ICONS={"svg-balon":'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36"><circle cx="18" cy="18" r="17" fill="#F5C842" stroke="#B8960A" stroke-width="1.5"/><polygon points="18,7 21,14 29,14 23,19 25,27 18,22 11,27 13,19 7,14 15,14" fill="#B8960A" opacity="0.7"/><circle cx="18" cy="18" r="5" fill="none" stroke="#B8960A" stroke-width="1" opacity="0.5"/></svg>'};
 var D,editMode=false,chartInst=null;
@@ -742,28 +750,27 @@ function renderStatsTable(){
                  +'<div class="sh-comp-vals"><input class="editable sh-edit-inp" type="number" min="0" value="'+r[2]+'" data-f="'+r[1]+'" oninput="onEditSelecc(this.dataset.f,this.value)"/></div></div>';
          }).join('')+'</div>';
   } else {
-    html+='<div class="sh-comps sh-comps-selecc">';
-    SELECC_YEARS.forEach(function(yr){
-      var yp=0,yg=0,ya=0;
-      yr.comps.forEach(function(c){yp+=c.p;yg+=c.g;ya+=c.a;});
-      html+='<div class="sh-yr-row">'
-           +'<div class="sh-yr-label">'+esc(yr.yr)+'</div>'
-           +'<div class="sh-yr-comps">';
-      yr.comps.forEach(function(cv){
-        html+='<div class="sh-yr-comp">'
-             +'<span class="sh-yr-comp-name" style="color:'+cv.c+'">'+cv.i+' '+esc(cv.comp)+'</span>'
-             +'<span class="sh-pill sh-pill-p">'+cv.p+' <span style="opacity:.5">PJ</span></span>'
-             +'<span class="sh-pill sh-pill-g">'+cv.g+' <span style="opacity:.5">G</span></span>';
-        if(cv.a>0)html+='<span class="sh-pill sh-pill-a">'+cv.a+' <span style="opacity:.5">A</span></span>';
-        html+='</div>';
+    html+='<div class="sh-comps">';
+    SELECC_COMPS.forEach(function(sc){
+      var tp=0,tg=0,ta=0;
+      sc.subs.forEach(function(s){tp+=s.p;tg+=s.g;ta+=s.a;});
+      html+='<div class="sh-comp-row">'
+           +'<div class="sh-comp-name" style="color:'+sc.c+'">'+sc.i+' '+esc(sc.comp)+'</div>'
+           +'<div class="sh-comp-vals">';
+      sc.subs.forEach(function(s){
+        html+='<span style="font-size:10px;color:#5A6890;margin-right:3px">'+esc(s.sn)+'</span>'
+             +'<span class="sh-pill sh-pill-p">'+s.p+' <span style="opacity:.5">PJ</span></span>'
+             +'<span class="sh-pill sh-pill-g">'+s.g+' <span style="opacity:.5">G</span></span>';
+        if(s.a>0)html+='<span class="sh-pill sh-pill-a">'+s.a+' <span style="opacity:.5">A</span></span>';
+        if(sc.subs.length>1)html+='<span style="color:#1C2340;margin:0 3px">·</span>';
       });
-      html+='</div>'
-           +'<div class="sh-yr-total">'
-           +'<span class="sh-pill sh-pill-p">'+yp+' <span style="opacity:.5">PJ</span></span>'
-           +'<span class="sh-pill sh-pill-g">'+yg+' <span style="opacity:.5">G</span></span>'
-           +'<span class="sh-pill sh-pill-a">'+ya+' <span style="opacity:.5">A</span></span>'
-           +'</div>'
-           +'</div>';
+      if(sc.subs.length>1){
+        html+='<span style="font-size:10px;color:#5A6890;margin-right:3px">Tot.</span>'
+             +'<span class="sh-pill sh-pill-p">'+tp+' <span style="opacity:.5">PJ</span></span>'
+             +'<span class="sh-pill sh-pill-g">'+tg+' <span style="opacity:.5">G</span></span>'
+             +'<span class="sh-pill sh-pill-a">'+ta+' <span style="opacity:.5">A</span></span>';
+      }
+      html+='</div></div>';
     });
     html+='</div>';
   }
@@ -844,11 +851,24 @@ function renderCareer(){
   html+='<div class="card club-block">'
        +'<div class="club-hdr"><div class="club-icon" style="background:#28D47020;border:1px solid #28D47040">🌐</div>'
        +'<div><div class="club-name-big" style="color:#28D470">Selección México</div>'
-       +'<div class="club-years">2019 – Actual · todas las competiciones</div></div></div>'
+       +'<div class="club-years">2019 – 2025 · '+SELECC_YEARS.length+' años</div></div></div>'
        +'<div class="club-totals">'
        +[['PJ',sp,'#3E8EF0'],['⚽ G',sg,'#F5C842'],['🎯 A',sa,'#F07830'],['📈 Prom.',sprom.toFixed(2),spc]]
          .map(function(r){return '<div class="ct-pill"><div class="ct-v" style="color:'+r[2]+'">'+r[1]+'</div><div class="ct-l">'+r[0]+'</div></div>';}).join('')
-       +'</div></div>';
+       +'</div>'
+       +'<div class="seasons-table"><table><thead><tr><th>Año</th><th>PJ</th><th>G</th><th>A</th><th>Prom</th></tr></thead><tbody>'
+       +SELECC_YEARS.map(function(yr){
+         var yp=0,yg=0,ya=0;
+         yr.comps.forEach(function(cv){yp+=cv.p;yg+=cv.g;ya+=cv.a;});
+         var pc=promColor(yp>0?yg/yp:0);
+         var compsDetail=yr.comps.map(function(cv){return '<span style="color:'+cv.c+';font-size:10px">'+cv.i+' '+cv.comp+'</span>';}).join(' · ');
+         return '<tr><td>'+esc(yr.yr)+'<br><span style="font-size:9px;color:#5A6890">'+compsDetail+'</span></td>'
+               +'<td><span class="vnum b">'+yp+'</span></td>'
+               +'<td><span class="vnum g">'+yg+'</span></td>'
+               +'<td><span class="vnum" style="color:#F07830">'+ya+'</span></td>'
+               +'<td><span class="prom-tag" style="background:'+pc+'22;color:'+pc+'">'+(yp>0?(yg/yp).toFixed(2):'–')+'</span></td></tr>';
+       }).join('')
+       +'</tbody></table></div></div>';
   var ct2=careerTotals(),gpc=promColor(ct2.prom);
   html+='<div class="card"><div style="display:flex;gap:10px;flex-wrap:wrap;padding:16px">'
        +[['🎮 PJ total',ct2.p,'#3E8EF0'],['⚽ Goles',ct2.g,'#F5C842'],['🎯 Asistencias',ct2.a,'#F07830'],['📈 Promedio',ct2.prom.toFixed(2),gpc],['🏆 Títulos','25','#9060F5']]
