@@ -250,6 +250,20 @@ tr.grandtotal td{background:rgba(144,96,245,.08);border-top:2px solid rgba(144,9
   .cur-inp{width:50px;height:38px;font-size:20px}
 }
 
+/* ── SELECCIÓN YEAR BREAKDOWN ── */
+.sh-comps-selecc{padding:8px 0 !important}
+.sh-yr-row{display:grid;grid-template-columns:48px 1fr auto;gap:8px;align-items:start;padding:7px 14px;border-bottom:1px solid rgba(28,35,64,.4)}
+.sh-yr-row:last-child{border-bottom:none}
+.sh-yr-label{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#5A6890;line-height:1;padding-top:3px}
+.sh-yr-comps{display:flex;flex-direction:column;gap:4px}
+.sh-yr-comp{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.sh-yr-comp-name{font-size:11px;font-weight:700;min-width:120px}
+.sh-yr-total{display:flex;flex-direction:column;gap:3px;align-items:flex-end;padding-top:2px}
+@media(max-width:500px){
+  .sh-yr-row{grid-template-columns:38px 1fr;grid-template-rows:auto auto}
+  .sh-yr-total{flex-direction:row;grid-column:2}
+}
+
 /* ── COMPETITION TOTALS ── */
 .sh-comptotals{border-top:2px solid rgba(62,142,240,.2);padding:20px 18px;background:rgba(0,0,0,.1)}
 .sh-comptotals-hdr{font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:#5A6890;margin-bottom:14px}
@@ -470,6 +484,15 @@ var DEFAULT_DATA=[
   {sn:'2025/26',club:'Real Madrid',comps:[{comp:'La Liga',p:27,g:28,a:11},{comp:'Copa del Rey',p:4,g:3,a:2},{comp:'Champions',p:8,g:13,a:2},{comp:'Supercopa ESP',p:2,g:3,a:1},{comp:'Supercopa UEFA',p:0,g:0,a:0},{comp:'Mundial de Clubes',p:0,g:0,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
 ];
 var DEFAULT_SELECC={p:74,g:61,a:20};
+var SELECC_YEARS=[
+  {yr:'2019', comps:[{comp:'Copa Oro',i:'🏅',c:'#F5C842',p:6,g:5,a:1},{comp:'Amistosos',i:'🤝',c:'#5A6890',p:4,g:3,a:1}]},
+  {yr:'2020', comps:[{comp:'Amistosos',i:'🤝',c:'#5A6890',p:2,g:1,a:0}]},
+  {yr:'2021', comps:[{comp:'Nations League',i:'🌐',c:'#3E8EF0',p:4,g:2,a:0},{comp:'Eliminatorias',i:'⚽',c:'#F07830',p:8,g:5,a:3},{comp:'Amistosos',i:'🤝',c:'#5A6890',p:4,g:3,a:1}]},
+  {yr:'2022', comps:[{comp:'Eliminatorias',i:'⚽',c:'#F07830',p:6,g:4,a:2},{comp:'Copa del Mundo',i:'🌍',c:'#9060F5',p:5,g:5,a:2},{comp:'Amistosos',i:'🤝',c:'#5A6890',p:4,g:3,a:2}]},
+  {yr:'2023', comps:[{comp:'Copa Oro',i:'🏅',c:'#F5C842',p:6,g:7,a:1},{comp:'Nations League',i:'🌐',c:'#3E8EF0',p:4,g:4,a:1},{comp:'Amistosos',i:'🤝',c:'#5A6890',p:4,g:3,a:1}]},
+  {yr:'2024', comps:[{comp:'Copa América',i:'🌎',c:'#28D470',p:6,g:6,a:2},{comp:'Nations League',i:'🌐',c:'#3E8EF0',p:3,g:3,a:1},{comp:'Amistosos',i:'🤝',c:'#5A6890',p:4,g:3,a:1}]},
+  {yr:'2025', comps:[{comp:'Nations League',i:'🌐',c:'#3E8EF0',p:2,g:2,a:0},{comp:'Amistosos',i:'🤝',c:'#5A6890',p:2,g:2,a:1}]},
+];
 
 var SVG_ICONS={"svg-balon":'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36"><circle cx="18" cy="18" r="17" fill="#F5C842" stroke="#B8960A" stroke-width="1.5"/><polygon points="18,7 21,14 29,14 23,19 25,27 18,22 11,27 13,19 7,14 15,14" fill="#B8960A" opacity="0.7"/><circle cx="18" cy="18" r="5" fill="none" stroke="#B8960A" stroke-width="1" opacity="0.5"/></svg>'};
 var D,editMode=false,chartInst=null;
@@ -719,7 +742,30 @@ function renderStatsTable(){
                  +'<div class="sh-comp-vals"><input class="editable sh-edit-inp" type="number" min="0" value="'+r[2]+'" data-f="'+r[1]+'" oninput="onEditSelecc(this.dataset.f,this.value)"/></div></div>';
          }).join('')+'</div>';
   } else {
-    html+='<div class="sh-comps"><div style="font-size:11px;color:#3D4870;padding-top:4px">Acumulado total · todas las competiciones</div></div>';
+    html+='<div class="sh-comps sh-comps-selecc">';
+    SELECC_YEARS.forEach(function(yr){
+      var yp=0,yg=0,ya=0;
+      yr.comps.forEach(function(c){yp+=c.p;yg+=c.g;ya+=c.a;});
+      html+='<div class="sh-yr-row">'
+           +'<div class="sh-yr-label">'+esc(yr.yr)+'</div>'
+           +'<div class="sh-yr-comps">';
+      yr.comps.forEach(function(cv){
+        html+='<div class="sh-yr-comp">'
+             +'<span class="sh-yr-comp-name" style="color:'+cv.c+'">'+cv.i+' '+esc(cv.comp)+'</span>'
+             +'<span class="sh-pill sh-pill-p">'+cv.p+' <span style="opacity:.5">PJ</span></span>'
+             +'<span class="sh-pill sh-pill-g">'+cv.g+' <span style="opacity:.5">G</span></span>';
+        if(cv.a>0)html+='<span class="sh-pill sh-pill-a">'+cv.a+' <span style="opacity:.5">A</span></span>';
+        html+='</div>';
+      });
+      html+='</div>'
+           +'<div class="sh-yr-total">'
+           +'<span class="sh-pill sh-pill-p">'+yp+' <span style="opacity:.5">PJ</span></span>'
+           +'<span class="sh-pill sh-pill-g">'+yg+' <span style="opacity:.5">G</span></span>'
+           +'<span class="sh-pill sh-pill-a">'+ya+' <span style="opacity:.5">A</span></span>'
+           +'</div>'
+           +'</div>';
+    });
+    html+='</div>';
   }
   html+='</div>';
 
