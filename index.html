@@ -342,7 +342,7 @@ tr.grandtotal td{background:rgba(144,96,245,.08);border-top:2px solid rgba(144,9
 <div id="footer">CARLOS ORTIZ · MODO CARRERA FIFA 26 · Datos guardados en tu dispositivo</div>
 
 <script>
-var SK='co_career_v3';
+var SK='co_career_v4';
 var CMETA={
   'Liga MX':{i:'🇲🇽',c:'#28D470'},
   'Copa MX':{i:'🏆',c:'#F07830'},
@@ -384,14 +384,14 @@ var TROPHY_ICONS={'Liga MX':'🇲🇽','Copa MX':'🏆','Cam. de Campeones':'�
 var TROPHY_COLORS={'Liga MX':'#28D470','Copa MX':'#F07830','Cam. de Campeones':'#F5C842','Concachampions':'#3E8EF0','La Liga':'#3E8EF0','Copa del Rey':'#F07830','Supercopa ESP':'#3E8EF0','Champions':'#F5C842','Supercopa UEFA':'#9060F5','Mundial de Clubes':'#9060F5','Intercontinental':'#F5C842','Copa América':'#28D470','Copa Oro':'#F5C842','CONCACAF Nations':'#3E8EF0'};
 
 var DEFAULT_DATA=[
-  {sn:'2018/19',club:'América',comps:[{comp:'Liga MX',p:44,g:29,a:0},{comp:'Copa MX',p:6,g:5,a:0},{comp:'Concachampions',p:0,g:0,a:0}]},
-  {sn:'2019/20',club:'América',comps:[{comp:'Liga MX',p:46,g:48,a:0},{comp:'Copa MX',p:0,g:0,a:0},{comp:'Concachampions',p:6,g:5,a:0}]},
-  {sn:'2020/21',club:'Real Madrid',comps:[{comp:'La Liga',p:28,g:16,a:0},{comp:'Copa del Rey',p:1,g:1,a:0},{comp:'Champions',p:12,g:6,a:0},{comp:'Supercopa ESP',p:1,g:0,a:0},{comp:'Supercopa UEFA',p:0,g:0,a:0},{comp:'Mundial de Clubes',p:0,g:0,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
-  {sn:'2021/22',club:'Real Madrid',comps:[{comp:'La Liga',p:35,g:24,a:0},{comp:'Copa del Rey',p:2,g:2,a:0},{comp:'Champions',p:13,g:15,a:0},{comp:'Supercopa ESP',p:2,g:2,a:0},{comp:'Supercopa UEFA',p:0,g:0,a:0},{comp:'Mundial de Clubes',p:0,g:0,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
-  {sn:'2022/23',club:'Real Madrid',comps:[{comp:'La Liga',p:33,g:24,a:0},{comp:'Copa del Rey',p:6,g:8,a:0},{comp:'Champions',p:12,g:10,a:0},{comp:'Supercopa ESP',p:2,g:1,a:0},{comp:'Supercopa UEFA',p:1,g:1,a:0},{comp:'Mundial de Clubes',p:2,g:4,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
-  {sn:'2023/24',club:'Real Madrid',comps:[{comp:'La Liga',p:33,g:32,a:0},{comp:'Copa del Rey',p:2,g:1,a:0},{comp:'Champions',p:12,g:12,a:0},{comp:'Supercopa ESP',p:2,g:3,a:0},{comp:'Supercopa UEFA',p:0,g:0,a:0},{comp:'Mundial de Clubes',p:0,g:0,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
-  {sn:'2024/25',club:'Real Madrid',comps:[{comp:'La Liga',p:35,g:38,a:0},{comp:'Copa del Rey',p:5,g:6,a:0},{comp:'Champions',p:13,g:15,a:0},{comp:'Supercopa ESP',p:2,g:1,a:0},{comp:'Supercopa UEFA',p:1,g:1,a:0},{comp:'Mundial de Clubes',p:7,g:6,a:0},{comp:'Intercontinental',p:1,g:1,a:0}]},
-  {sn:'2025/26',club:'Real Madrid',comps:[{comp:'La Liga',p:27,g:28,a:16},{comp:'Copa del Rey',p:4,g:3,a:0},{comp:'Champions',p:8,g:13,a:0},{comp:'Supercopa ESP',p:2,g:3,a:0},{comp:'Supercopa UEFA',p:0,g:0,a:0},{comp:'Mundial de Clubes',p:0,g:0,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
+  {sn:'2018/19',club:'América',comps:[{comp:'Liga MX',p:44,g:29,a:9},{comp:'Copa MX',p:6,g:5,a:1},{comp:'Concachampions',p:0,g:0,a:0}]},
+  {sn:'2019/20',club:'América',comps:[{comp:'Liga MX',p:46,g:48,a:11},{comp:'Copa MX',p:0,g:0,a:0},{comp:'Concachampions',p:6,g:5,a:2}]},
+  {sn:'2020/21',club:'Real Madrid',comps:[{comp:'La Liga',p:28,g:16,a:9},{comp:'Copa del Rey',p:1,g:1,a:0},{comp:'Champions',p:12,g:6,a:2},{comp:'Supercopa ESP',p:1,g:0,a:0},{comp:'Supercopa UEFA',p:0,g:0,a:0},{comp:'Mundial de Clubes',p:0,g:0,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
+  {sn:'2021/22',club:'Real Madrid',comps:[{comp:'La Liga',p:35,g:24,a:13},{comp:'Copa del Rey',p:2,g:2,a:1},{comp:'Champions',p:13,g:15,a:3},{comp:'Supercopa ESP',p:2,g:2,a:1},{comp:'Supercopa UEFA',p:0,g:0,a:0},{comp:'Mundial de Clubes',p:0,g:0,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
+  {sn:'2022/23',club:'Real Madrid',comps:[{comp:'La Liga',p:33,g:24,a:9},{comp:'Copa del Rey',p:6,g:8,a:2},{comp:'Champions',p:12,g:10,a:6},{comp:'Supercopa ESP',p:2,g:1,a:0},{comp:'Supercopa UEFA',p:1,g:1,a:1},{comp:'Mundial de Clubes',p:2,g:4,a:1},{comp:'Intercontinental',p:0,g:0,a:0}]},
+  {sn:'2023/24',club:'Real Madrid',comps:[{comp:'La Liga',p:33,g:32,a:12},{comp:'Copa del Rey',p:2,g:1,a:1},{comp:'Champions',p:12,g:12,a:5},{comp:'Supercopa ESP',p:2,g:3,a:0},{comp:'Supercopa UEFA',p:0,g:0,a:0},{comp:'Mundial de Clubes',p:0,g:0,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
+  {sn:'2024/25',club:'Real Madrid',comps:[{comp:'La Liga',p:35,g:38,a:12},{comp:'Copa del Rey',p:5,g:6,a:1},{comp:'Champions',p:13,g:15,a:4},{comp:'Supercopa ESP',p:2,g:1,a:0},{comp:'Supercopa UEFA',p:1,g:1,a:1},{comp:'Mundial de Clubes',p:7,g:6,a:1},{comp:'Intercontinental',p:1,g:1,a:1}]},
+  {sn:'2025/26',club:'Real Madrid',comps:[{comp:'La Liga',p:27,g:28,a:11},{comp:'Copa del Rey',p:4,g:3,a:2},{comp:'Champions',p:8,g:13,a:2},{comp:'Supercopa ESP',p:2,g:3,a:1},{comp:'Supercopa UEFA',p:0,g:0,a:0},{comp:'Mundial de Clubes',p:0,g:0,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
 ];
 var DEFAULT_SELECC={p:74,g:61,a:20};
 
