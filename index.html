@@ -146,6 +146,15 @@ tr.grandtotal td{background:rgba(144,96,245,.08);border-top:2px solid rgba(144,9
 .p-lo{color:var(--org)}
 .p-no{color:var(--mt)}
 
+.selecc-yr-block{border-bottom:1px solid rgba(28,35,64,.5)}
+.selecc-yr-block:last-child{border-bottom:none}
+.selecc-yr-hdr{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;background:rgba(40,212,112,.03);transition:background .15s;flex-wrap:wrap}
+.selecc-yr-hdr:hover{background:rgba(40,212,112,.07)}
+.selecc-yr-num{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#28D470;min-width:46px;line-height:1}
+.selecc-yr-pills{display:flex;gap:5px;flex-wrap:wrap;flex:1}
+.selecc-yr-arrow{color:#3D4870;font-size:13px;margin-left:auto;transition:transform .2s}
+.selecc-yr-body{background:rgba(0,0,0,.1)}
+
 /* ── FOOTER ── */
 #footer{text-align:center;padding:20px 0 6px;color:var(--mt2);font-size:9px;letter-spacing:.1em;text-transform:uppercase}
 
@@ -384,6 +393,17 @@ tr.grandtotal td{background:rgba(144,96,245,.08);border-top:2px solid rgba(144,9
       <div class="cur-totals" id="cur-totals-bar" style="display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--bd);flex-wrap:wrap"></div>
     </div>
 
+    <!-- Selección panel -->
+    <div class="sec-title">🇲🇽 Selección México — Actualizar estadísticas</div>
+    <div class="card" style="margin-bottom:22px">
+      <div class="card-hdr">
+        <span class="card-title" style="color:#28D470">🌐 Actualizar estadísticas · Selección</span>
+        <span class="card-meta">Por año y competición · se actualizan al total de carrera</span>
+      </div>
+      <div id="selecc-panel-body"></div>
+      <div class="cur-totals" id="selecc-totals-bar" style="display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--bd);flex-wrap:wrap"></div>
+    </div>
+
     <!-- Chart -->
     <div class="sec-title">📈 Evolución por temporada</div>
     <div class="card" style="margin-bottom:22px">
@@ -483,8 +503,7 @@ var DEFAULT_DATA=[
   {sn:'2024/25',club:'Real Madrid',comps:[{comp:'La Liga',p:35,g:38,a:12},{comp:'Copa del Rey',p:5,g:6,a:1},{comp:'Champions',p:13,g:15,a:4},{comp:'Supercopa ESP',p:2,g:1,a:0},{comp:'Supercopa UEFA',p:1,g:1,a:1},{comp:'Mundial de Clubes',p:7,g:6,a:1},{comp:'Intercontinental',p:1,g:1,a:1}]},
   {sn:'2025/26',club:'Real Madrid',comps:[{comp:'La Liga',p:27,g:28,a:11},{comp:'Copa del Rey',p:4,g:3,a:2},{comp:'Champions',p:8,g:13,a:2},{comp:'Supercopa ESP',p:2,g:3,a:1},{comp:'Supercopa UEFA',p:0,g:0,a:0},{comp:'Mundial de Clubes',p:0,g:0,a:0},{comp:'Intercontinental',p:0,g:0,a:0}]},
 ];
-var DEFAULT_SELECC={p:74,g:61,a:20};
-var SELECC_YEARS=[
+var DEFAULT_SELECC_YEARS=[
   {yr:'2019', comps:[{comp:'Copa Oro',i:'🏅',c:'#F5C842',p:6,g:5,a:1},{comp:'Amistosos',i:'🤝',c:'#5A6890',p:4,g:3,a:1}]},
   {yr:'2020', comps:[{comp:'Amistosos',i:'🤝',c:'#5A6890',p:3,g:2,a:1}]},
   {yr:'2021', comps:[{comp:'Nations League',i:'🌐',c:'#3E8EF0',p:4,g:2,a:0},{comp:'Eliminatorias',i:'⚽',c:'#F07830',p:8,g:5,a:3},{comp:'Amistosos',i:'🤝',c:'#5A6890',p:4,g:3,a:1}]},
@@ -492,14 +511,7 @@ var SELECC_YEARS=[
   {yr:'2023', comps:[{comp:'Copa Oro',i:'🏅',c:'#F5C842',p:6,g:7,a:1},{comp:'Nations League',i:'🌐',c:'#3E8EF0',p:4,g:4,a:1},{comp:'Amistosos',i:'🤝',c:'#5A6890',p:4,g:3,a:1}]},
   {yr:'2024', comps:[{comp:'Copa América',i:'🌎',c:'#28D470',p:6,g:6,a:2},{comp:'Nations League',i:'🌐',c:'#3E8EF0',p:3,g:3,a:1},{comp:'Amistosos',i:'🤝',c:'#5A6890',p:4,g:3,a:2}]},
   {yr:'2025', comps:[{comp:'Nations League',i:'🌐',c:'#3E8EF0',p:2,g:2,a:0},{comp:'Amistosos',i:'🤝',c:'#5A6890',p:2,g:2,a:0}]},
-];
-var SELECC_COMPS=[
-  {comp:'Copa Oro',       i:'🏅',c:'#F5C842', subs:[{sn:'2019',p:6,g:5,a:1},{sn:'2023',p:6,g:7,a:1}]},
-  {comp:'Copa del Mundo', i:'🌍',c:'#9060F5', subs:[{sn:'2022',p:5,g:5,a:2}]},
-  {comp:'Copa América',   i:'🌎',c:'#28D470', subs:[{sn:'2024',p:6,g:6,a:2}]},
-  {comp:'Nations League', i:'🌐',c:'#3E8EF0', subs:[{sn:'2021',p:4,g:2,a:0},{sn:'2023',p:4,g:4,a:1},{sn:'2024',p:3,g:3,a:1},{sn:'2025',p:2,g:2,a:0}]},
-  {comp:'Eliminatorias',  i:'⚽',c:'#F07830', subs:[{sn:'2021-2022',p:14,g:9,a:5}]},
-  {comp:'Amistosos',      i:'🤝',c:'#5A6890', subs:[{sn:'2019-act.',p:24,g:18,a:7}]},
+  {yr:'2026', comps:[{comp:'Copa del Mundo',i:'🌍',c:'#9060F5',p:0,g:0,a:0},{comp:'Amistosos',i:'🤝',c:'#5A6890',p:0,g:0,a:0}]},
 ];
 
 var SVG_ICONS={"svg-balon":'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36"><circle cx="18" cy="18" r="17" fill="#F5C842" stroke="#B8960A" stroke-width="1.5"/><polygon points="18,7 21,14 29,14 23,19 25,27 18,22 11,27 13,19 7,14 15,14" fill="#B8960A" opacity="0.7"/><circle cx="18" cy="18" r="5" fill="none" stroke="#B8960A" stroke-width="1" opacity="0.5"/></svg>'};
@@ -511,8 +523,17 @@ function load(){
     var r=JSON.parse(localStorage.getItem(SK)||'null');
     if(r&&r.seasons){D=r;D.seasons.forEach(function(s){s.comps.forEach(function(c){if(c.a===undefined)c.a=0;});});}
     else throw 0;
-  }catch(e){D={seasons:JSON.parse(JSON.stringify(DEFAULT_DATA)),selecc:JSON.parse(JSON.stringify(DEFAULT_SELECC))};}
-  if(!D.selecc)D.selecc=JSON.parse(JSON.stringify(DEFAULT_SELECC));
+  }catch(e){D={seasons:JSON.parse(JSON.stringify(DEFAULT_DATA)),seleccYears:JSON.parse(JSON.stringify(DEFAULT_SELECC_YEARS))};}
+  if(!D.seleccYears)D.seleccYears=JSON.parse(JSON.stringify(DEFAULT_SELECC_YEARS));
+  // Add 2026 year if missing
+  if(!D.seleccYears.find(function(y){return y.yr==='2026';}))
+    D.seleccYears.push(JSON.parse(JSON.stringify(DEFAULT_SELECC_YEARS[DEFAULT_SELECC_YEARS.length-1])));
+  recomputeSelecc();
+}
+function recomputeSelecc(){
+  var p=0,g=0,a=0;
+  D.seleccYears.forEach(function(yr){yr.comps.forEach(function(c){p+=c.p||0;g+=c.g||0;a+=c.a||0;});});
+  D.selecc={p:p,g:g,a:a};
 }
 function seasTotals(s){var p=0,g=0,a=0;s.comps.forEach(function(c){p+=c.p||0;g+=c.g||0;a+=c.a||0;});return{p:p,g:g,a:a,prom:p>0?g/p:0};}
 function clubTotals(n){var p=0,g=0,a=0;D.seasons.forEach(function(s){if(s.club===n){var t=seasTotals(s);p+=t.p;g+=t.g;a+=t.a;}});return{p:p,g:g,a:a,prom:p>0?g/p:0};}
@@ -545,9 +566,25 @@ function onEdit(sni,ci,field,val){
   D.seasons[sni].comps[ci][field]=v;
   save();flashSaved();renderHero();renderChart();
 }
-function onEditSelecc(field,val){
+function onEditSelecc(yri,ci,field,val){
   var v=parseInt(val)||0;if(v<0)v=0;
-  D.selecc[field]=v;save();flashSaved();renderHero();renderChart();
+  D.seleccYears[yri].comps[ci][field]=v;
+  recomputeSelecc();save();flashSaved();renderHero();renderChart();
+}
+function spinValSelecc(yri,ci,field,delta){
+  var inp=document.getElementById('sinp-'+yri+'-'+ci+'-'+field);
+  if(!inp)return;
+  var v=(parseInt(inp.value)||0)+delta;
+  if(v<0)v=0;
+  inp.value=v;
+  D.seleccYears[yri].comps[ci][field]=v;
+  recomputeSelecc();save();flashSaved();
+  updSeleccTotals();renderHero();renderChart();
+}
+function seleccInpChange(yri,ci,field,val){
+  var v=parseInt(val)||0;if(v<0)v=0;
+  D.seleccYears[yri].comps[ci][field]=v;
+  recomputeSelecc();save();flashSaved();updSeleccTotals();renderHero();renderChart();
 }
 
 // ── CURRENT SEASON PANEL ───────────────────────────────────────────────────
@@ -575,6 +612,82 @@ function curInpChange(sni,ci,field,val){
   var v=parseInt(val)||0;if(v<0)v=0;
   D.seasons[sni].comps[ci][field]=v;
   save();flashSaved();updCurTotals();renderHero();renderChart();
+}
+
+function updSeleccTotals(){
+  recomputeSelecc();
+  var sp=D.selecc.p,sg=D.selecc.g,sa=D.selecc.a,sprom=sp>0?sg/sp:0,pc=promColor(sprom);
+  var el=document.getElementById('selecc-totals-bar');
+  if(!el)return;
+  el.innerHTML=[['PJ',sp,'#3E8EF0'],['⚽ Goles',sg,'#F5C842'],['🎯 Asist.',sa,'#F07830'],['📈 Prom.',sprom.toFixed(2),pc]]
+    .map(function(r){return '<div class="ct-pill" style="flex:1"><div class="ct-v" style="color:'+r[2]+'">'+r[1]+'</div><div class="ct-l">'+r[0]+'</div></div>';}).join('');
+}
+
+function renderSeleccPanel(){
+  var html='';
+  D.seleccYears.forEach(function(yr,yri){
+    var yp=0,yg=0,ya=0;
+    yr.comps.forEach(function(c){yp+=c.p||0;yg+=c.g||0;ya+=c.a||0;});
+    var hasAny=yp>0||yg>0||ya>0;
+    // Collapsible year header
+    html+='<div class="selecc-yr-block">'
+         +'<div class="selecc-yr-hdr" onclick="toggleSeleccYr('+yri+')" id="syrh-'+yri+'">'
+         +'<span class="selecc-yr-num">'+yr.yr+'</span>'
+         +(hasAny
+           ?'<span class="selecc-yr-pills">'
+             +'<span class="sh-pill sh-pill-p">'+yp+' PJ</span>'
+             +'<span class="sh-pill sh-pill-g">'+yg+' G</span>'
+             +(ya>0?'<span class="sh-pill sh-pill-a">'+ya+' A</span>':'')
+             +'</span>'
+           :'<span style="font-size:10px;color:#3D4870">Sin datos</span>')
+         +'<span class="selecc-yr-arrow" id="syra-'+yri+'">▾</span></div>'
+         +'<div class="selecc-yr-body" id="syrb-'+yri+'">';
+    yr.comps.forEach(function(cv,ci){
+      var m={i:cv.i||'🏅',c:cv.c||'#3D4870'};
+      var hasData=cv.p>0||cv.g>0||cv.a>0;
+      var col=hasData?m.c:'#3D4870';
+      html+='<div class="cur-row">'
+           +'<div class="cur-comp" style="color:'+col+'">'+m.i+' <span>'+esc(cv.comp)+'</span></div>'
+           +'<div class="cur-fields">';
+      ['p','g','a'].forEach(function(field,fi){
+        var labels=['PJ','⚽ G','🎯 A'];
+        var colors=['#3E8EF0','#F5C842','#F07830'];
+        var val=cv[field]||0;
+        var inputId='sinp-'+yri+'-'+ci+'-'+field;
+        html+='<div class="cur-field">'
+             +'<div class="cur-lbl" style="color:'+colors[fi]+'">'+labels[fi]+'</div>'
+             +'<div class="cur-ctrl">'
+             +'<button class="spin-btn" data-yri="'+yri+'" data-ci="'+ci+'" data-f="'+field+'" data-d="-1" onclick="spinValSelecc(+this.dataset.yri,+this.dataset.ci,this.dataset.f,+this.dataset.d)">−</button>'
+             +'<input class="cur-inp" type="number" min="0" value="'+val+'" id="'+inputId+'" data-yri="'+yri+'" data-ci="'+ci+'" data-f="'+field+'" oninput="seleccInpChange(+this.dataset.yri,+this.dataset.ci,this.dataset.f,this.value)">'
+             +'<button class="spin-btn" data-yri="'+yri+'" data-ci="'+ci+'" data-f="'+field+'" data-d="1" onclick="spinValSelecc(+this.dataset.yri,+this.dataset.ci,this.dataset.f,+this.dataset.d)">+</button>'
+             +'</div></div>';
+      });
+      html+='</div></div>';
+    });
+    html+='</div></div>';
+  });
+  document.getElementById('selecc-panel-body').innerHTML=html;
+  // Collapse years with no data by default (keep latest open)
+  D.seleccYears.forEach(function(yr,yri){
+    var hasAny=yr.comps.some(function(c){return c.p>0||c.g>0||c.a>0;});
+    var isLast=(yri===D.seleccYears.length-1);
+    if(!hasAny&&!isLast){
+      var body=document.getElementById('syrb-'+yri);
+      var arrow=document.getElementById('syra-'+yri);
+      if(body){body.style.display='none';}
+      if(arrow){arrow.textContent='▸';}
+    }
+  });
+  updSeleccTotals();
+}
+
+function toggleSeleccYr(yri){
+  var body=document.getElementById('syrb-'+yri);
+  var arrow=document.getElementById('syra-'+yri);
+  if(!body)return;
+  var open=body.style.display!=='none';
+  body.style.display=open?'none':'block';
+  if(arrow)arrow.textContent=open?'▸':'▾';
 }
 
 function renderCurrentPanel(){
@@ -744,23 +857,29 @@ function renderStatsTable(){
        +'<div class="sh-stat"><div class="sh-val sh-prom" style="background:'+spc+'22;color:'+spc+'">'+sprom.toFixed(2)+'</div><div class="sh-lbl">Prom.</div></div>'
        +'</div></div>';
   if(editMode){
-    html+='<div class="sh-comps">'
-         +[['Partidos','p',sp],['Goles','g',sg],['Asistencias','a',sa]].map(function(r){
-           return '<div class="sh-comp-row"><div class="sh-comp-name" style="color:#28D470">'+r[0]+'</div>'
-                 +'<div class="sh-comp-vals"><input class="editable sh-edit-inp" type="number" min="0" value="'+r[2]+'" data-f="'+r[1]+'" oninput="onEditSelecc(this.dataset.f,this.value)"/></div></div>';
-         }).join('')+'</div>';
+    html+='<div class="sh-comps" style="align-items:flex-start">'
+         +'<div style="font-size:10px;color:#28D470;font-weight:800;padding:4px 0 8px">Usa el panel de actualización 🇲🇽 para editar por año/competición</div>'
+         +'</div>';
   } else {
+    // Build comp aggregates from D.seleccYears
+    var selCompMap={};
+    D.seleccYears.forEach(function(yr){
+      yr.comps.forEach(function(cv){
+        if(!selCompMap[cv.comp])selCompMap[cv.comp]={i:cv.i||'🏅',c:cv.c||'#3D4870',p:0,g:0,a:0};
+        selCompMap[cv.comp].p+=cv.p||0;selCompMap[cv.comp].g+=cv.g||0;selCompMap[cv.comp].a+=cv.a||0;
+      });
+    });
     html+='<div class="sh-comps">';
-    SELECC_COMPS.forEach(function(sc){
-      var tp=0,tg=0,ta=0;
-      sc.subs.forEach(function(s){tp+=s.p;tg+=s.g;ta+=s.a;});
+    Object.keys(selCompMap).forEach(function(k){
+      var sc=selCompMap[k];
+      if(sc.p===0&&sc.g===0)return;
       html+='<div class="sh-comp-row">'
-           +'<div class="sh-comp-name" style="color:'+sc.c+'">'+sc.i+' '+esc(sc.comp)+'</div>'
-           +'<div class="sh-comp-vals">';
-      html+='<span class="sh-pill sh-pill-p">'+tp+' <span style="opacity:.5">PJ</span></span>'
-           +'<span class="sh-pill sh-pill-g">'+tg+' <span style="opacity:.5">G</span></span>'
-           +'<span class="sh-pill sh-pill-a">'+ta+' <span style="opacity:.5">A</span></span>';
-      html+='</div></div>';
+           +'<div class="sh-comp-name" style="color:'+sc.c+'">'+sc.i+' '+esc(k)+'</div>'
+           +'<div class="sh-comp-vals">'
+           +'<span class="sh-pill sh-pill-p">'+sc.p+' <span style="opacity:.5">PJ</span></span>'
+           +'<span class="sh-pill sh-pill-g">'+sc.g+' <span style="opacity:.5">G</span></span>'
+           +(sc.a>0?'<span class="sh-pill sh-pill-a">'+sc.a+' <span style="opacity:.5">A</span></span>':'')
+           +'</div></div>';
     });
     html+='</div>';
   }
@@ -795,22 +914,28 @@ function renderStatsTable(){
   });
   html+='</div></div>';
 
-  // Selección totals by competition
-  var selCompMeta={'Copa Oro':{i:'🏅',c:'#F5C842'},'Copa del Mundo':{i:'🌍',c:'#9060F5'},'Copa América':{i:'🌎',c:'#28D470'},'Nations League':{i:'🌐',c:'#3E8EF0'},'Eliminatorias':{i:'⚽',c:'#F07830'},'Amistosos':{i:'🤝',c:'#5A6890'}};
+  // Selección totals by competition — computed from D.seleccYears
+  var selCompMap2={};
+  D.seleccYears.forEach(function(yr){
+    yr.comps.forEach(function(cv){
+      if(!selCompMap2[cv.comp])selCompMap2[cv.comp]={i:cv.i||'🏅',c:cv.c||'#3D4870',p:0,g:0,a:0};
+      selCompMap2[cv.comp].p+=cv.p||0;selCompMap2[cv.comp].g+=cv.g||0;selCompMap2[cv.comp].a+=cv.a||0;
+    });
+  });
   html+='<div class="sh-comptotals">'
        +'<div class="sh-comptotals-hdr">🌐 Total por competición · selección</div>'
        +'<div class="sh-comptotals-grid">';
-  SELECC_COMPS.forEach(function(sc){
-    var tp=0,tg=0,ta=0;
-    sc.subs.forEach(function(s){tp+=s.p;tg+=s.g;ta+=s.a;});
-    var pc=promColor(tp>0?tg/tp:0);
+  Object.keys(selCompMap2).forEach(function(k){
+    var sc=selCompMap2[k];
+    if(sc.p===0&&sc.g===0)return;
+    var pc=promColor(sc.p>0?sc.g/sc.p:0);
     html+='<div class="sh-ctcard" style="--ctc:'+sc.c+'">'
-         +'<div class="sh-ctcard-top"><span class="sh-ctcard-icon">'+sc.i+'</span><span class="sh-ctcard-name">'+esc(sc.comp)+'</span></div>'
+         +'<div class="sh-ctcard-top"><span class="sh-ctcard-icon">'+sc.i+'</span><span class="sh-ctcard-name">'+esc(k)+'</span></div>'
          +'<div class="sh-ctcard-stats">'
-         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#3E8EF0">'+tp+'</div><div class="sh-ctcard-lbl">PJ</div></div>'
-         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#F5C842">'+tg+'</div><div class="sh-ctcard-lbl">G</div></div>'
-         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#F07830">'+ta+'</div><div class="sh-ctcard-lbl">A</div></div>'
-         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val sh-prom" style="background:'+pc+'22;color:'+pc+'">'+(tp>0?(tg/tp).toFixed(2):'–')+'</div><div class="sh-ctcard-lbl">Prom</div></div>'
+         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#3E8EF0">'+sc.p+'</div><div class="sh-ctcard-lbl">PJ</div></div>'
+         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#F5C842">'+sc.g+'</div><div class="sh-ctcard-lbl">G</div></div>'
+         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val" style="color:#F07830">'+sc.a+'</div><div class="sh-ctcard-lbl">A</div></div>'
+         +'<div class="sh-ctcard-stat"><div class="sh-ctcard-val sh-prom" style="background:'+pc+'22;color:'+pc+'">'+(sc.p>0?(sc.g/sc.p).toFixed(2):'–')+'</div><div class="sh-ctcard-lbl">Prom</div></div>'
          +'</div></div>';
   });
   html+='</div></div>';
@@ -858,18 +983,20 @@ function renderCareer(){
          +'</tbody></table></div></div>';
   });
   var sp=D.selecc.p,sg=D.selecc.g,sa=D.selecc.a,sprom=sp>0?sg/sp:0,spc=promColor(sprom);
+  var selYrsActive=D.seleccYears.filter(function(y){return y.comps.some(function(c){return c.p>0||c.g>0;});});
   html+='<div class="card club-block">'
        +'<div class="club-hdr"><div class="club-icon" style="background:#28D47020;border:1px solid #28D47040">🌐</div>'
        +'<div><div class="club-name-big" style="color:#28D470">Selección México</div>'
-       +'<div class="club-years">2019 – 2025 · '+SELECC_YEARS.length+' años</div></div></div>'
+       +'<div class="club-years">2019 – Actual · '+D.seleccYears.length+' años</div></div></div>'
        +'<div class="club-totals">'
        +[['PJ',sp,'#3E8EF0'],['⚽ G',sg,'#F5C842'],['🎯 A',sa,'#F07830'],['📈 Prom.',sprom.toFixed(2),spc]]
          .map(function(r){return '<div class="ct-pill"><div class="ct-v" style="color:'+r[2]+'">'+r[1]+'</div><div class="ct-l">'+r[0]+'</div></div>';}).join('')
        +'</div>'
        +'<div class="seasons-table"><table><thead><tr><th>Año</th><th>PJ</th><th>G</th><th>A</th><th>Prom</th></tr></thead><tbody>'
-       +SELECC_YEARS.map(function(yr){
+       +D.seleccYears.map(function(yr){
          var yp=0,yg=0,ya=0;
-         yr.comps.forEach(function(cv){yp+=cv.p;yg+=cv.g;ya+=cv.a;});
+         yr.comps.forEach(function(cv){yp+=cv.p||0;yg+=cv.g||0;ya+=cv.a||0;});
+         if(yp===0&&yg===0)return '';
          var pc=promColor(yp>0?yg/yp:0);
          return '<tr><td>'+esc(yr.yr)+'</td>'
                +'<td><span class="vnum b">'+yp+'</span></td>'
@@ -984,6 +1111,7 @@ renderHero();
 renderChart();
 renderStatsTable();
 renderCurrentPanel();
+renderSeleccPanel();
 renderCareer();
 renderPalmares();
 </script>
